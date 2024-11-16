@@ -3,51 +3,29 @@ import java.util.*;
 class Course {
     private String name;
     private int cohortSize;
-    private List<String> preferences;
+    private List<RoomType> typePreferences;
     private String assignedRoom;
 
     public Course(String name, int cohortSize) {
         this.name = name;
         this.cohortSize = cohortSize;
-        this.preferences = new ArrayList<>();
+        this.typePreferences = new ArrayList<>();
         this.assignedRoom = null;
     }
 
-    public void setPreferences(List<String> preferences) {
-        this.preferences = new ArrayList<>(preferences);
+    public void setTypePreferences(List<RoomType> preferences) {
+        this.typePreferences = new ArrayList<>(preferences);
     }
 
     public String getName() { return name; }
     public int getCohortSize() { return cohortSize; }
-    public List<String> getPreferences() { return preferences; }
+    public List<RoomType> getTypePreferences() { return typePreferences; }
     public String getAssignedRoom() { return assignedRoom; }
     public void setAssignedRoom(String room) { this.assignedRoom = room; }
 
     @Override
     public String toString() {
         return name + " (Size: " + cohortSize + ")";
-    }
-}
-
-class Room {
-    private String name;
-    private int capacity;
-    private Course currentOccupant;
-
-    public Room(String name, int capacity) {
-        this.name = name;
-        this.capacity = capacity;
-        this.currentOccupant = null;
-    }
-
-    public String getName() { return name; }
-    public int getCapacity() { return capacity; }
-    public Course getCurrentOccupant() { return currentOccupant; }
-    public void setCurrentOccupant(Course course) { this.currentOccupant = course; }
-
-    @Override
-    public String toString() {
-        return name + " (Capacity: " + capacity + ")";
     }
 }
 
@@ -70,23 +48,35 @@ class AllocationStep {
     }
 }
 
-public class SizeBasedAllocation {
+public class TypeBasedAllocation {
     private List<Course> courses;
-    private List<Room> rooms;
+    private Map<RoomType, List<Room>> roomsByType;  // Organize rooms by type
     private LinkedList<Course> priorityQueue;
     private Map<String, String> assignments;
     private List<AllocationStep> steps;
 
-    public SizeBasedAllocation(List<Course> courses, List<Room> rooms) {
+    public TypeBasedAllocation(List<Course> courses, List<Room> rooms) {
         this.courses = new ArrayList<>(courses);
-        this.rooms = new ArrayList<>(rooms);
+        this.roomsByType = new EnumMap<>(RoomType.class);
         this.priorityQueue = new LinkedList<>();
         this.assignments = new HashMap<>();
         this.steps = new ArrayList<>();
+        
+        // Initialize roomsByType map
+        for (RoomType type : RoomType.values()) {
+            roomsByType.put(type, new ArrayList<>());
+        }
+        
+        // Organize rooms by type
+        for (Room room : rooms) {
+            roomsByType.get(room.getType()).add(room);
+        }
     }
 
     private void initializePriorityQueue() {
         priorityQueue.clear();
+        // Sort courses by size (larger courses get higher priority)
+        courses.sort((c1, c2) -> Integer.compare(c2.getCohortSize(), c1.getCohortSize()));
         priorityQueue.addAll(courses);
     }
 
@@ -118,39 +108,53 @@ public class SizeBasedAllocation {
         while (!priorityQueue.isEmpty()) {
             Course currentCourse = priorityQueue.removeFirst();
 
-            for (String preferredRoomName : currentCourse.getPreferences()) {
-                Room room = rooms.stream()
-                    .filter(r -> r.getName().equals(preferredRoomName))
-                    .findFirst()
-                    .orElse(null);
+            // Try each preferred room type in order
+            for (RoomType preferredType : currentCourse.getTypePreferences()) {
+                List<Room> availableRooms = roomsByType.get(preferredType);
+                
+                // Sort rooms by capacity (closest to course size gets priority)
+                availableRooms.sort((r1, r2) -> {
+                    int diff1 = Math.abs(r1.getCapacity() - currentCourse.getCohortSize());
+                    int diff2 = Math.abs(r2.getCapacity() - currentCourse.getCohortSize());
+                    return Integer.compare(diff1, diff2);
+                });
 
-                if (room == null) continue;
-
-                if (room.getCurrentOccupant() == null) {
-                    if (currentCourse.getCohortSize() <= room.getCapacity()) {
-                        room.setCurrentOccupant(currentCourse);
-                        assignments.put(currentCourse.getName(), room.getName());
-                        steps.add(new AllocationStep(
-                            currentCourse.getName() + " assigned to " + room.getName(),
-                            currentCourse, room, null
-                        ));
-                        break;
-                    }
-                } else {
-                    if (isBetterFit(currentCourse, room.getCurrentOccupant(), room)) {
+                boolean assigned = false;
+                for (Room room : availableRooms) {
+                    if (room.getCurrentOccupant() == null) {
+                        if (currentCourse.getCohortSize() <= room.getCapacity()) {
+                            room.setCurrentOccupant(currentCourse);
+                            assignments.put(currentCourse.getName(), room.getName());
+                            steps.add(new AllocationStep(
+                                String.format("%s assigned to %s (%s)", 
+                                    currentCourse.getName(), 
+                                    room.getName(),
+                                    room.getType().getDisplayName()),
+                                currentCourse, room, null
+                            ));
+                            assigned = true;
+                            break;
+                        }
+                    } else if (isBetterFit(currentCourse, room.getCurrentOccupant(), room)) {
                         Course displacedCourse = room.getCurrentOccupant();
                         room.setCurrentOccupant(currentCourse);
                         assignments.put(currentCourse.getName(), room.getName());
                         steps.add(new AllocationStep(
-                            currentCourse.getName() + " displaced " + displacedCourse.getName() + " from " + room.getName(),
+                            String.format("%s displaced %s from %s (%s)", 
+                                currentCourse.getName(),
+                                displacedCourse.getName(),
+                                room.getName(),
+                                room.getType().getDisplayName()),
                             currentCourse, room, displacedCourse
                         ));
                         
-                        // Add displaced course back with high priority
                         priorityQueue.addFirst(displacedCourse);
+                        assigned = true;
                         break;
                     }
                 }
+                
+                if (assigned) break;
             }
         }
 
@@ -160,31 +164,35 @@ public class SizeBasedAllocation {
     public List<AllocationStep> getSteps() {
         return steps;
     }
-
     public static void main(String[] args) {
-        // Create rooms
-        List<Room> rooms = Arrays.asList(
-            new Room("Large Hall", 200),
-            new Room("Medium Room", 100),
-            new Room("Small Room", 50)
-        );
+        // Create rooms with types
+        List<Room> rooms = RoomDataLoader.loadRooms();
 
         // Create courses with different sizes
         List<Course> courses = Arrays.asList(
-            new Course("Math 101", 150),
-            new Course("Physics 101", 80),
-            new Course("Chemistry 101", 120),
-            new Course("Biology 101", 90)
+            new Course("Math Course", 500),
+            new Course("Physics Lab", 45),
+            new Course("Computer Science", 25)
         );
 
-        // Set preferences for each course
-        List<String> defaultPreferences = Arrays.asList("Large Hall", "Medium Room", "Small Room");
-        for (Course course : courses) {
-            course.setPreferences(defaultPreferences);
-        }
+        // Set type preferences for each course
+        courses.get(0).setTypePreferences(Arrays.asList(
+            RoomType.GRANDS_AMPHIS,
+            RoomType.NOUVEAUX_AMPHIS
+        ));
+        
+        courses.get(1).setTypePreferences(Arrays.asList(
+            RoomType.NOUVEAUX_AMPHIS,
+            RoomType.GRANDS_AMPHIS
+        ));
+
+        courses.get(2).setTypePreferences(Arrays.asList(
+            RoomType.COULOIR_VANNEAU,
+            RoomType.NOUVEAUX_AMPHIS
+        ));
 
         // Run allocation
-        SizeBasedAllocation allocator = new SizeBasedAllocation(courses, rooms);
+        TypeBasedAllocation allocator = new TypeBasedAllocation(courses, rooms);
         Map<String, String> finalAssignments = allocator.allocate();
 
         // Print results
