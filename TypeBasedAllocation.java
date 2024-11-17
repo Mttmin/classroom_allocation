@@ -167,30 +167,23 @@ public class TypeBasedAllocation {
     public static void main(String[] args) {
         // Create rooms with types
         List<Room> rooms = RoomDataLoader.loadRooms();
-
+        PreferenceGenerationStrategy sizestrategy = new SizedBasedPreferenceStrategy(5, rooms);
+        PreferenceGenerationStrategy smartRandom = new SmartRandomPreferenceStrategy(5, rooms);
         // Create courses with different sizes
         List<Course> courses = Arrays.asList(
-            new Course("Math Course", 500),
+            new Course("Math Course", 50),
             new Course("Physics Lab", 45),
             new Course("Computer Science", 25)
         );
 
         // Set type preferences for each course
-        courses.get(0).setTypePreferences(Arrays.asList(
-            RoomType.GRANDS_AMPHIS,
-            RoomType.NOUVEAUX_AMPHIS
-        ));
-        
-        courses.get(1).setTypePreferences(Arrays.asList(
-            RoomType.NOUVEAUX_AMPHIS,
-            RoomType.GRANDS_AMPHIS
-        ));
+        courses.get(0).setTypePreferences(smartRandom.generatePreferences(courses.get(0)));
+        courses.get(1).setTypePreferences(smartRandom.generatePreferences(courses.get(1)));
+        courses.get(2).setTypePreferences(smartRandom.generatePreferences(courses.get(2)));
 
-        courses.get(2).setTypePreferences(Arrays.asList(
-            RoomType.COULOIR_VANNEAU,
-            RoomType.NOUVEAUX_AMPHIS
-        ));
-
+        for (Course course : courses) {
+            System.out.println(course.getName() + " preferences: " + course.getTypePreferences());
+        }
         // Run allocation
         TypeBasedAllocation allocator = new TypeBasedAllocation(courses, rooms);
         Map<String, String> finalAssignments = allocator.allocate();
