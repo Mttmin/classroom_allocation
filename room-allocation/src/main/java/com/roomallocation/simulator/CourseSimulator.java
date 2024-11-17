@@ -27,7 +27,7 @@ public class CourseSimulator {
         List<Course> courses = new ArrayList<>();
         for (int i = 0; i < numCourses; i++) {
             int size;
-            if (random.nextDouble() < 0.8) {
+            if (random.nextDouble() < 0.9) {
                 size = random.nextInt(changeSize - minSize + 1) + minSize;
             } else {
                 size = random.nextInt(maxSize - changeSize + 1) + changeSize;
