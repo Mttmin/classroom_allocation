@@ -1,6 +1,7 @@
+package com.roomallocation.model;
+// import com.roomallocation.model.Course;
 
 public class Room {
-
     private String name;
     private int capacity;
     private RoomType type;

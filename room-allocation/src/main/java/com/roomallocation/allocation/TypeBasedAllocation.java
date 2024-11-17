@@ -1,23 +1,16 @@
-import java.util.*;
+package com.roomallocation.allocation;
 
-class AllocationStep {
-    private String description;
-    private Course course;
-    private Room room;
-    private Course displacedCourse;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-    public AllocationStep(String description, Course course, Room room, Course displacedCourse) {
-        this.description = description;
-        this.course = course;
-        this.room = room;
-        this.displacedCourse = displacedCourse;
-    }
-
-    @Override
-    public String toString() {
-        return description;
-    }
-}
+import com.roomallocation.model.*;
 
 public class TypeBasedAllocation {
     private List<Course> courses;

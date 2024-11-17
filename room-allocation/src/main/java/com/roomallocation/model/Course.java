@@ -1,8 +1,10 @@
+package com.roomallocation.model;
+
 import java.util.ArrayList;
 import java.util.List;
 
-class Course {
-    private String name;
+public class Course {
+private String name;
     private int cohortSize;
     private List<RoomType> typePreferences;
     private String assignedRoom;
@@ -33,4 +35,3 @@ class Course {
         return name + " (Size: " + cohortSize + ")" ;
     }
 }
-
