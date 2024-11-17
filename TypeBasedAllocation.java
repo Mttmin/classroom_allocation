@@ -1,34 +1,5 @@
 import java.util.*;
 
-class Course {
-    private String name;
-    private int cohortSize;
-    private List<RoomType> typePreferences;
-    private String assignedRoom;
-
-    public Course(String name, int cohortSize) {
-        this.name = name;
-        this.cohortSize = cohortSize;
-        this.typePreferences = new ArrayList<>();
-        this.assignedRoom = null;
-    }
-
-    public void setTypePreferences(List<RoomType> preferences) {
-        this.typePreferences = new ArrayList<>(preferences);
-    }
-
-    public String getName() { return name; }
-    public int getCohortSize() { return cohortSize; }
-    public List<RoomType> getTypePreferences() { return typePreferences; }
-    public String getAssignedRoom() { return assignedRoom; }
-    public void setAssignedRoom(String room) { this.assignedRoom = room; }
-
-    @Override
-    public String toString() {
-        return name + " (Size: " + cohortSize + ")";
-    }
-}
-
 class AllocationStep {
     private String description;
     private Course course;
@@ -163,39 +134,5 @@ public class TypeBasedAllocation {
 
     public List<AllocationStep> getSteps() {
         return steps;
-    }
-    public static void main(String[] args) {
-        // Create rooms with types
-        List<Room> rooms = RoomDataLoader.loadRooms();
-        PreferenceGenerationStrategy sizestrategy = new SizedBasedPreferenceStrategy(5, rooms);
-        PreferenceGenerationStrategy smartRandom = new SmartRandomPreferenceStrategy(5, rooms);
-        // Create courses with different sizes
-        List<Course> courses = Arrays.asList(
-            new Course("Math Course", 50),
-            new Course("Physics Lab", 45),
-            new Course("Computer Science", 25)
-        );
-
-        // Set type preferences for each course
-        courses.get(0).setTypePreferences(smartRandom.generatePreferences(courses.get(0)));
-        courses.get(1).setTypePreferences(smartRandom.generatePreferences(courses.get(1)));
-        courses.get(2).setTypePreferences(smartRandom.generatePreferences(courses.get(2)));
-
-        for (Course course : courses) {
-            System.out.println(course.getName() + " preferences: " + course.getTypePreferences());
-        }
-        // Run allocation
-        TypeBasedAllocation allocator = new TypeBasedAllocation(courses, rooms);
-        Map<String, String> finalAssignments = allocator.allocate();
-
-        // Print results
-        System.out.println("\nAllocation Steps:");
-        for (AllocationStep step : allocator.getSteps()) {
-            System.out.println("- " + step);
-        }
-
-        System.out.println("\nFinal Assignments:");
-        finalAssignments.forEach((course, room) -> 
-            System.out.println(course + " -> " + room));
     }
 }
