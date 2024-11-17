@@ -13,7 +13,7 @@ class Course {
         this.cohortSize = cohortSize;
         this.typePreferences = new ArrayList<>();
         this.assignedRoom = null;
-        this.choicenumber = 1;
+        this.choicenumber = 0;
     }
 
     public void setTypePreferences(List<RoomType> preferences) {
