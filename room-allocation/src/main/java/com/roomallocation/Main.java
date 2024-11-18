@@ -15,7 +15,6 @@ import com.roomallocation.statistics.StatisticsCollector;
 import com.roomallocation.strategy.PreferenceGenerationStrategy;
 import com.roomallocation.strategy.SmartRandomPreferenceStrategy;
 import com.roomallocation.util.RoomDataLoader;
-import com.roomallocation.web.WebServer;
 
 public class Main {
     public static void main(String[] args) {
@@ -47,10 +46,8 @@ public class Main {
 
             // Export combined data to JSON
             ObjectMapper mapper = new ObjectMapper();
-            mapper.writeValue(new File("src/main/webapp/allocation_results.json"), exportData);
+            mapper.writeValue(new File("src/main/resources/allocation_results.json"), exportData);
             System.out.println("Allocation results and statistics exported to allocation_results.json");
-
-            WebServer.startServer();
 
         } catch (Exception e) {
             System.err.println("Error running allocation: " + e.getMessage());
