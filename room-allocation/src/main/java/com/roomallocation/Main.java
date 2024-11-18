@@ -15,6 +15,7 @@ import com.roomallocation.statistics.StatisticsCollector;
 import com.roomallocation.strategy.PreferenceGenerationStrategy;
 import com.roomallocation.strategy.SmartRandomPreferenceStrategy;
 import com.roomallocation.util.RoomDataLoader;
+import com.roomallocation.visualization.PythonVisualizer;
 
 public class Main {
     public static void main(String[] args) {
@@ -27,14 +28,14 @@ public class Main {
             CourseSimulator simulator = new CourseSimulator(strategy);
 
             // Generate courses
-            List<Course> courses = simulator.generateCourses(70, 10, 200, 40);
+            List<Course> courses = simulator.generateCourses(60, 10, 200, 30);
 
             // Run allocation
             TypeBasedAllocation allocator = new TypeBasedAllocation(courses, rooms);
             allocator.allocate();
 
             // Run statistics collector
-            StatisticsCollector collector = new StatisticsCollector(rooms, 1, 70, 10, 200, 40);
+            StatisticsCollector collector = new StatisticsCollector(rooms, 10, 60, 10, 200, 30);
             List<AllocationStatistics> stats = collector.runSimulations();
 
             // Combine allocation state and statistics into one export
@@ -49,6 +50,9 @@ public class Main {
             mapper.writeValue(new File("src/main/resources/allocation_results.json"), exportData);
             System.out.println("Allocation results and statistics exported to allocation_results.json");
 
+            String pythonExecutable = "python";  // or "python3" depending on your system
+            PythonVisualizer visualizer = new PythonVisualizer(pythonExecutable);
+            visualizer.visualize("src/main/resources/allocation_results.json");
         } catch (Exception e) {
             System.err.println("Error running allocation: " + e.getMessage());
             e.printStackTrace();
