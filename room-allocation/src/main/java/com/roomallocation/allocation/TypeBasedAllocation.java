@@ -10,7 +10,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.roomallocation.model.*;
+import com.roomallocation.fitmethods.capaFit;
+import com.roomallocation.model.Room;
+import com.roomallocation.model.RoomType;
+import com.roomallocation.model.Course;
 
 public class TypeBasedAllocation {
     private List<Course> courses;
@@ -35,6 +38,11 @@ public class TypeBasedAllocation {
             // Sort rooms by capacity within each type
             roomsByType.get(room.getType()).sort(Comparator.comparingInt(Room::getCapacity));
         }
+
+    }
+
+    public List<AllocationStep> getSteps() {
+        return steps;
     }
 
     /**
@@ -54,57 +62,46 @@ public class TypeBasedAllocation {
      */
     private Map<Room, Course> processTypeProposals(List<Course> proposingCourses, List<Room> rooms) {
         Map<Room, Course> currentMatches = new HashMap<>();
-        
+        List<Course> allCandidates = new ArrayList<>(proposingCourses);
         // Get current occupants
         for (Room room : rooms) {
             Course currentOccupant = room.getCurrentOccupant();
             if (currentOccupant != null) {
-                currentMatches.put(room, currentOccupant);
+                allCandidates.add(currentOccupant);
             }
         }
-
-        // Consider all proposals including current occupants
-        List<Course> allCandidates = new ArrayList<>(proposingCourses);
-        currentMatches.values().forEach(course -> {
-            if (!allCandidates.contains(course)) {
-                allCandidates.add(course);
-            }
-        });
-
+        // Sort rooms by decreasing capacity
+        rooms.sort(Comparator.comparingInt(Room::getCapacity).reversed());
         // For each room, evaluate all candidates and keep the best fit
         for (Room room : rooms) {
             Course bestCandidate = null;
-            int bestFitScore = Integer.MAX_VALUE;
-            
+            double bestFitScore = Double.MAX_VALUE; // Changed to Double.MAX_VALUE
+
+            // Evaluate all candidates for this room
             for (Course candidate : allCandidates) {
-                int fitScore = evaluateFit(candidate, room);
-                if (fitScore < bestFitScore) {
+                double fitScore = capaFit.capafit(room, candidate);
+                if (fitScore < bestFitScore && fitScore < room.getCapacity() + 1) { // Added capacity check
                     bestFitScore = fitScore;
                     bestCandidate = candidate;
                 }
             }
 
-            if (bestCandidate != null && bestFitScore != Integer.MAX_VALUE) {
-                Course currentOccupant = currentMatches.get(room);
-                if (!bestCandidate.equals(currentOccupant)) {
-                    if (currentOccupant != null) {
-                        steps.add(new AllocationStep(
-                            String.format("%s displaced %s from %s (%s)",
-                                bestCandidate.getName(),
-                                currentOccupant.getName(),
-                                room.getName(),
-                                room.getType().getDisplayName()),
-                            bestCandidate, room, currentOccupant));
-                    } else {
-                        steps.add(new AllocationStep(
-                            String.format("%s assigned to %s (%s)",
-                                bestCandidate.getName(),
-                                room.getName(),
-                                room.getType().getDisplayName()),
-                            bestCandidate, room, null));
-                    }
+            if (bestCandidate != null) {
+                Course previousOccupant = room.getCurrentOccupant();
+
+                if (previousOccupant == null) {
                     currentMatches.put(room, bestCandidate);
+                    steps.add(new AllocationStep(bestCandidate.getName() + " assigned to " + room.getName(),
+                            bestCandidate, room, null));
+                } else if (bestCandidate != previousOccupant) {
+                    currentMatches.put(room, bestCandidate);
+                    steps.add(new AllocationStep(bestCandidate.getName() + " displaces " +
+                            previousOccupant.getName() + " in " + room.getName(),
+                            bestCandidate, room, previousOccupant));
                 }
+
+                // Remove the assigned candidate from future consideration
+                allCandidates.remove(bestCandidate);
             }
         }
 
@@ -121,11 +118,10 @@ public class TypeBasedAllocation {
             // Group proposals by room type
             Map<RoomType, List<Course>> proposalsByType = new HashMap<>();
             Iterator<Course> iterator = unmatchedCourses.iterator();
-            
             while (iterator.hasNext()) {
                 Course course = iterator.next();
                 int currentChoice = course.getChoiceNumber();
-                
+
                 if (currentChoice >= course.getTypePreferences().size()) {
                     unassignableCourses.add(course);
                     iterator.remove();
@@ -139,14 +135,14 @@ public class TypeBasedAllocation {
 
             // Process each room type's proposals using deferred acceptance
             Set<Course> newlyMatched = new HashSet<>();
-            
+
             for (Map.Entry<RoomType, List<Course>> entry : proposalsByType.entrySet()) {
                 RoomType type = entry.getKey();
                 List<Course> proposals = entry.getValue();
                 List<Room> availableRooms = roomsByType.get(type);
 
                 Map<Room, Course> typeMatches = processTypeProposals(proposals, availableRooms);
-                
+
                 // Update room assignments and track matched courses
                 typeMatches.forEach((room, course) -> {
                     room.setCurrentOccupant(course);
@@ -157,7 +153,7 @@ public class TypeBasedAllocation {
 
             // Remove successfully matched courses from unmatched set
             unmatchedCourses.removeAll(newlyMatched);
-            
+
             // If no new matches were made and we still have unmatched courses,
             // they will try their next preferences in the next iteration
         }
@@ -167,10 +163,53 @@ public class TypeBasedAllocation {
         if (!unassignableCourses.isEmpty()) {
             System.out.println("\nUnassignable courses:");
             unassignableCourses.forEach(course -> {
-                System.out.println(course.getName() + " could not be assigned to any room (size: " + course.getCohortSize() + ")");
-                System.out.println("Preferences: " + course.getTypePreferences());
+                System.out.println(
+                        course.getName() + " could not be assigned to any room (size: " + course.getCohortSize() + ")");
+                // System.out.println("Preferences: " + course.getTypePreferences());
             });
         }
         return assignments;
+    }
+
+    public Map<String, Object> exportAllocationState() {
+        Map<String, Object> state = new HashMap<>();
+
+        // Export allocated rooms with their courses
+        List<Map<String, Object>> roomsData = new ArrayList<>();
+        for (RoomType type : roomsByType.keySet()) {
+            for (Room room : roomsByType.get(type)) {
+                Map<String, Object> roomData = new HashMap<>();
+                roomData.put("name", room.getName());
+                roomData.put("capacity", room.getCapacity());
+                roomData.put("type", room.getType().name());
+
+                Course occupant = room.getCurrentOccupant();
+                if (occupant != null) {
+                    Map<String, Object> courseData = new HashMap<>();
+                    courseData.put("name", occupant.getName());
+                    courseData.put("size", occupant.getCohortSize());
+                    roomData.put("course", courseData);
+                } else {
+                    roomData.put("course", null);
+                }
+
+                roomsData.add(roomData);
+            }
+        }
+        state.put("rooms", roomsData);
+
+        // Export unallocated courses
+        List<Map<String, Object>> unallocatedData = new ArrayList<>();
+        for (Course course : courses) {
+            if (course.getAssignedRoom() == null) {
+                Map<String, Object> courseData = new HashMap<>();
+                courseData.put("name", course.getName());
+                courseData.put("size", course.getCohortSize());
+                unallocatedData.add(courseData);
+            }
+        }
+        state.put("unallocatedCourses", unallocatedData);
+
+        return state;
     }
 }
