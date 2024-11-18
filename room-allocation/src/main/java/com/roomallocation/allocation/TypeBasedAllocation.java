@@ -49,12 +49,6 @@ public class TypeBasedAllocation {
      * Evaluates how well a course fits in a room based on size differences
      * Returns a score where lower is better (less wasted space)
      */
-    private int evaluateFit(Course course, Room room) {
-        if (course.getCohortSize() > room.getCapacity()) {
-            return Integer.MAX_VALUE; // Room is too small
-        }
-        return room.getCapacity() - course.getCohortSize(); // Minimize wasted space
-    }
 
     /**
      * Find the best assignments for courses to rooms of a specific type,

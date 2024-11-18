@@ -1,0 +1,748 @@
+{
+    "allocation": {
+        "rooms": [
+            {
+                "name": "PC 4",
+                "course": {
+                    "size": 27,
+                    "name": "LAN459"
+                },
+                "type": "COULOIR_VANNEAU",
+                "capacity": 28
+            },
+            {
+                "name": "PC 5",
+                "course": {
+                    "size": 29,
+                    "name": "MEC449"
+                },
+                "type": "COULOIR_VANNEAU",
+                "capacity": 28
+            },
+            {
+                "name": "PC 8",
+                "course": {
+                    "size": 29,
+                    "name": "CHI331"
+                },
+                "type": "COULOIR_VANNEAU",
+                "capacity": 28
+            },
+            {
+                "name": "PC 9",
+                "course": {
+                    "size": 27,
+                    "name": "PHY312"
+                },
+                "type": "COULOIR_VANNEAU",
+                "capacity": 28
+            },
+            {
+                "name": "PC 10",
+                "course": {
+                    "size": 27,
+                    "name": "HSS386"
+                },
+                "type": "COULOIR_VANNEAU",
+                "capacity": 28
+            },
+            {
+                "name": "PC 12",
+                "course": {
+                    "size": 27,
+                    "name": "MAP470"
+                },
+                "type": "COULOIR_VANNEAU",
+                "capacity": 28
+            },
+            {
+                "name": "PC 13",
+                "course": {
+                    "size": 27,
+                    "name": "ECO367"
+                },
+                "type": "COULOIR_VANNEAU",
+                "capacity": 28
+            },
+            {
+                "name": "PC 15",
+                "course": {
+                    "size": 26,
+                    "name": "CHI425"
+                },
+                "type": "COULOIR_VANNEAU",
+                "capacity": 28
+            },
+            {
+                "name": "PC 1",
+                "course": {
+                    "size": 25,
+                    "name": "PHY456"
+                },
+                "type": "COULOIR_VANNEAU",
+                "capacity": 26
+            },
+            {
+                "name": "PC 6",
+                "course": {
+                    "size": 25,
+                    "name": "MAP471"
+                },
+                "type": "COULOIR_VANNEAU",
+                "capacity": 26
+            },
+            {
+                "name": "PC 7",
+                "course": {
+                    "size": 25,
+                    "name": "LAN385"
+                },
+                "type": "COULOIR_VANNEAU",
+                "capacity": 26
+            },
+            {
+                "name": "PC 11",
+                "course": {
+                    "size": 25,
+                    "name": "CHI430"
+                },
+                "type": "COULOIR_VANNEAU",
+                "capacity": 26
+            },
+            {
+                "name": "PC 3",
+                "course": {
+                    "size": 24,
+                    "name": "CHI327"
+                },
+                "type": "COULOIR_VANNEAU",
+                "capacity": 24
+            },
+            {
+                "name": "PC 14",
+                "course": {
+                    "size": 24,
+                    "name": "MAT357"
+                },
+                "type": "COULOIR_VANNEAU",
+                "capacity": 24
+            },
+            {
+                "name": "PC 2",
+                "course": {
+                    "size": 21,
+                    "name": "PHY341"
+                },
+                "type": "COULOIR_VANNEAU",
+                "capacity": 21
+            },
+            {
+                "name": "PC 23",
+                "course": {
+                    "size": 35,
+                    "name": "PHY492"
+                },
+                "type": "COULOIR_SCOLARITE",
+                "capacity": 35
+            },
+            {
+                "name": "PC 18",
+                "course": {
+                    "size": 32,
+                    "name": "ECO404"
+                },
+                "type": "COULOIR_SCOLARITE",
+                "capacity": 32
+            },
+            {
+                "name": "PC 24",
+                "course": {
+                    "size": 32,
+                    "name": "ECO350"
+                },
+                "type": "COULOIR_SCOLARITE",
+                "capacity": 32
+            },
+            {
+                "name": "PC 19",
+                "course": {
+                    "size": 28,
+                    "name": "BIO488"
+                },
+                "type": "COULOIR_SCOLARITE",
+                "capacity": 28
+            },
+            {
+                "name": "PC 20",
+                "course": {
+                    "size": 28,
+                    "name": "MAT396"
+                },
+                "type": "COULOIR_SCOLARITE",
+                "capacity": 28
+            },
+            {
+                "name": "PC 21",
+                "course": {
+                    "size": 28,
+                    "name": "ECO490"
+                },
+                "type": "COULOIR_SCOLARITE",
+                "capacity": 28
+            },
+            {
+                "name": "PC 22",
+                "course": {
+                    "size": 27,
+                    "name": "HSS498"
+                },
+                "type": "COULOIR_SCOLARITE",
+                "capacity": 28
+            },
+            {
+                "name": "PC 16",
+                "course": {
+                    "size": 25,
+                    "name": "BIO463"
+                },
+                "type": "COULOIR_SCOLARITE",
+                "capacity": 24
+            },
+            {
+                "name": "PC 17",
+                "course": {
+                    "size": 22,
+                    "name": "MAP374"
+                },
+                "type": "COULOIR_SCOLARITE",
+                "capacity": 24
+            },
+            {
+                "name": "PC 41",
+                "course": {
+                    "size": 38,
+                    "name": "CHI358"
+                },
+                "type": "COULOIR_LABOS",
+                "capacity": 49
+            },
+            {
+                "name": "PC 44",
+                "course": {
+                    "size": 38,
+                    "name": "INF472"
+                },
+                "type": "COULOIR_LABOS",
+                "capacity": 49
+            },
+            {
+                "name": "PC 42",
+                "course": {
+                    "size": 37,
+                    "name": "MAP331"
+                },
+                "type": "COULOIR_LABOS",
+                "capacity": 46
+            },
+            {
+                "name": "PC 37",
+                "course": {
+                    "size": 37,
+                    "name": "BIO445"
+                },
+                "type": "COULOIR_LABOS",
+                "capacity": 40
+            },
+            {
+                "name": "PC 43",
+                "course": {
+                    "size": 36,
+                    "name": "PHY305"
+                },
+                "type": "COULOIR_LABOS",
+                "capacity": 36
+            },
+            {
+                "name": "PC 38",
+                "course": {
+                    "size": 31,
+                    "name": "HSS389"
+                },
+                "type": "COULOIR_LABOS",
+                "capacity": 31
+            },
+            {
+                "name": "PC 40",
+                "course": {
+                    "size": 29,
+                    "name": "MAT480"
+                },
+                "type": "COULOIR_LABOS",
+                "capacity": 28
+            },
+            {
+                "name": "PC 101",
+                "course": {
+                    "size": 40,
+                    "name": "MAP399"
+                },
+                "type": "SALLES_100",
+                "capacity": 42
+            },
+            {
+                "name": "PC 107",
+                "course": {
+                    "size": 31,
+                    "name": "LAN433"
+                },
+                "type": "SALLES_100",
+                "capacity": 31
+            },
+            {
+                "name": "PC 104",
+                "course": {
+                    "size": 29,
+                    "name": "ECO497"
+                },
+                "type": "SALLES_100",
+                "capacity": 28
+            },
+            {
+                "name": "PC 105",
+                "course": {
+                    "size": 27,
+                    "name": "ECO481"
+                },
+                "type": "SALLES_100",
+                "capacity": 28
+            },
+            {
+                "name": "PC 106",
+                "course": {
+                    "size": 27,
+                    "name": "BIO324"
+                },
+                "type": "SALLES_100",
+                "capacity": 28
+            },
+            {
+                "name": "PC 103",
+                "course": {
+                    "size": 26,
+                    "name": "BIO331"
+                },
+                "type": "SALLES_100",
+                "capacity": 26
+            },
+            {
+                "name": "PC 102",
+                "course": {
+                    "size": 16,
+                    "name": "PHY402"
+                },
+                "type": "SALLES_100",
+                "capacity": 16
+            },
+            {
+                "name": "salle 64",
+                "course": {
+                    "size": 40,
+                    "name": "MAP360"
+                },
+                "type": "AMPHI_COULOIR_BINETS",
+                "capacity": 48
+            },
+            {
+                "name": "salle 65",
+                "course": {
+                    "size": 39,
+                    "name": "CHI391"
+                },
+                "type": "AMPHI_COULOIR_BINETS",
+                "capacity": 48
+            },
+            {
+                "name": "salle 66",
+                "course": {
+                    "size": 38,
+                    "name": "BIO478"
+                },
+                "type": "AMPHI_COULOIR_BINETS",
+                "capacity": 40
+            },
+            {
+                "name": "salle 67",
+                "course": {
+                    "size": 37,
+                    "name": "MAP349"
+                },
+                "type": "AMPHI_COULOIR_BINETS",
+                "capacity": 40
+            },
+            {
+                "name": "salle info 31",
+                "course": {
+                    "size": 24,
+                    "name": "MEC449"
+                },
+                "type": "SALLES_INFO",
+                "capacity": 24
+            },
+            {
+                "name": "salle info 32",
+                "course": {
+                    "size": 23,
+                    "name": "MAP400"
+                },
+                "type": "SALLES_INFO",
+                "capacity": 24
+            },
+            {
+                "name": "salle info 33",
+                "course": {
+                    "size": 23,
+                    "name": "ECO367"
+                },
+                "type": "SALLES_INFO",
+                "capacity": 24
+            },
+            {
+                "name": "salle info 34",
+                "course": {
+                    "size": 23,
+                    "name": "ECO486"
+                },
+                "type": "SALLES_INFO",
+                "capacity": 24
+            },
+            {
+                "name": "salle info 35",
+                "course": {
+                    "size": 22,
+                    "name": "HSS454"
+                },
+                "type": "SALLES_INFO",
+                "capacity": 24
+            },
+            {
+                "name": "salle info 36",
+                "course": {
+                    "size": 22,
+                    "name": "ECO490"
+                },
+                "type": "SALLES_INFO",
+                "capacity": 24
+            },
+            {
+                "name": "salle info 30",
+                "course": {
+                    "size": 18,
+                    "name": "LAN477"
+                },
+                "type": "SALLES_INFO",
+                "capacity": 18
+            },
+            {
+                "name": "Salle langues 53",
+                "course": {
+                    "size": 20,
+                    "name": "PHY400"
+                },
+                "type": "SALLES_LANGUES",
+                "capacity": 20
+            },
+            {
+                "name": "Salle langues 55",
+                "course": {
+                    "size": 20,
+                    "name": "HSS301"
+                },
+                "type": "SALLES_LANGUES",
+                "capacity": 20
+            },
+            {
+                "name": "Salle langues 51",
+                "course": {
+                    "size": 18,
+                    "name": "MAT487"
+                },
+                "type": "SALLES_LANGUES",
+                "capacity": 18
+            },
+            {
+                "name": "Salle langues 52",
+                "course": {
+                    "size": 18,
+                    "name": "ECO358"
+                },
+                "type": "SALLES_LANGUES",
+                "capacity": 18
+            },
+            {
+                "name": "Salle langues 54",
+                "course": {
+                    "size": 18,
+                    "name": "MEC453"
+                },
+                "type": "SALLES_LANGUES",
+                "capacity": 18
+            },
+            {
+                "name": "Salle langues 56",
+                "course": {
+                    "size": 19,
+                    "name": "HSS457"
+                },
+                "type": "SALLES_LANGUES",
+                "capacity": 18
+            },
+            {
+                "name": "Salle langues 57",
+                "course": {
+                    "size": 19,
+                    "name": "INF329"
+                },
+                "type": "SALLES_LANGUES",
+                "capacity": 18
+            },
+            {
+                "name": "Salle langues 58",
+                "course": {
+                    "size": 16,
+                    "name": "PHY477"
+                },
+                "type": "SALLES_LANGUES",
+                "capacity": 16
+            },
+            {
+                "name": "Salle langues 63",
+                "course": {
+                    "size": 16,
+                    "name": "PHY347"
+                },
+                "type": "SALLES_LANGUES",
+                "capacity": 16
+            },
+            {
+                "name": "Salle langues 60",
+                "course": {
+                    "size": 12,
+                    "name": "MAT438"
+                },
+                "type": "SALLES_LANGUES",
+                "capacity": 12
+            },
+            {
+                "name": "Salle langues 61",
+                "course": {
+                    "size": 13,
+                    "name": "INF317"
+                },
+                "type": "SALLES_LANGUES",
+                "capacity": 12
+            },
+            {
+                "name": "Salle langues 62",
+                "course": {
+                    "size": 13,
+                    "name": "ECO330"
+                },
+                "type": "SALLES_LANGUES",
+                "capacity": 12
+            },
+            {
+                "name": "Painlevé",
+                "course": {
+                    "size": 40,
+                    "name": "INF403"
+                },
+                "type": "NOUVEAUX_AMPHIS",
+                "capacity": 50
+            },
+            {
+                "name": "Poisson",
+                "course": {
+                    "size": 40,
+                    "name": "ECO405"
+                },
+                "type": "NOUVEAUX_AMPHIS",
+                "capacity": 50
+            },
+            {
+                "name": "Lagarrigue",
+                "course": {
+                    "size": 40,
+                    "name": "MAT495"
+                },
+                "type": "NOUVEAUX_AMPHIS",
+                "capacity": 50
+            },
+            {
+                "name": "Curie",
+                "course": {
+                    "size": 40,
+                    "name": "INF370"
+                },
+                "type": "NOUVEAUX_AMPHIS",
+                "capacity": 50
+            },
+            {
+                "name": "Grégory",
+                "course": {
+                    "size": 39,
+                    "name": "MAP473"
+                },
+                "type": "NOUVEAUX_AMPHIS",
+                "capacity": 50
+            },
+            {
+                "name": "Sauvy",
+                "course": {
+                    "size": 37,
+                    "name": "BIO401"
+                },
+                "type": "NOUVEAUX_AMPHIS",
+                "capacity": 50
+            },
+            {
+                "name": "Poincaré",
+                "course": {
+                    "size": 197,
+                    "name": "PHY454"
+                },
+                "type": "GRANDS_AMPHIS",
+                "capacity": 780
+            },
+            {
+                "name": "Arago",
+                "course": {
+                    "size": 189,
+                    "name": "MEC312"
+                },
+                "type": "GRANDS_AMPHIS",
+                "capacity": 523
+            },
+            {
+                "name": "Gay Lussac",
+                "course": {
+                    "size": 185,
+                    "name": "MEC400"
+                },
+                "type": "GRANDS_AMPHIS",
+                "capacity": 270
+            },
+            {
+                "name": "Faurre",
+                "course": {
+                    "size": 182,
+                    "name": "PHY343"
+                },
+                "type": "GRANDS_AMPHIS",
+                "capacity": 230
+            },
+            {
+                "name": "Cauchy",
+                "course": {
+                    "size": 103,
+                    "name": "INF349"
+                },
+                "type": "GRANDS_AMPHIS",
+                "capacity": 112
+            },
+            {
+                "name": "Méca",
+                "course": {
+                    "size": 85,
+                    "name": "MEC405"
+                },
+                "type": "AMPHIS_80_100",
+                "capacity": 100
+            },
+            {
+                "name": "Becquerel",
+                "course": {
+                    "size": 74,
+                    "name": "LAN453"
+                },
+                "type": "AMPHIS_80_100",
+                "capacity": 96
+            },
+            {
+                "name": "Carnot",
+                "course": {
+                    "size": 61,
+                    "name": "CHI475"
+                },
+                "type": "AMPHIS_80_100",
+                "capacity": 81
+            },
+            {
+                "name": "Monge",
+                "course": {
+                    "size": 58,
+                    "name": "MAP347"
+                },
+                "type": "AMPHIS_80_100",
+                "capacity": 81
+            }
+        ],
+        "unallocatedCourses": [
+            {
+                "size": 126,
+                "name": "INF400"
+            },
+            {
+                "size": 131,
+                "name": "MEC370"
+            }
+        ]
+    },
+    "statistics": [
+        {
+            "highRankRate": "31,4",
+            "strategyName": "SizeBased",
+            "choiceDistribution": {
+                "1": 25,
+                "2": 12,
+                "3": 8,
+                "4": 5,
+                "5": 10,
+                "6": 4,
+                "8": 1,
+                "9": 2
+            },
+            "unallocatedRate": "4,3",
+            "unallocatedCourses": 3,
+            "allocationRate": "95,7",
+            "numAllocationSteps": 127,
+            "firstChoiceRate": "35,7",
+            "totalCourses": 70,
+            "averageChoice": "2,88",
+            "allocatedCourses": 67
+        },
+        {
+            "highRankRate": "24,3",
+            "strategyName": "SmartRandom",
+            "choiceDistribution": {
+                "1": 22,
+                "2": 10,
+                "3": 12,
+                "4": 5,
+                "5": 3,
+                "6": 4,
+                "7": 1,
+                "8": 2,
+                "9": 1,
+                "10": 1
+            },
+            "unallocatedRate": "12,9",
+            "unallocatedCourses": 9,
+            "allocationRate": "87,1",
+            "numAllocationSteps": 123,
+            "firstChoiceRate": "31,4",
+            "totalCourses": 70,
+            "averageChoice": "2,93",
+            "allocatedCourses": 61
+        }
+    ]
+}
