@@ -11,10 +11,14 @@ public class PythonVisualizer {
     public PythonVisualizer(String pythonExecutable) {
         this.pythonExecutable = pythonExecutable;
     }
-
-    public void visualize(String jsonPath) throws IOException, InterruptedException {
+    
+    private void extractAndRunPythonScript(String resourcePath, String jsonPath) throws IOException, InterruptedException {
+        // Create output directory if it doesn't exist
+        Path jsonFilePath = Paths.get(jsonPath);
+        Files.createDirectories(jsonFilePath.getParent());
+        
         // Copy Python script from resources to a temporary file
-        Path tempScript = extractPythonScript();
+        Path tempScript = extractPythonScript(resourcePath);
         
         try {
             List<String> command = new ArrayList<>();
@@ -25,7 +29,6 @@ public class PythonVisualizer {
             ProcessBuilder processBuilder = new ProcessBuilder(command);
             processBuilder.redirectErrorStream(true);
 
-            System.out.println("Executing Python visualization script...");
             Process process = processBuilder.start();
 
             // Read and print the Python script's output
@@ -41,8 +44,6 @@ public class PythonVisualizer {
             if (exitCode != 0) {
                 throw new RuntimeException("Python script failed with exit code: " + exitCode);
             }
-            
-            System.out.println("Visualization completed successfully!");
         } finally {
             // Clean up the temporary script file
             try {
@@ -53,18 +54,29 @@ public class PythonVisualizer {
         }
     }
 
-    private Path extractPythonScript() throws IOException {
+    private Path extractPythonScript(String resourcePath) throws IOException {
         // Create a temporary file for the Python script
         Path tempScript = Files.createTempFile("visualize_", ".py");
         
         // Copy the script from resources to the temporary file
-        try (InputStream is = getClass().getResourceAsStream("/visualize.py")) {
+        try (InputStream is = getClass().getResourceAsStream(resourcePath)) {
             if (is == null) {
-                throw new IOException("Could not find visualize.py in resources");
+                throw new IOException("Could not find " + resourcePath + " in resources");
             }
             Files.copy(is, tempScript, StandardCopyOption.REPLACE_EXISTING);
         }
         
         return tempScript;
+    }
+
+    public void visualize(String jsonPath) throws IOException, InterruptedException {
+        System.out.println("Generating standard visualizations...");
+        extractAndRunPythonScript("/visualize.py", jsonPath);
+        
+        System.out.println("\nGenerating room map visualization...");
+        extractAndRunPythonScript("/visualize_map.py", jsonPath);
+        
+        System.out.println("\nVisualization completed successfully!");
+        System.out.println("Plots saved in directory: " + Paths.get(jsonPath).getParent());
     }
 }
