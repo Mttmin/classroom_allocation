@@ -5,6 +5,12 @@ import com.roomallocation.model.Room;
 
 public class capaFit {
     public static double capafit(Room room, Course course) {
-        return Math.abs(room.getCapacity() - course.getCohortSize());
+        // If room is too small for course, return infinity
+        if (room.getCapacity() < course.getCohortSize()) {
+            return Double.POSITIVE_INFINITY;
+        }
+        
+        // Otherwise return the amount of wasted space
+        return room.getCapacity() - course.getCohortSize();
     }
 }

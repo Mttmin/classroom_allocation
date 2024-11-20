@@ -11,12 +11,12 @@ import com.roomallocation.model.Room;
 import com.roomallocation.model.RoomType;
 
 public class SmartRandomPreferenceStrategy extends PreferenceGenerationStrategy {
-    private final int maxPreferences;
+    private final int numPreferences;
     private final Map<RoomType, Integer> maxCapacities;
 
-    public SmartRandomPreferenceStrategy(int maxPreferences, List<Room> rooms) {
-        super();
-        this.maxPreferences = maxPreferences;
+    public SmartRandomPreferenceStrategy(int numPreferences, List<Room> rooms) {
+        super(numPreferences, "smart_random");
+        this.numPreferences = numPreferences;
         this.maxCapacities = new EnumMap<>(RoomType.class);
         
         // Find maximum capacity for each room type
@@ -37,6 +37,6 @@ public class SmartRandomPreferenceStrategy extends PreferenceGenerationStrategy 
         // Randomly select from suitable types
         List<RoomType> shuffled = new ArrayList<>(suitableTypes);
         Collections.shuffle(shuffled, random);
-        return shuffled.subList(0, Math.min(maxPreferences, shuffled.size()));
+        return shuffled.subList(0, Math.min(numPreferences, shuffled.size()));
     }
 }

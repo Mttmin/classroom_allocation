@@ -24,7 +24,7 @@ public class SizedBasedPreferenceStrategy extends PreferenceGenerationStrategy {
     }
 
     public SizedBasedPreferenceStrategy(int numPreferences, List<Room> rooms) {
-        super();
+        super(numPreferences, "sized");
         this.numPreferences = numPreferences;
         this.medianCapacities = calculateMedianCapacities(rooms);
     }

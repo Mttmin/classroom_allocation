@@ -11,6 +11,9 @@ public class CourseSimulator {
     private final PreferenceGenerationStrategy strategy;
     private final Random random;
 
+    public void setSeed(long seed) {
+        random.setSeed(seed);
+    }
     public CourseSimulator(PreferenceGenerationStrategy strategy) {
         this.strategy = strategy;
         this.random = new Random();

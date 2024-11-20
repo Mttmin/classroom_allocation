@@ -57,6 +57,7 @@ public class TypeBasedAllocation {
     private Map<Room, Course> processTypeProposals(List<Course> proposingCourses, List<Room> rooms) {
         Map<Room, Course> currentMatches = new HashMap<>();
         List<Course> allCandidates = new ArrayList<>(proposingCourses);
+
         // Get current occupants
         for (Room room : rooms) {
             Course currentOccupant = room.getCurrentOccupant();
@@ -64,17 +65,19 @@ public class TypeBasedAllocation {
                 allCandidates.add(currentOccupant);
             }
         }
-        // Sort rooms by decreasing capacity
-        rooms.sort(Comparator.comparingInt(Room::getCapacity).reversed());
+
+        // Sort rooms by increasing capacity for better space utilization
+        rooms.sort(Comparator.comparingInt(Room::getCapacity));
+
         // For each room, evaluate all candidates and keep the best fit
         for (Room room : rooms) {
             Course bestCandidate = null;
-            double bestFitScore = Double.MAX_VALUE; // Changed to Double.MAX_VALUE
+            double bestFitScore = Double.POSITIVE_INFINITY;
 
             // Evaluate all candidates for this room
             for (Course candidate : allCandidates) {
                 double fitScore = capaFit.capafit(room, candidate);
-                if (fitScore < bestFitScore && fitScore < room.getCapacity() + 1) { // Added capacity check
+                if (fitScore < bestFitScore) {
                     bestFitScore = fitScore;
                     bestCandidate = candidate;
                 }
@@ -83,14 +86,17 @@ public class TypeBasedAllocation {
             if (bestCandidate != null) {
                 Course previousOccupant = room.getCurrentOccupant();
 
+                // Update assignments
                 if (previousOccupant == null) {
                     currentMatches.put(room, bestCandidate);
-                    steps.add(new AllocationStep(bestCandidate.getName() + " assigned to " + room.getName(),
+                    steps.add(new AllocationStep(
+                            bestCandidate.getName() + " assigned to " + room.getName(),
                             bestCandidate, room, null));
                 } else if (bestCandidate != previousOccupant) {
                     currentMatches.put(room, bestCandidate);
-                    steps.add(new AllocationStep(bestCandidate.getName() + " displaces " +
-                            previousOccupant.getName() + " in " + room.getName(),
+                    steps.add(new AllocationStep(
+                            bestCandidate.getName() + " displaces " + previousOccupant.getName() +
+                                    " in " + room.getName(),
                             bestCandidate, room, previousOccupant));
                 }
 

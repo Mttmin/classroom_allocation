@@ -9,7 +9,7 @@ public class RandomPreferenceStrategy extends PreferenceGenerationStrategy {
     private final int numPreferences;
 
     public RandomPreferenceStrategy(int numPreferences) {
-        super();
+        super(numPreferences, "random");
         this.numPreferences = numPreferences;
     }
 

@@ -12,12 +12,27 @@ import com.roomallocation.model.RoomType;
 public abstract class PreferenceGenerationStrategy {
     protected final List<RoomType> availableRoomTypes;
     protected final Random random;
+    protected final int numPreferences;
+    protected final String strategyName;
 
-    public PreferenceGenerationStrategy() {
+    public PreferenceGenerationStrategy(int numPreferences, String strategyName) {
         this.availableRoomTypes = Arrays.asList(RoomType.values());
         this.random = new Random();
+        this.numPreferences = numPreferences;
+        this.strategyName = strategyName;
     }
 
+    public void setSeed(long seed) {
+        random.setSeed(seed);
+    }
+
+    public String getStrategyIdentifier() {
+        return String.format("%s_%d", strategyName, numPreferences);
+    }
+
+    public int getNumPreferences() {
+        return numPreferences;
+    }
     /**
      * Generate room type preferences for a given course
      * @param course The course to generate preferences for

@@ -17,43 +17,81 @@ import com.roomallocation.util.RoomDataLoader;
 import com.roomallocation.visualization.PythonVisualizer;
 
 public class Main {
+
     public static void main(String[] args) {
         try {
+            int numSimulations = 10;
+            int numCourses = 60;
+            int minSize = 10;
+            int maxSize = 200;
+            int changeSize = 30;
             // Load rooms
             List<Room> rooms = RoomDataLoader.loadRooms();
 
-            // Create strategy and simulator
-            PreferenceGenerationStrategy strategy = new FixedPreference(10);
-            CourseSimulator simulator = new CourseSimulator(strategy);
+            // Create statistics collector
+            StatisticsCollector collector = new StatisticsCollector(
+                rooms, numSimulations, numCourses, minSize, maxSize, changeSize);
 
-            // Generate courses
-            List<Course> courses = simulator.generateCourses(60, 10, 200, 30);
+            // Optional: Set a seed for reproducible results
+            //collector.setSeed(215815L);
 
-            // Run allocation
+            // Add different strategies to test with varying numbers of preferences
+            collector.addStrategy(new RandomPreferenceStrategy(3));
+            collector.addStrategy(new RandomPreferenceStrategy(5));
+            collector.addStrategy(new RandomPreferenceStrategy(10));
+            
+            collector.addStrategy(new SizedBasedPreferenceStrategy(3, rooms));
+            collector.addStrategy(new SizedBasedPreferenceStrategy(5, rooms));
+            collector.addStrategy(new SizedBasedPreferenceStrategy(10, rooms));
+            
+            collector.addStrategy(new SmartRandomPreferenceStrategy(3, rooms));
+            collector.addStrategy(new SmartRandomPreferenceStrategy(5, rooms));
+            collector.addStrategy(new SmartRandomPreferenceStrategy(10, rooms));
+
+            collector.addStrategy(new FixedPreference(5));
+            collector.addStrategy(new FixedPreference(10));
+
+            // Run simulations with all strategies
+            List<AllocationStatistics> stats = collector.runSimulations();
+
+            PreferenceGenerationStrategy bestStrategy = new SmartRandomPreferenceStrategy(10, rooms);
+            CourseSimulator simulator = new CourseSimulator(bestStrategy);
+            List<Course> courses = simulator.generateCourses(70, 10, 200, 40);
             TypeBasedAllocation allocator = new TypeBasedAllocation(courses, rooms);
             allocator.allocate();
 
-            // Run statistics collector
-            StatisticsCollector collector = new StatisticsCollector(rooms, 10, 60, 10, 200, 30);
-            List<AllocationStatistics> stats = collector.runSimulations();
+            // Prepare results directory
+            String jsonPath = "room-allocation/src/main/resources/allocation_results.json";
 
-            // Combine allocation state and statistics into one export
+            // Export results to JSON
             Map<String, Object> exportData = new HashMap<>();
-            exportData.put("allocation", allocator.exportAllocationState());
+            
+            // Create simulation parameters map explicitly
+            Map<String, Object> simParams = new HashMap<>();
+            simParams.put("numSimulations", numSimulations);
+            simParams.put("numCourses", numCourses);
+            simParams.put("minSize", minSize);
+            simParams.put("maxSize", maxSize);
+            simParams.put("changeSize", changeSize);
+            simParams.put("seed", collector.getSeed());
+            
+            exportData.put("simulationParameters", simParams);
             exportData.put("statistics", stats.stream()
-                    .map(AllocationStatistics::toMap)
-                    .toList());
-
-            // Export combined data to JSON
+                .map(AllocationStatistics::toMap)
+                .toList());
+            exportData.put("allocation", allocator.exportAllocationState());
+            // Export to JSON file
             ObjectMapper mapper = new ObjectMapper();
-            mapper.writeValue(new File("src/main/resources/allocation_results.json"), exportData);
-            System.out.println("Allocation results and statistics exported to allocation_results.json");
+            mapper.writeValue(new File(jsonPath), exportData);
+            System.out.println("\nComparison results exported to " + jsonPath);
 
-            String pythonExecutable = "python";  // or "python3" depending on your system
-            PythonVisualizer visualizer = new PythonVisualizer(pythonExecutable);
-            visualizer.visualize("src/main/resources/allocation_results.json");
+
+            // Visualize results
+            PythonVisualizer visualizer = new PythonVisualizer("python");
+            visualizer.visualize(jsonPath);
+
         } catch (Exception e) {
-            System.err.println("Error running allocation: " + e.getMessage());
+            System.err.println("Error running comparison: " + e.getMessage());
             e.printStackTrace();
         }
     }

@@ -11,7 +11,7 @@ public class FixedPreference extends PreferenceGenerationStrategy {
     private final int numPreferences;
 
     public FixedPreference(int numPreferences) {
-        super();
+        super(numPreferences, "fixed");
         this.numPreferences = numPreferences;
         this.preferences = new ArrayList<>(Arrays.asList(
             RoomType.NOUVEAUX_AMPHIS,
