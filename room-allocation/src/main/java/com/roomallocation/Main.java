@@ -12,8 +12,7 @@ import com.roomallocation.model.Room;
 import com.roomallocation.simulator.CourseSimulator;
 import com.roomallocation.statistics.AllocationStatistics;
 import com.roomallocation.statistics.StatisticsCollector;
-import com.roomallocation.strategy.PreferenceGenerationStrategy;
-import com.roomallocation.strategy.SmartRandomPreferenceStrategy;
+import com.roomallocation.strategy.*;
 import com.roomallocation.util.RoomDataLoader;
 import com.roomallocation.visualization.PythonVisualizer;
 
@@ -24,7 +23,7 @@ public class Main {
             List<Room> rooms = RoomDataLoader.loadRooms();
 
             // Create strategy and simulator
-            PreferenceGenerationStrategy strategy = new SmartRandomPreferenceStrategy(10, rooms);
+            PreferenceGenerationStrategy strategy = new FixedPreference(10);
             CourseSimulator simulator = new CourseSimulator(strategy);
 
             // Generate courses

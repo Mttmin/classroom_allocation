@@ -20,4 +20,14 @@ public class AllocationStep {
     public String toString() {
         return description;
     }
+
+    public Course getCourse() {
+        return course;
+    }
+    public Room getRoom() {
+        return room;
+    }
+    public Course getDisplacedCourse() {
+        return displacedCourse;
+    }
 }
