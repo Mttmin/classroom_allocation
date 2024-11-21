@@ -188,7 +188,7 @@ def plot_strategy_comparisons(data, output_dir):
     print(f"Generated strategy comparison plot")
 
     # Create additional plot for more detailed metrics with dual y-axes
-    fig, ax1 = plt.subplots(figsize=(12, 6))
+    fig, ax1 = plt.subplots(figsize=(10, 7))
     
     # Plot Average Choice on left y-axis
     color1 = '#2ecc71'  # Green
@@ -200,7 +200,8 @@ def plot_strategy_comparisons(data, output_dir):
                    alpha=0.7,
                    label='Average Choice')
     ax1.tick_params(axis='y', labelcolor=color1)
-    
+    ax1.set_ylim(0, 5)  # Set y-axis limit
+
     # Add value labels to the first set of bars
     for idx, v in enumerate(strategy_means['averageChoice']):
         ax1.text(idx, v + 0.1, f'{v:.2f}', 
@@ -227,13 +228,13 @@ def plot_strategy_comparisons(data, output_dir):
                 ha='center', va='bottom', color=color2, fontweight='bold')
     
     # Set x-axis labels
-    plt.xticks(range(len(strategy_means)), 
-               strategy_means.index,
-               rotation=45,
-               ha='right')
-    
+    # Set x-axis labels
+    ax1.set_xticks(range(len(strategy_means)))
+    ax1.set_xticklabels(strategy_means.index, rotation=45, ha='right')
+    ax2.grid(False)
+    ax1.grid(False)
     # Add title
-    plt.title('Strategy Performance Metrics Comparison', pad=20)
+    plt.title('Strategy Performance Metrics Comparison, lower is  better', pad=20)
     
     # Add legend
     lines1, labels1 = ax1.get_legend_handles_labels()

@@ -24,7 +24,7 @@ public class Main {
             int numCourses = 60;
             int minSize = 10;
             int maxSize = 200;
-            int changeSize = 30;
+            int changeSize = 35;
             // Load rooms
             List<Room> rooms = RoomDataLoader.loadRooms();
 
