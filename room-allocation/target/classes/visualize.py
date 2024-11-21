@@ -1,9 +1,10 @@
 import json
 import matplotlib.pyplot as plt
-import seaborn as sns  # Just import seaborn
+import seaborn as sns
 import pandas as pd
 import sys
 import os
+from statistics import mean
 
 def load_data(filename):
     with open(filename, 'r') as f:
@@ -100,16 +101,149 @@ def plot_room_size_distribution(data, output_dir):
     rooms_data = data['allocation']['rooms']
     df = pd.DataFrame(rooms_data)
     
+    # Filter out GRANDS_AMPHIS
+    df_filtered = df[df['type'] != 'GRANDS_AMPHIS']
+    
     plt.figure(figsize=(12, 6))
-    sns.boxplot(data=df, x='type', y='capacity', palette='viridis')
+    
+    # Create boxplot
+    ax = sns.boxplot(data=df_filtered, x='type', y='capacity', palette='viridis')
+    
+    # Add room counts above each box
+    room_counts = df_filtered['type'].value_counts()
+    y_max = df_filtered['capacity'].max()
+    
+    for i, type_name in enumerate(ax.get_xticklabels()):
+        count = room_counts.get(type_name.get_text(), 0)
+        plt.text(i, y_max * 1.05, f'n={count}', 
+                horizontalalignment='center',
+                fontsize=10,
+                fontweight='bold')
+    
+    # Adjust layout to make room for counts
+    plt.ylim(0, y_max * 1.15)  # Extend y limit to show counts
     plt.xticks(rotation=45, ha='right')
-    plt.title('Room Capacity Distribution by Type')
+    plt.title('Room Capacity Distribution by Type\n(excluding Grands Amphis)')
     plt.xlabel('Room Type')
     plt.ylabel('Capacity')
     plt.tight_layout()
     plt.savefig(os.path.join(output_dir, 'room_sizes.png'))
     plt.close()
     print(f"Generated room size distribution plot")
+
+
+def plot_strategy_comparisons(data, output_dir):
+    stats = data['statistics']
+    
+    # Create DataFrame from statistics
+    df_stats = pd.DataFrame(stats)
+    
+    # Group by strategy and calculate means
+    strategy_means = df_stats.groupby('strategyName').agg({
+        'allocationRate': lambda x: mean(float(str(v).replace(',', '.')) for v in x),
+        'firstChoiceRate': lambda x: mean(float(str(v).replace(',', '.')) for v in x),
+        'highRankRate': lambda x: mean(float(str(v).replace(',', '.')) for v in x),
+        'averageChoice': lambda x: mean(float(str(v).replace(',', '.')) for v in x)
+    }).round(2)
+    
+    # Sort by allocation rate
+    strategy_means = strategy_means.sort_values('allocationRate', ascending=False)
+    
+    # Create figure with two subplots side by side
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
+    
+    # Plot allocation rates
+    bars1 = sns.barplot(
+        y=strategy_means.index,
+        x=strategy_means['allocationRate'],
+        ax=ax1,
+        palette='viridis'
+    )
+    ax1.set_title('Average Allocation Rate by Strategy')
+    ax1.set_xlabel('Allocation Rate (%)')
+    ax1.set_ylabel('Strategy')
+    
+    # Add value labels to bars
+    for i, v in enumerate(strategy_means['allocationRate']):
+        ax1.text(v + 1, i, f'{v:.1f}%', va='center')
+    
+    # Plot first choice rates
+    bars2 = sns.barplot(
+        y=strategy_means.index,
+        x=strategy_means['firstChoiceRate'],
+        ax=ax2,
+        palette='viridis'
+    )
+    ax2.set_title('Average First Choice Rate by Strategy')
+    ax2.set_xlabel('First Choice Rate (%)')
+    ax2.set_ylabel('Strategy')
+    
+    # Add value labels to bars
+    for i, v in enumerate(strategy_means['firstChoiceRate']):
+        ax2.text(v + 1, i, f'{v:.1f}%', va='center')
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(output_dir, 'strategy_comparison.png'))
+    plt.close()
+    print(f"Generated strategy comparison plot")
+
+    # Create additional plot for more detailed metrics with dual y-axes
+    fig, ax1 = plt.subplots(figsize=(12, 6))
+    
+    # Plot Average Choice on left y-axis
+    color1 = '#2ecc71'  # Green
+    ax1.set_xlabel('Strategy')
+    ax1.set_ylabel('Average Choice', color=color1)
+    bars1 = ax1.bar(range(len(strategy_means)), 
+                   strategy_means['averageChoice'],
+                   color=color1,
+                   alpha=0.7,
+                   label='Average Choice')
+    ax1.tick_params(axis='y', labelcolor=color1)
+    
+    # Add value labels to the first set of bars
+    for idx, v in enumerate(strategy_means['averageChoice']):
+        ax1.text(idx, v + 0.1, f'{v:.2f}', 
+                ha='center', va='bottom', color=color1, fontweight='bold')
+    
+    # Create second y-axis for High Rank Rate
+    ax2 = ax1.twinx()
+    color2 = '#e74c3c'  # Red
+    ax2.set_ylabel('High Rank Rate (%)', color=color2)
+    
+    # Plot High Rank Rate as line with points
+    line = ax2.plot(range(len(strategy_means)), 
+                   strategy_means['highRankRate'],
+                   color=color2,
+                   marker='o',
+                   linewidth=2,
+                   markersize=8,
+                   label='High Rank Rate (%)')
+    ax2.tick_params(axis='y', labelcolor=color2)
+    
+    # Add value labels to the points
+    for idx, v in enumerate(strategy_means['highRankRate']):
+        ax2.text(idx, v + 1, f'{v:.1f}%', 
+                ha='center', va='bottom', color=color2, fontweight='bold')
+    
+    # Set x-axis labels
+    plt.xticks(range(len(strategy_means)), 
+               strategy_means.index,
+               rotation=45,
+               ha='right')
+    
+    # Add title
+    plt.title('Strategy Performance Metrics Comparison', pad=20)
+    
+    # Add legend
+    lines1, labels1 = ax1.get_legend_handles_labels()
+    lines2, labels2 = ax2.get_legend_handles_labels()
+    ax1.legend(lines1 + lines2, labels1 + labels2, loc='upper right')
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(output_dir, 'strategy_metrics.png'))
+    plt.close()
+    print(f"Generated additional strategy metrics plot")
 
 def main():
     if len(sys.argv) < 2:
@@ -132,6 +266,7 @@ def main():
         plot_room_utilization(data, output_dir)
         plot_allocation_statistics(data, output_dir)
         plot_room_size_distribution(data, output_dir)
+        plot_strategy_comparisons(data, output_dir)
         
         print("Visualization completed successfully!")
         

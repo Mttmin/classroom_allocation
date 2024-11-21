@@ -54,9 +54,9 @@ public class Main {
             // Run simulations with all strategies
             List<AllocationStatistics> stats = collector.runSimulations();
 
-            PreferenceGenerationStrategy bestStrategy = new SmartRandomPreferenceStrategy(10, rooms);
+            PreferenceGenerationStrategy bestStrategy = new SmartRandomPreferenceStrategy(5, rooms);
             CourseSimulator simulator = new CourseSimulator(bestStrategy);
-            List<Course> courses = simulator.generateCourses(70, 10, 200, 40);
+            List<Course> courses = simulator.generateCourses(numCourses, minSize, maxSize, changeSize);
             TypeBasedAllocation allocator = new TypeBasedAllocation(courses, rooms);
             allocator.allocate();
 

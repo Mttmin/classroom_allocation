@@ -7,10 +7,11 @@ import pandas as pd
 import numpy as np
 import sys
 import os
+from math import ceil
 
 def create_room_map(data, output_dir):
     rooms_data = data['allocation']['rooms']
-    unallocated_data = data['allocation']['unallocatedCourses']
+    unallocated_data = data['allocation'].get('unallocatedCourses', [])
     df = pd.DataFrame(rooms_data)
     
     # Calculate utilization for occupied rooms
@@ -26,23 +27,31 @@ def create_room_map(data, output_dir):
     # Create a color map for utilization
     cmap = plt.cm.RdYlGn  # Red (high utilization) to Yellow to Green (low utilization)
     
-    # Calculate grid layout
-    num_cols = 3  # Changed to 3 columns to accommodate unallocated courses
-    num_rows = ((num_types + 1) // 2)  # Keep same number of rows
+    # Determine if we need the unallocated courses column
+    has_unallocated = len(unallocated_data) > 0
+    num_cols = 3 if has_unallocated else 2
+    
+    # Calculate optimal layout
+    total_plots = num_types + (1 if has_unallocated else 0)
+    num_rows = ceil(total_plots / num_cols)
     
     # Create figure with a specific size
-    plt.figure(figsize=(20, num_rows * 5))  # Increased figure size
+    fig_width = 20 if has_unallocated else 15
+    plt.figure(figsize=(fig_width, num_rows * 4))
     
-    # Create a grid of subplots
-    gs = gridspec.GridSpec(num_rows, num_cols, hspace=0.4, wspace=0.3)
+    # Create a grid of subplots with more space between them
+    gs = gridspec.GridSpec(num_rows, num_cols, hspace=0.6, wspace=0.4)
     
-    # Track the maximum rooms in any type for consistent scaling
-    max_rooms = max(type_counts)
+    # Fixed dimensions for room rectangles
+    room_width = 1.8
+    room_height = 1.8
+    spacing = 2.2  # Space between rooms
+    max_cols = 5  # Maximum number of rooms per row in the grid
     
     # Plot each room type
     for idx, (room_type, count) in enumerate(type_counts.items()):
-        row = idx // 2
-        col = (idx % 2) * 1  # Use only columns 0 and 1
+        row = idx // num_cols
+        col = idx % num_cols
         ax = plt.subplot(gs[row, col])
         
         # Get rooms of this type
@@ -50,92 +59,107 @@ def create_room_map(data, output_dir):
         
         # Calculate grid dimensions for this room type
         n_rooms = len(type_rooms)
-        grid_cols = min(4, n_rooms)  # Max 4 rooms per row (increased from 5)
-        grid_rows = (n_rooms + grid_cols - 1) // grid_cols
+        grid_cols = min(max_cols, n_rooms)
+        grid_rows = ceil(n_rooms / grid_cols)
         
         # Plot each room in this type
         for i, (_, room) in enumerate(type_rooms.iterrows()):
             # Calculate position in grid
-            x = (i % grid_cols) * 2.0  # Increased spacing
-            y = (grid_rows - 1 - (i // grid_cols)) * 2.0  # Increased spacing
+            x = (i % grid_cols) * spacing
+            y = (grid_rows - 1 - (i // grid_cols)) * spacing
             
-            # Create room rectangle
-            rect = patches.Rectangle((x, y), 1.5, 1.5, linewidth=1, 
-                                  edgecolor='black', facecolor='white')
+            # Create room rectangle with fixed size
+            rect = patches.Rectangle((x, y), room_width, room_height, 
+                                  linewidth=1, edgecolor='black', 
+                                  facecolor='white', alpha=0.8)
             ax.add_patch(rect)
             
-            # Add room name
-            ax.text(x + 0.75, y + 1.2, room['name'], 
-                   ha='center', va='center', fontsize=10, fontweight='bold')
+            # Add room name only for "Grands Amphis" and "Amphis 80_100"
+            if room_type in ["Grands Amphis", "Amphis 80_100"]:
+                ax.text(x + room_width/2, y + room_height - 0.2, room['name'], 
+                       ha='center', va='center', fontsize=9, fontweight='bold')
             
             # Add capacity
-            ax.text(x + 0.75, y + 0.9, f"Capacity: {room['capacity']}", 
-                   ha='center', va='center', fontsize=9)
+            ax.text(x + room_width/2, y + room_height - 0.5, 
+                   f"Cap: {room['capacity']}", 
+                   ha='center', va='center', fontsize=8)
             
-            # If room is occupied, add a colored dot based on utilization
+            # If room is occupied, add utilization circle and course info
             if room['course']:
                 utilization = room['utilization']
                 color = cmap(utilization)
-                circle = patches.Circle((x + 0.75, y + 0.6), 0.2, 
+                
+                # Add utilization circle
+                circle = patches.Circle((x + room_width/2, y + 0.7), 0.25, 
                                      color=color)
                 ax.add_patch(circle)
                 
-                # Add course name and size
-                course_text = f"{room['course']['name']}\n({room['course']['size']} students)"
-                ax.text(x + 0.75, y + 0.3, course_text,
+                # Add utilization percentage inside circle
+                ax.text(x + room_width/2, y + 0.7, 
+                       f"{int(utilization * 100)}%",
+                       ha='center', va='center', 
+                       fontsize=7, color='black' if utilization > 0.5 else 'white',
+                       fontweight='bold')
+                
+                # Add course info
+                course_text = f"{room['course']['name']}\n({room['course']['size']})"
+                ax.text(x + room_width/2, y + 0.3, course_text,
                        ha='center', va='center', fontsize=8)
         
-        # Set axis limits and title
-        ax.set_xlim(-0.5, grid_cols * 2.0 + 0.5)  # Adjusted for new spacing
-        ax.set_ylim(-0.5, grid_rows * 2.0 + 0.5)  # Adjusted for new spacing
-        ax.set_title(f"{room_type}\n({n_rooms} rooms)", pad=10, fontsize=12, fontweight='bold')
+        # Set axis limits
+        ax.set_xlim(-0.5, grid_cols * spacing + 0.5)
+        ax.set_ylim(-0.5, grid_rows * spacing + 0.5)
+        
+        # Improve title readability for room types with many rooms
+        title = f"{room_type}\n({n_rooms} rooms)"
+        if n_rooms > 15:  # For room types with many rooms
+            ax.set_title(title, pad=20, fontsize=11, fontweight='bold', 
+                        bbox=dict(facecolor='white', edgecolor='none', 
+                                alpha=0.8, pad=3.0))
+        else:
+            ax.set_title(title, pad=10, fontsize=11, fontweight='bold')
+        
         ax.axis('off')
     
-    # Add unallocated courses section
-    if unallocated_data:
-        # Create a new subplot for unallocated courses
-        for row in range(num_rows):
-            ax = plt.subplot(gs[row, -1])  # Use the last column
-            if row == 0:  # Only set title for first row
-                ax.set_title("Unallocated Courses\n", 
-                           pad=10, fontsize=12, fontweight='bold')
+    # Add unallocated courses section if there are any
+    if has_unallocated:
+        ax = plt.subplot(gs[:, -1])  # Use the last column for all rows
+        ax.set_title("Unallocated Courses\n", 
+                    pad=10, fontsize=11, fontweight='bold')
+        
+        # Calculate rows needed for unallocated courses
+        courses_per_row = 8
+        rows_needed = ceil(len(unallocated_data) / courses_per_row)
+        
+        for i, course in enumerate(unallocated_data):
+            row = i // courses_per_row
+            col = i % courses_per_row
             
-            # Calculate which courses to show in this row
-            courses_per_row = 10
-            start_idx = row * courses_per_row
-            end_idx = min((row + 1) * courses_per_row, len(unallocated_data))
-            row_courses = unallocated_data[start_idx:end_idx]
+            # Calculate position
+            x = col * 3
+            y = (rows_needed - 1 - row) * 1.2
             
-            if row_courses:  # If there are courses to show in this row
-                for i, course in enumerate(row_courses):
-                    y = (courses_per_row - 1 - i) * 0.8  # Adjusted spacing
-                    
-                    # Create rectangle for unallocated course
-                    rect = patches.Rectangle((0, y), 2, 0.6, linewidth=1,
-                                          edgecolor='red', facecolor='mistyrose')
-                    ax.add_patch(rect)
-                    
-                    # Add course information
-                    course_text = f"{course['name']}\n({course['size']} students)"
-                    ax.text(1, y + 0.3, course_text,
-                           ha='center', va='center', fontsize=8)
-                
-                # Set axis limits
-                ax.set_xlim(-0.5, 2.5)
-                ax.set_ylim(-0.5, courses_per_row * 0.8 + 0.5)
-            ax.axis('off')
+            # Create rectangle for unallocated course
+            rect = patches.Rectangle((x, y), 2.5, 0.8, linewidth=1,
+                                  edgecolor='red', facecolor='mistyrose',
+                                  alpha=0.8)
+            ax.add_patch(rect)
+            
+            # Add course information
+            course_text = f"{course['name']}\n({course['size']})"
+            ax.text(x + 1.25, y + 0.4, course_text,
+                   ha='center', va='center', fontsize=8)
+        
+        # Set axis limits for unallocated courses
+        ax.set_xlim(-0.5, courses_per_row * 3 + 0.5)
+        ax.set_ylim(-0.5, rows_needed * 1.2 + 0.5)
+        ax.axis('off')
     
-    # Add colorbar
-    cax = plt.axes([0.92, 0.1, 0.02, 0.8])
-    norm = plt.Normalize(0, 1)
-    plt.colorbar(plt.cm.ScalarMappable(norm=norm, cmap=cmap), 
-                cax=cax, label='Utilization Rate')
-    
-    # Save the plot
+    # Save the plot with high resolution
     plt.savefig(os.path.join(output_dir, 'room_map.png'), 
                 bbox_inches='tight', dpi=300)
     plt.close()
-    print(f"Generated room map visualization")
+    print(f"Generated improved room map visualization")
 
 def main():
     if len(sys.argv) < 2:

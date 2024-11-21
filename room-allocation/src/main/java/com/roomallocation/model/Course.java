@@ -2,6 +2,7 @@ package com.roomallocation.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Course {
 private String name;
@@ -33,5 +34,18 @@ private String name;
     @Override
     public String toString() {
         return name + " (Size: " + cohortSize + ")" ;
+    }
+
+        @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Course course = (Course) o;
+        return Objects.equals(getName(), course.getName());
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName()) + Objects.hash(getCohortSize());
     }
 }

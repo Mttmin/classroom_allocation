@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.roomallocation.fitmethods.capaFit;
 import com.roomallocation.model.Room;
@@ -40,6 +41,22 @@ public class TypeBasedAllocation {
         }
 
     }
+    private void clearAllAssignments() {
+        // Clear all room assignments
+        for (List<Room> rooms : roomsByType.values()) {
+            for (Room room : rooms) {
+                if (room.getCurrentOccupant() != null) {
+                    room.getCurrentOccupant().setAssignedRoom(null);
+                    room.setCurrentOccupant(null);
+                }
+            }
+        }
+        // Clear all course assignments
+        for (Course course : courses) {
+            course.setAssignedRoom(null);
+        }
+        assignments.clear();
+    }
 
     public List<AllocationStep> getSteps() {
         return steps;
@@ -56,120 +73,117 @@ public class TypeBasedAllocation {
      */
     private Map<Room, Course> processTypeProposals(List<Course> proposingCourses, List<Room> rooms) {
         Map<Room, Course> currentMatches = new HashMap<>();
-        List<Course> allCandidates = new ArrayList<>(proposingCourses);
-
-        // Get current occupants
+        Set<Course> availableCourses = new HashSet<>();  // Use Set instead of List to prevent duplicates
+        
+        // Add proposing courses to available pool
+        availableCourses.addAll(proposingCourses);
+        
+        // First collect all currently assigned courses that might be displaced
         for (Room room : rooms) {
             Course currentOccupant = room.getCurrentOccupant();
             if (currentOccupant != null) {
-                allCandidates.add(currentOccupant);
+                room.setCurrentOccupant(null);  // Clear the room
+                availableCourses.add(currentOccupant);  // Set will prevent duplicates
             }
         }
-
-        // Sort rooms by increasing capacity for better space utilization
+        
+        // Sort rooms by capacity
         rooms.sort(Comparator.comparingInt(Room::getCapacity));
-
-        // For each room, evaluate all candidates and keep the best fit
+        
+        // For each room, find the best available course
         for (Room room : rooms) {
-            Course bestCandidate = null;
+            Course bestCourse = null;
             double bestFitScore = Double.POSITIVE_INFINITY;
-
-            // Evaluate all candidates for this room
-            for (Course candidate : allCandidates) {
+            
+            // Evaluate all available courses for this room
+            for (Course candidate : new ArrayList<>(availableCourses)) {
                 double fitScore = capaFit.capafit(room, candidate);
+                
                 if (fitScore < bestFitScore) {
                     bestFitScore = fitScore;
-                    bestCandidate = candidate;
+                    bestCourse = candidate;
                 }
             }
-
-            if (bestCandidate != null) {
-                Course previousOccupant = room.getCurrentOccupant();
-
-                // Update assignments
-                if (previousOccupant == null) {
-                    currentMatches.put(room, bestCandidate);
-                    steps.add(new AllocationStep(
-                            bestCandidate.getName() + " assigned to " + room.getName(),
-                            bestCandidate, room, null));
-                } else if (bestCandidate != previousOccupant) {
-                    currentMatches.put(room, bestCandidate);
-                    steps.add(new AllocationStep(
-                            bestCandidate.getName() + " displaces " + previousOccupant.getName() +
-                                    " in " + room.getName(),
-                            bestCandidate, room, previousOccupant));
-                }
-
-                // Remove the assigned candidate from future consideration
-                allCandidates.remove(bestCandidate);
+            
+            if (bestCourse != null) {
+                // Make the new assignment
+                room.setCurrentOccupant(bestCourse);
+                currentMatches.put(room, bestCourse);
+                availableCourses.remove(bestCourse);  // Remove from available pool
+                
+                // Record the step
+                steps.add(new AllocationStep(
+                    bestCourse.getName() + " assigned to " + room.getName(),
+                    bestCourse, room, null));
             }
         }
-
+        
         return currentMatches;
     }
 
     public Map<String, String> allocate() {
-        assignments.clear();
-        steps.clear();
-        List<Course> unassignableCourses = new ArrayList<>();
-        Set<Course> unmatchedCourses = new HashSet<>(courses);
+    clearAllAssignments();
+    steps.clear();
+    List<Course> unassignableCourses = new ArrayList<>();
+    Set<Course> unmatchedCourses = new HashSet<>(courses);
+    Set<Course> globallyAssignedCourses = new HashSet<>();  // Track all assigned courses across iterations
 
-        while (!unmatchedCourses.isEmpty()) {
-            // Group proposals by room type
-            Map<RoomType, List<Course>> proposalsByType = new HashMap<>();
-            Iterator<Course> iterator = unmatchedCourses.iterator();
-            while (iterator.hasNext()) {
-                Course course = iterator.next();
-                int currentChoice = course.getChoiceNumber();
+    while (!unmatchedCourses.isEmpty()) {
+        // Group proposals by room type
+        Map<RoomType, List<Course>> proposalsByType = new HashMap<>();
+        Iterator<Course> iterator = unmatchedCourses.iterator();
+        Set<Course> assignedCourses = new HashSet<>();  // Track assigned courses in this iteration
 
-                if (currentChoice >= course.getTypePreferences().size()) {
-                    unassignableCourses.add(course);
-                    iterator.remove();
-                    continue;
-                }
+        while (iterator.hasNext()) {
+            Course course = iterator.next();
+            int currentChoice = course.getChoiceNumber();
 
-                RoomType preferredType = course.getTypePreferences().get(currentChoice);
-                proposalsByType.computeIfAbsent(preferredType, k -> new ArrayList<>()).add(course);
-                course.incrementChoiceNumber();
+            if (globallyAssignedCourses.contains(course)) {  // Skip globally assigned courses
+                iterator.remove();
+                continue;
             }
 
-            // Process each room type's proposals using deferred acceptance
-            Set<Course> newlyMatched = new HashSet<>();
-
-            for (Map.Entry<RoomType, List<Course>> entry : proposalsByType.entrySet()) {
-                RoomType type = entry.getKey();
-                List<Course> proposals = entry.getValue();
-                List<Room> availableRooms = roomsByType.get(type);
-
-                Map<Room, Course> typeMatches = processTypeProposals(proposals, availableRooms);
-
-                // Update room assignments and track matched courses
-                typeMatches.forEach((room, course) -> {
-                    room.setCurrentOccupant(course);
-                    assignments.put(course.getName(), room.getName());
-                    newlyMatched.add(course);
-                });
+            if (course.getAssignedRoom() != null) {  // If course is already assigned
+                globallyAssignedCourses.add(course);
+                iterator.remove();
+                continue;
             }
 
-            // Remove successfully matched courses from unmatched set
-            unmatchedCourses.removeAll(newlyMatched);
+            if (currentChoice >= course.getTypePreferences().size()) {
+                unassignableCourses.add(course);
+                iterator.remove();
+                continue;
+            }
 
-            // If no new matches were made and we still have unmatched courses,
-            // they will try their next preferences in the next iteration
+            RoomType preferredType = course.getTypePreferences().get(currentChoice);
+            proposalsByType.computeIfAbsent(preferredType, k -> new ArrayList<>()).add(course);
+            course.incrementChoiceNumber();
         }
 
-        // Print allocation steps and unassignable courses
-        steps.forEach(System.out::println);
-        if (!unassignableCourses.isEmpty()) {
-            System.out.println("\nUnassignable courses:");
-            unassignableCourses.forEach(course -> {
-                System.out.println(
-                        course.getName() + " could not be assigned to any room (size: " + course.getCohortSize() + ")");
-                // System.out.println("Preferences: " + course.getTypePreferences());
+        for (Map.Entry<RoomType, List<Course>> entry : proposalsByType.entrySet()) {
+            Map<Room, Course> typeMatches = processTypeProposals(entry.getValue(), 
+                                                               roomsByType.get(entry.getKey()));
+            typeMatches.forEach((room, course) -> {
+                assignments.put(course.getName(), room.getName());
+                assignedCourses.add(course);  // Mark course as assigned in this iteration
+                globallyAssignedCourses.add(course);  // Mark course as globally assigned
             });
         }
-        return assignments;
+        
+        unmatchedCourses.removeAll(assignedCourses);
     }
+
+    // Print allocation steps and unassignable courses
+    steps.forEach(System.out::println);
+    if (!unassignableCourses.isEmpty()) {
+        System.out.println("\nUnassignable courses:");
+        unassignableCourses.forEach(course -> {
+            System.out.println(
+                    course.getName() + " could not be assigned to any room (size: " + course.getCohortSize() + ")");
+        });
+    }
+    return assignments;
+}
 
     public Map<String, Object> exportAllocationState() {
         Map<String, Object> state = new HashMap<>();
