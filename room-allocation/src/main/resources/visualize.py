@@ -227,11 +227,13 @@ def plot_strategy_comparisons(data, output_dir):
                 ha='center', va='bottom', color=color2, fontweight='bold')
     
     # Set x-axis labels
-    plt.xticks(range(len(strategy_means)), 
+    ax1.set_xticks(range(len(strategy_means)), 
                strategy_means.index,
                rotation=45,
                ha='right')
     
+    ax1.grid(False)
+    ax2.grid(False)
     # Add title
     plt.title('Strategy Performance Metrics Comparison', pad=20)
     

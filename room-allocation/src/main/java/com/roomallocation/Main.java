@@ -21,7 +21,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             int numSimulations = 10;
-            int numCourses = 60;
+            int numCourses = 65;
             int minSize = 10;
             int maxSize = 200;
             int changeSize = 35;
@@ -38,15 +38,16 @@ public class Main {
             // Add different strategies to test with varying numbers of preferences
             collector.addStrategy(new RandomPreferenceStrategy(3));
             collector.addStrategy(new RandomPreferenceStrategy(5));
-            collector.addStrategy(new RandomPreferenceStrategy(10));
             
             collector.addStrategy(new SizedBasedPreferenceStrategy(3, rooms));
             collector.addStrategy(new SizedBasedPreferenceStrategy(5, rooms));
-            collector.addStrategy(new SizedBasedPreferenceStrategy(10, rooms));
             
             collector.addStrategy(new SmartRandomPreferenceStrategy(3, rooms));
             collector.addStrategy(new SmartRandomPreferenceStrategy(5, rooms));
             collector.addStrategy(new SmartRandomPreferenceStrategy(10, rooms));
+
+            collector.addStrategy(new SatisfactionBasedStrategy(3, rooms));
+            collector.addStrategy(new SatisfactionBasedStrategy(5, rooms));
 
             collector.addStrategy(new FixedPreference(5));
             collector.addStrategy(new FixedPreference(10));
@@ -54,7 +55,7 @@ public class Main {
             // Run simulations with all strategies
             List<AllocationStatistics> stats = collector.runSimulations();
 
-            PreferenceGenerationStrategy bestStrategy = new SmartRandomPreferenceStrategy(5, rooms);
+            PreferenceGenerationStrategy bestStrategy = new SatisfactionBasedStrategy(10, rooms);
             CourseSimulator simulator = new CourseSimulator(bestStrategy);
             List<Course> courses = simulator.generateCourses(numCourses, minSize, maxSize, changeSize);
             TypeBasedAllocation allocator = new TypeBasedAllocation(courses, rooms);
