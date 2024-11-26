@@ -14,7 +14,9 @@
 \usepackage[fancysections,  titlepage, pagenumber]{polytechnique}
 \usepackage{float}
 
-\title[C.A.S.T.L.E]{Market Design Project: C.A.S.T.L.E}
+\newcommand{\castle}{C{\small.}A{\small.}S{\small.}T{\small.}L{\small.}E{\small.}}
+
+\title[\castle{}]{Market Design Project: C.A.S.T.L.E.}
 \subtitle{Capacity-Alligned Stable Teaching Location Engine\\
 Tackling classroom allocation in Universities}
 \author{Matthieu MINGUET}
@@ -131,8 +133,8 @@ especially when the \textit{Cycle Ingénieur} program was the only program at th
 \subsection{Current system at Clermont School of Business (Clermont SB)}
 The Clermont SB has a similar system to Ecole Polytechnique, with a centralized room allocation and planning system. A dedicated member of staff is responsible
 for managing the system in place: Program Directors submit room requirement and planning forms to the Planning Office, which then manually attributes the rooms based on the information provided,
-and the availabilities of the rooms.
-
+and the availabilities of the rooms. These types of requirements include the number of rooms, the equipment, expected cohort size, and if the rooms need to be close to each other or not (for example for group work).
+The number of variables makes it very difficult to find a solution satisfying all requirements of all courses.
 While the system allows for inputs from the faculty, the major issue si that the large number of programs and the increasing number of students in each program
 is making the system increasingly complex to manage by hand and is leading to inefficiencies and tensions in the allocation. Moreover, this system is quite slow and requires
 a large amount of time to manage, which could be streamlined and better used elsewhere. Finally, the system is not transparent,
@@ -196,7 +198,7 @@ Similarly as what we did for Ecole Polytechnique, we have identified the followi
 	\begin{tikzpicture}
 		\fill[blue!60] (0,0) rectangle (2,0.3);
 		\node[anchor=center] at (1.2,0.45) {$\blacktriangledown$};
-	\end{tikzpicture}                                                                             \\[2ex]
+	\end{tikzpicture}                                                                              \\[2ex]
 	\hline
 	Adaptation and flexibility                                                                 &
 	\begin{itemize}[leftmargin=*,nosep,topsep=0pt,partopsep=0pt,before=\vspace{-\baselineskip}]
@@ -207,7 +209,76 @@ Similarly as what we did for Ecole Polytechnique, we have identified the followi
 	\begin{tikzpicture}
 		\fill[blue!60] (0,0) rectangle (2,0.3);
 		\node[anchor=center] at (1,0.45) {$\blacktriangledown$};
-	\end{tikzpicture}                                                                             \\[2ex]
+	\end{tikzpicture}                                                                                \\[2ex]
 	\hline
 \end{tabular}
+\linebreak
+
+As we can see, while this system offers more inputs from the different stakeholders, it is limited by the fact that it has to be
+manually run, and an increasing number of programs and students compared to the number of rooms, or even more rooms could cause issues
+regarding the length of the process and the fairness of the allocation.
+
+\subsection{Market Sizing and existing solutions}
+\subsubsection{Market Sizing}
+Their are around $18500$ universities worldwide, representing around $250$m students. However, a new system such as \castle{} would be more suited to larger universities, especially in developed countries, where the number of students is higher, and the number of programs is more diverse.
+As such, we estimate a theoretical market size of $5000$ universities, mainly in Europe and North America.
+At first, this system would target around 80 universities in these markets, which considering their size could already impact upwards of $200000$ students.
+Thus, \castle{} could bring an improvement over the current systems in place in these universities, and potentially be a game-changer in the way universities allocate their resources.
+
+\subsubsection{Existing Papers}
+Classroom allocation or time-tabling is a well-studied problem in the literature, with many papers proposing different solutions to the problem.
+For example, Rivero, Escárcega, and Velasco (2021) proposed an Integer Linear Programming model for classroom assignment to tackle this issue, while other solutions
+focus on graph coloring algorithms or genetic algorithms to allocate classrooms and timetables. In almost all cases, the solution to solve both
+timetabling and classroom allocation is to decouple the two problems and solve them sequentially, as the classroom allocation algorithm generally output near 100\% utilization of the rooms,
+which we will see is also the case for \castle{}.
+The basic formulation of the problem for classroom allocation is as follows:
+\begin{itemize}
+	\item Let $x_{ij}$ be a binary variable where $i$ the classroom, $j$ the course and : $x_{ij} = 1$ if course $j$ is assigned to classroom $i$, $0$ otherwise.
+	\item The objective function is : $\min \sum_{i,j} c_{ij}x_{ij}$ where $c_{ij}$ is the cost of assigning course $j$ to classroom $i$.
+	\item $c_{ij}$ represents the cost of assigning class $j$ to classroom $i$, and can incorporate functions like room size mismatch, distance from the professor's department, equipment mismatch, etc.
+\end{itemize}
+The constraints are generally the following:
+\begin{itemize}
+	\item Single assignment constraint: $\sum_{i} x_{ij} = 1$ for all $j$
+	\item Room capacity constraint: $\text{enrollment}_j \leq \text{capacity}_i \forall x_{ij} = 1$
+\end{itemize}
+In cases where timetables are also considered, the time $t$ is added as a third dimension to the problem, and the constraints are modified to include the time dimension (professor, room and student availabilities)
+This formulation guarantees an optimal solution (if solvable) and is able to balance different objectives by weighting the $c_{ij}$, while being very flexible in terms of constraints and objectives.\\
+
+However it is an NP-hard problem to solve and the solution space grows exponentially with the number of rooms, classes (and time slots). As an example, the Ecole Polytechnique has 76 rooms, around 65 to 70 classes at one time, for a complexity of $76^{70} \approx 10^{140}$, which is infeasible to solve with a brute force algorithm,
+and we have not even considered the time dimension. Moreover, the model is static and can't easily handle dynamic changes.
+
+Work exists to improve upon this by for example relaxing the strict constraints and adding a violation penalty, doing pre-processing to reduce the search space, or using heuristics to find a good solution in a reasonable time.
+Other systems such as graph coloring exist, but they are also NP-hard, like the Integer Linear Programming model, and are generally less flexible as they have difficulty incorporating different objectives and soft constraints.\\
+
+In conclusion, while significant academic work has been done on the subject of classroom allocation and timetabling, the problem remains complex and difficult to solve, especially in a dynamic environment like a university. Findings
+from these papers are useful to understand the problem and the constraints, but a new approach is needed to tackle the problem in a more efficient way. We do keep in mind the idea of decoupling the
+timetabling from the allocation, as \castle{} only focuses on the allocation part of the problem.
+
+\section{Proposed Solution : \castle{}'s core principles}
+
+The key objectives of \castle{} in light of the current systems and the existing literature are the following:
+\begin{itemize}
+	\item \textbf{Efficiency}: Maximizes room utilization and stakeholder satisfaction through optimal allocation of classrooms to courses.
+	\item \textbf{Computability}: Delivers solutions within reasonable time frames on standard hardware, even at university scale.
+	\item \textbf{Flexibility}: Adapts to diverse objectives and constraints while accommodating institution-specific requirements.
+	\item \textbf{Transparency}: Ensures allocation decisions are understandable and promotes honest preference reporting.
+	\item \textbf{Reliability}: Minimizes manual interventions by consistently producing near-complete room assignments across complex scenarios.
+\end{itemize}
+
+Moreover, we should also try to limit the time spent by faculty on this process, as it takes away from their time. \castle{} should also 
+not be based on any currency as this could cause problems with faculty and require more thought and time to use the system.
+Based on the objectives of fitting the cohorts in the rooms and allowing the maximum amount of stakeholders such as faculty, students, and outside speakers
+to benefit from the best and most sought after rooms, a cardinal parameter is to consider the "fill amount" of the rooms, or in other terms, to minimize
+$\text{room}_{capacity} - \text{course}_{cohort size}$.
+
+To achieve these objectives, two main algorithms were initially thought of:
+\subsection{You request my room, take it if you're bigger (YRMRTIYB)}
+This is based on a similar idea as \textit{You request my house I get your turn} which is already based on the Top Trading Cycles (TTC) algorithm.
+Each course would point towards the room they want, and the rooms towards their top choice of course. Then, the algorithm would find cycles of courses and rooms, and allocate the rooms to the courses in the cycle.
+courses then point towards their next choices, and the algorithm continues until someone requests a room that is already taken, at which point if their cohort size is bigger, they get the turn of the first course. 
+Then the algorithm runs once more, and the cycle continues until all rooms are allocated.\\
+
+The main problem of this algorithm is that stability is not guaranteed,
+
 \end{document}
