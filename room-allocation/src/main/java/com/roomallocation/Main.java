@@ -21,7 +21,7 @@ public class Main {
     public static void main(String[] args) {
         try {
             int numSimulations = 10;
-            int numCourses = 65;
+            int numCourses = 70;
             int minSize = 10;
             int maxSize = 200;
             int changeSize = 35;
@@ -55,7 +55,7 @@ public class Main {
             // Run simulations with all strategies
             List<AllocationStatistics> stats = collector.runSimulations();
 
-            PreferenceGenerationStrategy bestStrategy = new SatisfactionBasedStrategy(10, rooms);
+            PreferenceGenerationStrategy bestStrategy = new SmartRandomPreferenceStrategy(10, rooms);
             CourseSimulator simulator = new CourseSimulator(bestStrategy);
             List<Course> courses = simulator.generateCourses(numCourses, minSize, maxSize, changeSize);
             TypeBasedAllocation allocator = new TypeBasedAllocation(courses, rooms);
