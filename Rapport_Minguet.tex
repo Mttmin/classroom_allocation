@@ -17,6 +17,7 @@
 
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}
+\setcounter{tocdepth}{2}
 
 \newcommand{\castle}{C{\small.}A{\small.}S{\small.}T{\small.}L{\small.}E{\small.}}
 
@@ -406,29 +407,40 @@ Consider a course $c$ attempting to manipulate its preference list $\succ_c$. Fo
         $$type(\mu'(c)) \succ_c type(\mu(c))$$
         where $\mu'$ is the matching under manipulated preferences
 \end{enumerate}
-
-The probability of successful manipulation, $P(success)$, is bounded by:
-
-$$P(success) \leq \prod_{t \in T} \frac{|R_t|}{|C_t|} \cdot P(fit)$$
-
-where $R_t$ is the set of rooms of type $t$, $C_t$ is the set of courses competing for type $t$, and $P(fit)$ is the probability of satisfying capacity constraints.
-
-Given typical values of these parameters and information asymmetry, successful manipulation becomes computationally infeasible for individual courses.
 \end{proof}
 
 \paragraph{Practical Implications}
 
-These theoretical properties have important practical implications:
+In conclusion, theoretical properties have important practical implications:
 
 \begin{enumerate}
-    \item Stability ensures no course-room pair has incentive to deviate
-    \item Pareto efficiency guarantees no wasteful assignments within types
-    \item Limited manipulability reduces gaming concerns in practical deployments
-    \item The mechanism balances competing objectives:
+    \item Stability ensures no course-room pair has incentive to deviate and should allow for a long-term deployment
+    \item Pareto efficiency guarantees no wasteful assignments within types, maximizing room utilization and stakeholder satisfaction
+    \item Limited manipulability reduces gaming concerns in practical deployments, promoting honest preference reporting and makes it easier to understand the preferences of the faculty
+    \item Thus, the mechanism balances competing objectives:
         \begin{itemize}
             \item Course preferences over room types
             \item Efficient room capacity utilization
             \item Fair allocation among courses
         \end{itemize}
 \end{enumerate}
+
+Hence, the proposed mechanism is well-suited to the challenges posed by university classroom allocation, offering a robust, efficient, easy to use solution, 
+that offers good properties for the stakeholders. It manages to achieve computability by restricting the tested combinations to those asked by the faculty
+in the Gale-Shapley algorithm, which also guarantees stability and Pareto efficiency. Finally, it is not strategy-proof, but the limited manipulability 
+encourages honest reporting of preferences and reduces the risk of gaming the system.
+
+\section{Implementation and Testing}
+\subsection{Implementation}
+
+The algorithm was implemented in Java, leveraging object-oriented programming principles to model the problem and solution effectively.
+Moreover, it allows for clear organization of the code and easy extension and modification of the algorithm with different parameters, fit functions,
+rooms or constraints through the use of abstract classes and interfaces. This creates a modular and flexible environment for coding and testing the algorithm.
+Most importantly, the execution speed of java versus python is nearly 100 times faster, which eases the use of the algorithm on a large scale and quick changes.
+This is achieved without the need for complex parallelization or optimization, as the algorithm is already efficient enough to run on a standard laptop.
+On a scenario of the size of Ecole Polytechnique, the algorithm runs in around 10 milliseconds, which is more than acceptable for a near real-time allocation process.
+The code structure and key elements are detailed in the annex. The main classes are the allocation algorithm, all the objects representing the courses, rooms,
+and room types, and the fit function.
+
+
 \end{document}

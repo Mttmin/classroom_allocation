@@ -174,14 +174,14 @@ public class TypeBasedAllocation {
     }
 
     // Print allocation steps and unassignable courses
-    steps.forEach(System.out::println);
-    if (!unassignableCourses.isEmpty()) {
-        System.out.println("\nUnassignable courses:");
-        unassignableCourses.forEach(course -> {
-            System.out.println(
-                    course.getName() + " could not be assigned to any room (size: " + course.getCohortSize() + ")");
-        });
-    }
+    // steps.forEach(System.out::println);
+    // if (!unassignableCourses.isEmpty()) {
+    //     System.out.println("\nUnassignable courses:");
+    //     unassignableCourses.forEach(course -> {
+    //         System.out.println(
+    //                 course.getName() + " could not be assigned to any room (size: " + course.getCohortSize() + ")");
+    //     });
+    // }
     return assignments;
 }
 

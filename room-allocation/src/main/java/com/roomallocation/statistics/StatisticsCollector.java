@@ -27,6 +27,7 @@ public class StatisticsCollector {
     private List<AllocationStatistics> allStats;
     private List<PreferenceGenerationStrategy> strategies;
     private Long seed;
+    private List<Long> simulationTimes = new ArrayList<>();
 
     public void setNumPreferences(int numPreferences) {
         this.numPreferences = numPreferences;
@@ -62,28 +63,44 @@ public class StatisticsCollector {
         }
 
         allStats.clear();
+        simulationTimes.clear();
         Random seedGenerator = seed != null ? new Random(seed) : new Random();
 
         for (int i = 0; i < numSimulations; i++) {
-            System.out.println("\nRunning simulation " + (i + 1) + "/" + numSimulations);
+            //System.out.println("\nRunning simulation " + (i + 1) + "/" + numSimulations);
+            // long simulationStart = System.nanoTime();
 
             // Generate a simulation-specific seed
             long simulationSeed = seedGenerator.nextLong();
 
             for (PreferenceGenerationStrategy strategy : strategies) {
-                // Set the same seed for each strategy in this simulation
                 strategy.setSeed(simulationSeed);
-
-                // Create a simulator with the same seed
                 CourseSimulator simulator = new CourseSimulator(strategy);
                 simulator.setSeed(simulationSeed);
-
                 allStats.add(runSimulation(strategy, simulator));
             }
+
+            // long simulationEnd = System.nanoTime();
+            // simulationTimes.add((simulationEnd - simulationStart) / 1_000_000); // Convert to milliseconds
         }
 
         printSummaryStatistics();
+        // if you want to print timing statistics, uncomment the line below and system nanotime above
+        // printTimingStatistics();
         return allStats;
+    }
+
+    private void printTimingStatistics() {
+        DoubleSummaryStatistics timeStats = simulationTimes.stream()
+                .mapToDouble(Long::doubleValue)
+                .summaryStatistics();
+        
+        System.out.println("\nTiming Statistics:");
+        System.out.println("------------------");
+        System.out.printf("Average time per simulation: %.2f ms%n", timeStats.getAverage());
+        System.out.printf("Min time: %.2f ms%n", timeStats.getMin());
+        System.out.printf("Max time: %.2f ms%n", timeStats.getMax());
+        System.out.printf("Total time: %.2f ms%n", timeStats.getSum());
     }
 
     private AllocationStatistics runSimulation(PreferenceGenerationStrategy strategy,
