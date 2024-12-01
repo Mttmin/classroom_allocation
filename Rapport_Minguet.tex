@@ -30,13 +30,15 @@ Tackling classroom allocation in Universities}
 \begin{document}
 \maketitle
 
-\section{Executive Summary}
+\section*{Executive Summary}
+\addcontentsline{toc}{section}{Executive Summary}
 \pagebreak
 
 \tableofcontents
 \pagebreak
 
-\section{Introduction}
+\section*{Introduction}
+\addcontentsline{toc}{section}{Introduction}
 The way the rooms are organized leads to inefficiencies, between professors who value and need different things. Some professors need to use boards to write specific, while others do not value such things. Moreover, the impact of the geographical positioning of the rooms relative to both the students and the teachers is something to take into consideration, or the proximity of the coffee machine, even the amount of stairs required to reach the room.
 As such it is my belief that a new system designed around the principles of market design could lead to a more efficient allocation of the school’s resources, as well as collect valuable information term on term on what professors value and what type of classrooms they preconize.
 \pagebreak
@@ -312,15 +314,15 @@ The proposed algorithm has multiple desirable properties for our market design p
 \subsubsection{Definitions and Notation}
 Let us define:
 \begin{itemize}
-    \item $C = \{c_1, ..., c_n\}$: Set of courses
-    \item $R = \{r_1, ..., r_m\}$: Set of rooms
-    \item $T = \{t_1, ..., t_k\}$: Set of room types
-    \item $P$: the maximum number of preferences per course ($P \leq T$)
-    \item $\succ_c$: Preference relation for course $c$ over room types
-    \item $\mu$: A matching function $C \rightarrow R \cup \{\emptyset\}$
-    \item $s(c)$: Size of course $c$
-    \item $cap(r)$: Capacity of room $r$
-    \item $type(r)$: Type of room $r$
+	\item $C = \{c_1, ..., c_n\}$: Set of courses
+	\item $R = \{r_1, ..., r_m\}$: Set of rooms
+	\item $T = \{t_1, ..., t_k\}$: Set of room types
+	\item $P$: the maximum number of preferences per course ($P \leq T$)
+	\item $\succ_c$: Preference relation for course $c$ over room types
+	\item $\mu$: A matching function $C \rightarrow R \cup \{\emptyset\}$
+	\item $s(c)$: Size of course $c$
+	\item $cap(r)$: Capacity of room $r$
+	\item $type(r)$: Type of room $r$
 \end{itemize}
 \subsubsection{Computability}
 Let us define the following variables:, $C$ the number of courses to be allocated, $R$ the number of rooms, $T$: the room types,
@@ -349,64 +351,64 @@ However, in practical applications, several factors contribute to better average
 \end{enumerate}
 
 As such, the results are an $\boxed{\text{average-case time complexity of simply } O(C \cdot R)}$, and space complexity $O(R + C)$. This is a significant improvement and
-enables the algorithm to run in a reasonable time frame on standard hardware, even at university scale. 
+enables the algorithm to run in a reasonable time frame on standard hardware, even at university scale.
 Empirical evidence from our implementation supports this analysis. With a typical scenario of 70 courses and 70 rooms and spread out preferences, the algorithm completes in 150-300 allocation steps,
 with most courses being matched within their first three preferences.
 
 \subsubsection{Stability Analysis}
 \begin{theorem}[Stability]
-\castle{} allocation mechanism produces a stable matching.
+	\castle{} allocation mechanism produces a stable matching.
 \end{theorem}
 
 \begin{proof}
-Suppose, for contradiction, that the matching $\mu$ is unstable. Then there exists a blocking pair $(c, r)$ where:
-$c$ prefers $r$ to its current assignment $\mu(c)$ and $r$ prefers $c$ to its current occupant $\mu^{-1}(r)$.
-However, by construction of the algorithm:
-\begin{enumerate}
-    \item If $type(r) \succ_c type(\mu(c))$, then $c$ would have proposed to rooms of type $type(r)$ before $type(\mu(c))$
-    \item Within each type, rooms are assigned to best-fitting courses based on capacity utilization
-    \item If $s(c) \leq cap(r)$ and $capafit(r,c) < capafit(r,\mu^{-1}(r))$, then $r$ would have been assigned to $c$ in the per-type processing phase
-\end{enumerate}
-Thus contradicting the existence of a blocking pair, proving stability.
+	Suppose, for contradiction, that the matching $\mu$ is unstable. Then there exists a blocking pair $(c, r)$ where:
+	$c$ prefers $r$ to its current assignment $\mu(c)$ and $r$ prefers $c$ to its current occupant $\mu^{-1}(r)$.
+	However, by construction of the algorithm:
+	\begin{enumerate}
+		\item If $type(r) \succ_c type(\mu(c))$, then $c$ would have proposed to rooms of type $type(r)$ before $type(\mu(c))$
+		\item Within each type, rooms are assigned to best-fitting courses based on capacity utilization
+		\item If $s(c) \leq cap(r)$ and $capafit(r,c) < capafit(r,\mu^{-1}(r))$, then $r$ would have been assigned to $c$ in the per-type processing phase
+	\end{enumerate}
+	Thus contradicting the existence of a blocking pair, proving stability.
 \end{proof}
 
 \subsubsection{Pareto Efficiency}
 \begin{theorem}[Pareto Efficiency]
-\castle{} allocation produces a Pareto efficient matching among stable matchings within each type.
+	\castle{} allocation produces a Pareto efficient matching among stable matchings within each type.
 \end{theorem}
 
 \begin{proof}
-Consider a matching $\mu$ produced by the algorithm. Suppose, for contradiction, that there exists another stable matching $\mu'$ that Pareto dominates $\mu$.
-This means:
-\begin{enumerate}
-    \item $\forall c \in C$: $type(\mu'(c)) \succeq_c type(\mu(c))$
-    \item $\exists c^* \in C$: $type(\mu'(c^*)) \succ_{c^*} type(\mu(c^*))$
-\end{enumerate}
-For types processed in round $k$, let $C_k$ be the set of courses assigned in that round. The algorithm maximizes:
-$$\sum_{c \in C_k} capafit(c, \mu(c))$$
-Therefore, any improvement for $c^*$ would necessarily worsen the fit for some other course in the same round, contradicting Pareto dominance.
+	Consider a matching $\mu$ produced by the algorithm. Suppose, for contradiction, that there exists another stable matching $\mu'$ that Pareto dominates $\mu$.
+	This means:
+	\begin{enumerate}
+		\item $\forall c \in C$: $type(\mu'(c)) \succeq_c type(\mu(c))$
+		\item $\exists c^* \in C$: $type(\mu'(c^*)) \succ_{c^*} type(\mu(c^*))$
+	\end{enumerate}
+	For types processed in round $k$, let $C_k$ be the set of courses assigned in that round. The algorithm maximizes:
+	$$\sum_{c \in C_k} capafit(c, \mu(c))$$
+	Therefore, any improvement for $c^*$ would necessarily worsen the fit for some other course in the same round, contradicting Pareto dominance.
 \end{proof}
 
 \subsubsection{Strategy-proofness Analysis}
 
 While the classic deferred acceptance algorithm is not generally strategy-proof, \castle{}'s variant has interesting properties that make it difficult to manipulate.
 \begin{theorem}[Limited Manipulability]
-Capacity constraints, Multi-dimensional preferences, Information asymmetry limit manipulability of the mechanism.
+	Capacity constraints, Multi-dimensional preferences, Information asymmetry limit manipulability of the mechanism.
 \end{theorem}
 
 \begin{proof}
-Consider a course $c$ attempting to manipulate its preference list $\succ_c$. For successful manipulation:
-\begin{enumerate}
-    \item $c$ must know:
-        \begin{itemize}
-            \item Preferences of other courses: $\{\succ_{c'}\}_{c' \in C\setminus\{c\}}$
-            \item Sizes of other courses: $\{s(c')\}_{c' \in C\setminus\{c\}}$
-            \item Room capacities: $\{cap(r)\}_{r \in R}$ which he does know as it is public information
-        \end{itemize}
-    \item $c$ must find a preference list $\succ_c'$ such that:
-        $$type(\mu'(c)) \succ_c type(\mu(c))$$
-        where $\mu'$ is the matching under manipulated preferences
-\end{enumerate}
+	Consider a course $c$ attempting to manipulate its preference list $\succ_c$. For successful manipulation:
+	\begin{enumerate}
+		\item $c$ must know:
+		      \begin{itemize}
+			      \item Preferences of other courses: $\{\succ_{c'}\}_{c' \in C\setminus\{c\}}$
+			      \item Sizes of other courses: $\{s(c')\}_{c' \in C\setminus\{c\}}$
+			      \item Room capacities: $\{cap(r)\}_{r \in R}$ which he does know as it is public information
+		      \end{itemize}
+		\item $c$ must find a preference list $\succ_c'$ such that:
+		      $$type(\mu'(c)) \succ_c type(\mu(c))$$
+		      where $\mu'$ is the matching under manipulated preferences
+	\end{enumerate}
 \end{proof}
 
 \paragraph{Practical Implications}
@@ -414,33 +416,83 @@ Consider a course $c$ attempting to manipulate its preference list $\succ_c$. Fo
 In conclusion, theoretical properties have important practical implications:
 
 \begin{enumerate}
-    \item Stability ensures no course-room pair has incentive to deviate and should allow for a long-term deployment
-    \item Pareto efficiency guarantees no wasteful assignments within types, maximizing room utilization and stakeholder satisfaction
-    \item Limited manipulability reduces gaming concerns in practical deployments, promoting honest preference reporting and makes it easier to understand the preferences of the faculty
-    \item Thus, the mechanism balances competing objectives:
-        \begin{itemize}
-            \item Course preferences over room types
-            \item Efficient room capacity utilization
-            \item Fair allocation among courses
-        \end{itemize}
+	\item Stability ensures no course-room pair has incentive to deviate and should allow for a long-term deployment
+	\item Pareto efficiency guarantees no wasteful assignments within types, maximizing room utilization and stakeholder satisfaction
+	\item Limited manipulability reduces gaming concerns in practical deployments, promoting honest preference reporting and makes it easier to understand the preferences of the faculty
+	\item Thus, the mechanism balances competing objectives:
+	      \begin{itemize}
+		      \item Course preferences over room types
+		      \item Efficient room capacity utilization
+		      \item Fair allocation among courses
+	      \end{itemize}
 \end{enumerate}
 
-Hence, the proposed mechanism is well-suited to the challenges posed by university classroom allocation, offering a robust, efficient, easy to use solution, 
+Hence, the proposed mechanism is well-suited to the challenges posed by university classroom allocation, offering a robust, efficient, easy to use solution,
 that offers good properties for the stakeholders. It manages to achieve computability by restricting the tested combinations to those asked by the faculty
-in the Gale-Shapley algorithm, which also guarantees stability and Pareto efficiency. Finally, it is not strategy-proof, but the limited manipulability 
+in the Gale-Shapley algorithm, which also guarantees stability and Pareto efficiency. Finally, it is not strategy-proof, but the limited manipulability
 encourages honest reporting of preferences and reduces the risk of gaming the system.
 
 \section{Implementation and Testing}
-\subsection{Implementation}
 
 The algorithm was implemented in Java, leveraging object-oriented programming principles to model the problem and solution effectively.
 Moreover, it allows for clear organization of the code and easy extension and modification of the algorithm with different parameters, fit functions,
 rooms or constraints through the use of abstract classes and interfaces. This creates a modular and flexible environment for coding and testing the algorithm.
 Most importantly, the execution speed of java versus python is nearly 100 times faster, which eases the use of the algorithm on a large scale and quick changes.
+
 This is achieved without the need for complex parallelization or optimization, as the algorithm is already efficient enough to run on a standard laptop.
-On a scenario of the size of Ecole Polytechnique, the algorithm runs in around 10 milliseconds, which is more than acceptable for a near real-time allocation process.
+On a scenario of the size of Ecole Polytechnique, the algorithm runs in around 10 milliseconds, which is more than acceptable for a near real-time allocation process.\\
+
 The code structure and key elements are detailed in the annex. The main classes are the allocation algorithm, all the objects representing the courses, rooms,
 and room types, and the fit function.
+
+\subsection{Preference Elicitation for Ecole Polytechnique}
+
+In order to establish the feasibility and the estimated impact of the \castle{} system, a pilot study was conducted at Ecole Polytechnique on the preferences of stakeholders.
+Thus, a survey was sent out to students to gather information on their preferences for rooms. For students, the survey was a ranking of the different room types based on their preferences.\\
+
+\begin{minipage}{0.6\textwidth}
+    \begin{figure}[H]
+        \includegraphics[width=0.9\textwidth]{images/survey_result.png}
+        \caption{Survey results for Ecole Polytechnique}
+    \end{figure}
+\end{minipage}
+\begin{minipage}{0.4\textwidth}
+    The rooms were divided into 10 types, based on their location, equipment, and capacity. The survey was sent out to 70 students, 33 of which responded. At Ecole Polytechnique,
+    rooms in the same corridors (or wing) has the same equipment and roughly the same size, leading to an easy grouping of the rooms into types.
+
+	The results show that students have clear preferences for certains room types, as grading of the rooms varies between 2.2 to 4.1 out of five. With the results grouped around 3, the standard deviation is quite low. 
+	This implies that preferences exist but as $\text{average} - \text{standard deviation} < 1$, they are not too strong. Therefore, not having your top choice while not
+	ideal would not be a game-breaking issue. In conclusion, this means that a classroom allocation optimization is warranted\\
+\end{minipage}
+
+These preferences are driven by four major differentiation factors that play a role in the learning experience and the quality of life of students and faculty. Room equipment represent the 
+first key driver, from screens, to boards, a good projector, the provision of enough power outlets for students, or even the types of table used for the room. The second driver, room size, is critical 
+to accommodate the cohort, and what type of work is done in the room, which brings us to the third driver the room layout, be it inclined, flat, or very long and narrow. Finally, the proximity to 
+essentials such as the coffee machine, the labs of the professor, or the canteen is also a key driver, encompassed with things such as the number of stairs in our fourth driver: location and accessibility.
+Overall, their are a variety of factors that affect learning and quality of life, and the preferences of both students and teachers reflect that. 
+
+\subsection{Simulated strategies for courses}
+
+In order to test the algorithm and deliver some simulated results, the registrar's office at Ecole Polytechnique provided us with the list of the rooms and their capacities. 
+We did not however have the list of the courses and their cohort size, so we had to simulate this data. We used a random distribution of the cohort size, but with parameters that 
+simulate the difference we can have between tutorials and lectures, and the fact that some courses are more popular than others. Therefore, 85\% of the courses have a cohort size between 10 and 35,
+representing tutorials (and the classes of the third years and masters which are highly specialized), while the remaining 15\% have a cohort size between 35 and 200, representing lectures.\\
+
+Additionally, several strategies regarding the preferences of the courses where devised and tested in order to see the impact of the preferences on the final allocation, and test different 
+scenarios. The strategies are the following:
+
+\begin{itemize}
+	\item \textbf{Random}: The courses have random preferences for the room types based on an uniform distribution
+	\item \textbf{Smart Random}: The courses have uniform random preferences for the room types, but only if a room with sufficient capacity exists in the type. 
+	\item \textbf{Size-based}: The courses have preferences based on the average room size of the type, and rank them to minimize the difference between it and the cohort size.
+	\item \textbf{Fixed preferences}: The courses have fixed preferences for the room types, based on the survey results (average grade). In that case all courses have the same preferences.
+	\item \textbf{Satisfaction}: The courses have preferences based on the pooling of students, so as to represent a real-life scenario (with extrapolation to increase the number of courses to an arbitrary number).
+\end{itemize}
+
+Once the strategies were defined, the algorithm was able to run on simulated data and produce results which we will detail in the next section.
+
+\subsection{Results and Analysis}
+
 
 
 \end{document}
