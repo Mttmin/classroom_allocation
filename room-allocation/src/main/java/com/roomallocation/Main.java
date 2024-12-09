@@ -20,7 +20,7 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            int numSimulations = 10;
+            int numSimulations = 100;
             int numCourses = 70;
             int minSize = 10;
             int maxSize = 200;
@@ -36,21 +36,9 @@ public class Main {
             //collector.setSeed(215815L);
 
             // Add different strategies to test with varying numbers of preferences
-            collector.addStrategy(new RandomPreferenceStrategy(3));
-            collector.addStrategy(new RandomPreferenceStrategy(5));
-            
-            collector.addStrategy(new SizedBasedPreferenceStrategy(3, rooms));
-            collector.addStrategy(new SizedBasedPreferenceStrategy(5, rooms));
-            
-            collector.addStrategy(new SmartRandomPreferenceStrategy(3, rooms));
-            collector.addStrategy(new SmartRandomPreferenceStrategy(5, rooms));
-            collector.addStrategy(new SmartRandomPreferenceStrategy(10, rooms));
-
-            collector.addStrategy(new SatisfactionBasedStrategy(3, rooms));
-            collector.addStrategy(new SatisfactionBasedStrategy(5, rooms));
-
-            collector.addStrategy(new FixedPreference(5));
-            collector.addStrategy(new FixedPreference(10));
+            for (int i = 1; i <= 9; i++) {
+                collector.addStrategy(new SatisfactionBasedStrategy(i, rooms));
+            }
 
             // Run simulations with all strategies
             List<AllocationStatistics> stats = collector.runSimulations();
