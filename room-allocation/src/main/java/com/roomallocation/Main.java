@@ -76,8 +76,8 @@ public class Main {
 
 
             // Visualize results
-            PythonVisualizer visualizer = new PythonVisualizer("python");
-            visualizer.visualize(jsonPath);
+            // PythonVisualizer visualizer = new PythonVisualizer("python");
+            // visualizer.visualize(jsonPath);
 
         } catch (Exception e) {
             System.err.println("Error running comparison: " + e.getMessage());
