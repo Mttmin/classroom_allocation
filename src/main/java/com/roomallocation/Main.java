@@ -14,7 +14,7 @@ import com.roomallocation.statistics.AllocationStatistics;
 import com.roomallocation.statistics.StatisticsCollector;
 import com.roomallocation.strategy.*;
 import com.roomallocation.util.RoomDataLoader;
-import com.roomallocation.visualization.PythonVisualizer;
+// import com.roomallocation.visualization.PythonVisualizer;
 
 public class Main {
 

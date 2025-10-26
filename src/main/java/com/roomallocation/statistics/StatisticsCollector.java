@@ -13,8 +13,7 @@ import com.roomallocation.model.Course;
 import com.roomallocation.model.Room;
 import com.roomallocation.simulator.CourseSimulator;
 import com.roomallocation.strategy.PreferenceGenerationStrategy;
-import com.roomallocation.strategy.SizedBasedPreferenceStrategy;
-import com.roomallocation.strategy.SmartRandomPreferenceStrategy;
+
 
 public class StatisticsCollector {
     private final List<Room> rooms;
@@ -23,15 +22,10 @@ public class StatisticsCollector {
     private final int minSize;
     private final int maxSize;
     private final int changeSize;
-    private int numPreferences = 10;
     private List<AllocationStatistics> allStats;
     private List<PreferenceGenerationStrategy> strategies;
     private Long seed;
     private List<Long> simulationTimes = new ArrayList<>();
-
-    public void setNumPreferences(int numPreferences) {
-        this.numPreferences = numPreferences;
-    }
 
     public StatisticsCollector(List<Room> rooms, int numSimulations,
             int numCourses, int minSize, int maxSize, int changeSize) {
@@ -90,6 +84,7 @@ public class StatisticsCollector {
         return allStats;
     }
 
+    @SuppressWarnings("unused")
     private void printTimingStatistics() {
         DoubleSummaryStatistics timeStats = simulationTimes.stream()
                 .mapToDouble(Long::doubleValue)

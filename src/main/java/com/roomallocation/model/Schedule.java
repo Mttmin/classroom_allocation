@@ -1,6 +1,5 @@
 package com.roomallocation.model;
 
-import com.roomallocation.model.Course;
 import java.util.*;
 import java.util.stream.Collectors;
 
