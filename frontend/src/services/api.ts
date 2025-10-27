@@ -5,6 +5,9 @@ import {
   ApiResponse,
   DayOfWeek,
   WeeklyAvailability,
+  AllocationResult,
+  AllocationStatus,
+  RoomType,
 } from '../types';
 
 // Mock data for development
@@ -68,6 +71,96 @@ function generateDefaultAvailability(): WeeklyAvailability {
 
   return availability as WeeklyAvailability;
 }
+
+// Mock allocation results - PENDING state
+const mockAllocationResultPending: AllocationResult = {
+  professorId: 'PROF001',
+  professorName: 'Dr. Jean Dupont',
+  status: AllocationStatus.PENDING,
+  allocatedClasses: [],
+  unallocatedCourses: [],
+  // Estimated publish date - 10 days from now
+  estimatedPublishDate: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000).toISOString(),
+};
+
+// Mock allocation results - COMPLETED state
+const mockAllocationResultCompleted: AllocationResult = {
+  professorId: 'PROF001',
+  professorName: 'Dr. Jean Dupont',
+  status: AllocationStatus.COMPLETED,
+  allocationDate: new Date().toISOString(),
+  allocatedClasses: [
+    {
+      courseId: 'COURSE001',
+      courseName: 'Advanced Algorithms',
+      cohortSize: 45,
+      durationMinutes: 90,
+      room: {
+        name: 'Amphi Arago',
+        capacity: 80,
+        type: RoomType.AMPHIS_80_100,
+        building: 'Building A',
+      },
+      timeSlot: {
+        day: DayOfWeek.MONDAY,
+        startTime: '10:00',
+        endTime: '11:30',
+      },
+    },
+    {
+      courseId: 'COURSE002',
+      courseName: 'Data Structures',
+      cohortSize: 60,
+      durationMinutes: 120,
+      room: {
+        name: 'Amphi Becquerel',
+        capacity: 100,
+        type: RoomType.AMPHIS_80_100,
+        building: 'Building B',
+      },
+      timeSlot: {
+        day: DayOfWeek.WEDNESDAY,
+        startTime: '14:00',
+        endTime: '16:00',
+      },
+    },
+    {
+      courseId: 'COURSE003',
+      courseName: 'Machine Learning Fundamentals',
+      cohortSize: 30,
+      durationMinutes: 90,
+      room: {
+        name: 'Salle Info 204',
+        capacity: 35,
+        type: RoomType.SALLES_INFO,
+        building: 'Computer Science Building',
+      },
+      timeSlot: {
+        day: DayOfWeek.FRIDAY,
+        startTime: '09:00',
+        endTime: '10:30',
+      },
+    },
+  ],
+  unallocatedCourses: [],
+};
+
+/**
+ * TOGGLE FOR TESTING ALLOCATION STATES
+ *
+ * Set USE_PENDING_STATE to control what allocation status is returned:
+ * - true: Shows "Allocation Pending" message with estimated publish date
+ * - false: Shows completed allocation with scheduled classes
+ *
+ * In production, the backend will determine the actual allocation status:
+ * - PENDING: Algorithm hasn't been run yet (shows waiting message)
+ * - IN_PROGRESS: Algorithm is currently running (shows spinner)
+ * - COMPLETED: Allocation is done (shows schedule results)
+ */
+const USE_PENDING_STATE = false; // Set to false to see completed allocation
+const mockAllocationResult = USE_PENDING_STATE
+  ? mockAllocationResultPending
+  : mockAllocationResultCompleted;
 
 // Mock API service
 class ApiService {
@@ -210,6 +303,38 @@ class ApiService {
       return {
         success: response.ok,
         error: response.ok ? undefined : 'Failed to update availability',
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  /**
+   * Get allocation results for a professor
+   */
+  async getAllocationResults(
+    professorId: string
+  ): Promise<ApiResponse<AllocationResult>> {
+    if (this.useMock) {
+      await this.delay(500);
+
+      return {
+        success: true,
+        data: mockAllocationResult,
+      };
+    }
+
+    try {
+      const response = await fetch(`/api/professors/${professorId}/allocation`);
+      const data = await response.json();
+
+      return {
+        success: response.ok,
+        data: response.ok ? data : undefined,
+        error: response.ok ? undefined : 'Failed to fetch allocation results',
       };
     } catch (error) {
       return {

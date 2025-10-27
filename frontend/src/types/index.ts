@@ -108,6 +108,41 @@ export interface Room {
   building: string;
 }
 
+// Time slot for scheduled classes
+export interface TimeSlot {
+  day: DayOfWeek;
+  startTime: string; // HH:mm format
+  endTime: string; // HH:mm format
+}
+
+// Allocated class with room and time
+export interface AllocatedClass {
+  courseId: string;
+  courseName: string;
+  room: Room;
+  timeSlot: TimeSlot;
+  cohortSize: number;
+  durationMinutes: number;
+}
+
+// Allocation status
+export enum AllocationStatus {
+  PENDING = 'PENDING', // Algorithm not yet run
+  COMPLETED = 'COMPLETED', // Algorithm has been run
+  IN_PROGRESS = 'IN_PROGRESS', // Algorithm is currently running
+}
+
+// Allocation results for a professor
+export interface AllocationResult {
+  professorId: string;
+  professorName: string;
+  status: AllocationStatus;
+  allocatedClasses: AllocatedClass[];
+  unallocatedCourses: Course[];
+  allocationDate?: string; // ISO date string - when allocation was completed
+  estimatedPublishDate?: string; // ISO date string - when results will be published (for PENDING status)
+}
+
 // API response types
 export interface ApiResponse<T> {
   success: boolean;

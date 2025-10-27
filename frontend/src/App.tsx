@@ -4,6 +4,7 @@ import { CourseList } from './components/CourseList';
 import { RoomTypeSelector } from './components/RoomTypeSelector';
 import { Navigation } from './components/Navigation';
 import { ProfilePage } from './components/ProfilePage';
+import { AllocationResults } from './components/AllocationResults';
 import {
   Course,
   PreferenceMode,
@@ -334,6 +335,16 @@ function App() {
                   onPreferenceModeChange={handlePreferenceModeChange}
                   onCourseSelect={handleCourseSelect}
                   onBlockersChange={setTimeBlockers}
+                />
+              }
+            />
+
+            {/* Allocation Results Page */}
+            <Route
+              path="/allocation"
+              element={
+                <AllocationResults
+                  professorId={professor?.id || 'PROF001'}
                 />
               }
             />

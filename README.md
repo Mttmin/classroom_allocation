@@ -2,6 +2,8 @@
 
 A sophisticated Java-based application for optimizing classroom and room allocations using market design principles and deferred acceptance algorithms. This system simulates course scheduling scenarios and employs various preference generation strategies to efficiently match courses with available rooms.
 
+**Front-end development and integrating a scheduler is currenly work-in-progress, any help appreciated.**
+
 ## Table of Contents
 
 - [Overview](#overview)
@@ -41,40 +43,7 @@ The application can:
 - **Statistical Analysis**: Comprehensive statistics collection across multiple simulation runs
 - **Data Visualization**: Interactive charts and campus maps showing allocation results
 - **JSON Export**: Export allocation results and statistics for further analysis
-- **Capacity Optimization**: Intelligent fitting algorithms to minimize wasted space
-
-## System Requirements
-
-- **Java**: JDK 11 or higher
-- **Maven**: 3.6 or higher
-- **Python**: 3.7 or higher (for visualization)
-- **Python Libraries**:
-  - matplotlib
-  - json
-  - (additional dependencies as specified in visualization scripts)
-
-## Installation
-
-1. **Clone or download the repository**:
-
-   ```bash
-   cd c:\Users\matth\Documents\Cours 3A\market design\classroom_allocation
-   ```
-2. **Navigate to the project directory**:
-
-   ```bash
-   cd room-allocation
-   ```
-3. **Build the project using Maven**:
-
-   ```bash
-   mvn clean install
-   ```
-4. **Install Python dependencies** (for visualization):
-
-   ```bash
-   pip install matplotlib numpy pandas
-   ```
+- **Capacity Optimization**: Intelligent fitting algorithms to minimize wasted space1.
 
 ## Usage
 
