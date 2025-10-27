@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { DayOfWeek, TimeBlocker } from '../types';
 
 interface AvailabilityCalendarProps {
@@ -29,20 +29,26 @@ interface TimeSlotCellProps {
   day: DayOfWeek;
   timeSlot: string;
   isBlocked: boolean;
-  onToggle: () => void;
+  onMouseDown: () => void;
+  onMouseEnter: () => void;
+  onMouseUp: () => void;
 }
 
 const TimeSlotCell: React.FC<TimeSlotCellProps> = ({
   day,
   timeSlot,
   isBlocked,
-  onToggle,
+  onMouseDown,
+  onMouseEnter,
+  onMouseUp,
 }) => {
   return (
     <button
-      onClick={onToggle}
+      onMouseDown={onMouseDown}
+      onMouseEnter={onMouseEnter}
+      onMouseUp={onMouseUp}
       className={`
-        w-full h-8 border border-gray-200 transition-colors
+        w-full h-5 border border-gray-200 transition-colors select-none
         ${
           isBlocked
             ? 'bg-red-500 hover:bg-red-600'
@@ -58,6 +64,8 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
   blockers,
   onBlockersChange,
 }) => {
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragMode, setDragMode] = useState<'block' | 'unblock'>('block');
 
   // Check if a specific time slot is blocked
   const isTimeSlotBlocked = (day: DayOfWeek, time: string): boolean => {
@@ -87,11 +95,12 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
   };
 
   // Toggle a time slot's blocked status
-  const toggleTimeSlot = (day: DayOfWeek, time: string) => {
+  const toggleTimeSlot = (day: DayOfWeek, time: string, forceMode?: 'block' | 'unblock') => {
     const isCurrentlyBlocked = isTimeSlotBlocked(day, time);
     const endTime = getEndTime(time);
+    const shouldBlock = forceMode ? forceMode === 'block' : !isCurrentlyBlocked;
 
-    if (isCurrentlyBlocked) {
+    if (!shouldBlock) {
       // Remove this blocker
       const newBlockers = blockers.filter((blocker) => {
         if (blocker.day !== day) return true;
@@ -100,15 +109,49 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
       });
       onBlockersChange(newBlockers);
     } else {
-      // Add a new blocker
-      const newBlocker: TimeBlocker = {
-        day,
-        startTime: time,
-        endTime,
-      };
-      onBlockersChange([...blockers, newBlocker]);
+      // Add a new blocker (only if not already blocked)
+      if (!isCurrentlyBlocked) {
+        const newBlocker: TimeBlocker = {
+          day,
+          startTime: time,
+          endTime,
+        };
+        onBlockersChange([...blockers, newBlocker]);
+      }
     }
   };
+
+  // Handle mouse down on a cell
+  const handleMouseDown = (day: DayOfWeek, time: string) => {
+    const isCurrentlyBlocked = isTimeSlotBlocked(day, time);
+    setDragMode(isCurrentlyBlocked ? 'unblock' : 'block');
+    setIsDragging(true);
+    toggleTimeSlot(day, time);
+  };
+
+  // Handle mouse enter on a cell while dragging
+  const handleMouseEnter = (day: DayOfWeek, time: string) => {
+    if (isDragging) {
+      toggleTimeSlot(day, time, dragMode);
+    }
+  };
+
+  // Handle mouse up
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  // Add global mouse up listener
+  React.useEffect(() => {
+    const handleGlobalMouseUp = () => {
+      setIsDragging(false);
+    };
+    
+    document.addEventListener('mouseup', handleGlobalMouseUp);
+    return () => {
+      document.removeEventListener('mouseup', handleGlobalMouseUp);
+    };
+  }, []);
 
   // Clear all blockers
   const clearAllBlockers = () => {
@@ -132,25 +175,30 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
 
   return (
     <div className="w-full">
-      <div className="mb-4 flex items-center justify-between">
-        <div>
+      <div className="mb-4 flex items-center justify-between gap-4">
+        <div className="flex-1 min-w-0">
           <h3 className="text-lg font-semibold text-gray-700">
             Weekly Availability
           </h3>
           <p className="text-sm text-gray-500 mt-1">
-            Default: Available Mon-Fri, 8am-8pm. Click to block unavailable times.
+            Default: Available Mon-Fri, 8am-8pm. Click and drag to block/unblock times.
+          </p>
+          <p className="text-sm text-gray-500 mt-1">
+            Note: The algorithm prioritizes scheduling during regular business hours and
+            then tries to avoid 8:00–10:00 AM for student presence when possible. Providing
+            broader availability helps it find a better overall allocation for everyone, while reducing overlap with other professors enables more students to take your class.
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-shrink-0 items-center">
           <button
             onClick={clearAllBlockers}
-            className="px-3 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
+            className="px-4 py-2 text-sm bg-green-500 text-white rounded hover:bg-green-600 transition-colors whitespace-nowrap"
           >
             Clear All Blocks
           </button>
           <button
             onClick={blockAllSlots}
-            className="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+            className="px-4 py-2 text-sm bg-red-500 text-white rounded hover:bg-red-600 transition-colors whitespace-nowrap"
           >
             Block All
           </button>
@@ -175,7 +223,7 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-gray-100">
-                <th className="border border-gray-300 p-2 text-sm font-semibold text-gray-700 w-20">
+                <th className="border border-gray-300 p-2 text-sm font-semibold text-gray-700 w-16">
                   Time
                 </th>
                 {DAYS.map((day) => (
@@ -189,23 +237,37 @@ export const AvailabilityCalendar: React.FC<AvailabilityCalendarProps> = ({
               </tr>
             </thead>
             <tbody>
-              {TIME_SLOTS.map((time) => (
-                <tr key={time}>
-                  <td className="border border-gray-300 p-2 text-xs text-gray-600 text-center bg-gray-50">
-                    {time}
-                  </td>
-                  {DAYS.map((day) => (
-                    <td key={`${day}-${time}`} className="border border-gray-300 p-0">
-                      <TimeSlotCell
-                        day={day}
-                        timeSlot={time}
-                        isBlocked={isTimeSlotBlocked(day, time)}
-                        onToggle={() => toggleTimeSlot(day, time)}
-                      />
-                    </td>
-                  ))}
-                </tr>
-              ))}
+              {TIME_SLOTS.map((time) => {
+                const isHourMark = time.endsWith(':00');
+                const showTimeLabel = isHourMark;
+                
+                return (
+                  <tr key={time}>
+                    {showTimeLabel ? (
+                      <td 
+                        rowSpan={2} 
+                        className="border border-gray-300 text-xs text-gray-600 text-center bg-gray-50"
+                      >
+                        <div className="flex items-center justify-center h-full py-1">
+                          {time}
+                        </div>
+                      </td>
+                    ) : null}
+                    {DAYS.map((day) => (
+                      <td key={`${day}-${time}`} className="border border-gray-300 p-0">
+                        <TimeSlotCell
+                          day={day}
+                          timeSlot={time}
+                          isBlocked={isTimeSlotBlocked(day, time)}
+                          onMouseDown={() => handleMouseDown(day, time)}
+                          onMouseEnter={() => handleMouseEnter(day, time)}
+                          onMouseUp={handleMouseUp}
+                        />
+                      </td>
+                    ))}
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

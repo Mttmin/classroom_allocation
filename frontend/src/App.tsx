@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CourseList } from './components/CourseList';
 import { RoomTypeSelector } from './components/RoomTypeSelector';
-import { AvailabilityCalendar } from './components/AvailabilityCalendar';
+import { Navigation } from './components/Navigation';
+import { ProfilePage } from './components/ProfilePage';
 import {
   Course,
   PreferenceMode,
@@ -27,6 +29,7 @@ function App() {
   const [timeBlockers, setTimeBlockers] = useState<TimeBlocker[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [isPreferencesValid, setIsPreferencesValid] = useState(false);
 
   // Load professor data on mount
   useEffect(() => {
@@ -119,6 +122,22 @@ function App() {
     return null;
   };
 
+  // Check if form is valid for enabling/disabling save button
+  const isFormValid = (): boolean => {
+    if (preferenceMode === 'all-courses') {
+      return isPreferencesValid;
+    } else {
+      // Check that all courses have at least 5 preferences
+      for (const course of courses) {
+        const prefs = courseRoomPreferences.get(course.id || '');
+        if (!prefs || prefs.length < 5) {
+          return false;
+        }
+      }
+      return true;
+    }
+  };
+
   // Handle form submission
   const handleSubmit = async () => {
     setError(null);
@@ -178,151 +197,150 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                Professor Portal - Room Preferences
-              </h1>
-              {professor && (
-                <p className="text-sm text-gray-600 mt-1">
-                  Welcome, {professor.name}
-                </p>
-              )}
-            </div>
-            <button
-              onClick={handleSubmit}
-              disabled={saving}
-              className={`
-                px-6 py-2 rounded-lg font-medium transition-colors
-                ${
-                  saving
-                    ? 'bg-gray-400 cursor-not-allowed'
-                    : 'bg-blue-600 hover:bg-blue-700 text-white'
-                }
-              `}
-            >
-              {saving ? 'Saving...' : 'Save Preferences'}
-            </button>
-          </div>
-        </div>
-      </header>
+    <Router>
+      <div className="min-h-screen bg-gray-50">
+        {/* Navigation */}
+        <Navigation 
+          professor={professor} 
+          onSave={handleSubmit} 
+          saving={saving}
+          disabled={!isFormValid()}
+        />
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Error Message */}
-        {error && (
-          <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
-            <div className="flex items-start">
-              <svg
-                className="w-5 h-5 text-red-600 mt-0.5 mr-3"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <p className="text-sm text-red-800">{error}</p>
-            </div>
-          </div>
-        )}
-
-        {/* Success Message */}
-        {successMessage && (
-          <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
-            <div className="flex items-start">
-              <svg
-                className="w-5 h-5 text-green-600 mt-0.5 mr-3"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                />
-              </svg>
-              <p className="text-sm text-green-800">{successMessage}</p>
-            </div>
-          </div>
-        )}
-
-        <div className="space-y-8">
-          {/* Section 1: Course List */}
-          <section className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <CourseList
-              courses={courses}
-              preferenceMode={preferenceMode}
-              selectedCourse={selectedCourse}
-              onPreferenceModeChange={handlePreferenceModeChange}
-              onCourseSelect={handleCourseSelect}
-            />
-          </section>
-
-          {/* Section 2: Room Type Preferences */}
-          <section className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">
-              {preferenceMode === 'all-courses'
-                ? 'Room Type Preferences (All Courses)'
-                : selectedCourse
-                  ? `Room Type Preferences - ${selectedCourse.name}`
-                  : 'Room Type Preferences'}
-            </h2>
-
-            {preferenceMode === 'per-course' && !selectedCourse ? (
-              <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-                <p className="text-gray-600">
-                  Please select a course from the list above to set its room
-                  preferences
-                </p>
+        {/* Main Content */}
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {/* Error Message */}
+          {error && (
+            <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+              <div className="flex items-start">
+                <svg
+                  className="w-5 h-5 text-red-600 mt-0.5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <p className="text-sm text-red-800">{error}</p>
               </div>
-            ) : (
-              <RoomTypeSelector
-                selectedTypes={getCurrentRoomPreferences()}
-                onSelectedTypesChange={handleRoomPreferencesChange}
-                minSelection={5}
-              />
-            )}
-          </section>
+            </div>
+          )}
 
-          {/* Section 3: Availability Calendar */}
-          <section className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <AvailabilityCalendar
-              blockers={timeBlockers}
-              onBlockersChange={setTimeBlockers}
-            />
-          </section>
-        </div>
+          {/* Success Message */}
+          {successMessage && (
+            <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
+              <div className="flex items-start">
+                <svg
+                  className="w-5 h-5 text-green-600 mt-0.5 mr-3"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <p className="text-sm text-green-800">{successMessage}</p>
+              </div>
+            </div>
+          )}
 
-        {/* Bottom Save Button */}
-        <div className="mt-8 flex justify-end">
-          <button
-            onClick={handleSubmit}
-            disabled={saving}
-            className={`
-              px-8 py-3 rounded-lg font-medium text-lg transition-colors
-              ${
-                saving
-                  ? 'bg-gray-400 cursor-not-allowed'
-                  : 'bg-blue-600 hover:bg-blue-700 text-white shadow-md hover:shadow-lg'
+          <Routes>
+            {/* Main Room Preferences Page */}
+            <Route
+              path="/"
+              element={
+                <div className="space-y-8">
+                  {/* Show Course List only in per-course mode */}
+                  {preferenceMode === 'per-course' && (
+                    <section className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                      <CourseList
+                        courses={courses}
+                        preferenceMode={preferenceMode}
+                        selectedCourse={selectedCourse}
+                        onPreferenceModeChange={handlePreferenceModeChange}
+                        onCourseSelect={handleCourseSelect}
+                      />
+                    </section>
+                  )}
+
+                  {/* Room Type Preferences */}
+                  <section className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <h2 className="text-xl font-semibold text-gray-800 mb-4">
+                      {preferenceMode === 'all-courses'
+                        ? 'Room Type Preferences (All Courses)'
+                        : selectedCourse
+                          ? `Room Type Preferences - ${selectedCourse.name}`
+                          : 'Room Type Preferences'}
+                    </h2>
+
+                    {preferenceMode === 'per-course' && !selectedCourse ? (
+                      <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                        <p className="text-gray-600">
+                          Please select a course from the list above to set its room
+                          preferences
+                        </p>
+                      </div>
+                    ) : (
+                      <RoomTypeSelector
+                        selectedTypes={getCurrentRoomPreferences()}
+                        onSelectedTypesChange={handleRoomPreferencesChange}
+                        onValidationChange={setIsPreferencesValid}
+                        minSelection={5}
+                        recommendedSelection={10}
+                      />
+                    )}
+                  </section>
+
+                  {/* Bottom Save Button */}
+                  <div className="flex justify-end">
+                    <button
+                      onClick={handleSubmit}
+                      disabled={saving || !isFormValid()}
+                      className={`
+                        px-8 py-3 rounded-lg font-medium text-lg transition-colors
+                        ${
+                          saving || !isFormValid()
+                            ? 'bg-gray-400 cursor-not-allowed text-gray-200'
+                            : 'bg-blue-600 hover:bg-blue-700 text-white shadow-md hover:shadow-lg'
+                        }
+                      `}
+                    >
+                      {saving ? 'Saving...' : 'Save All Preferences'}
+                    </button>
+                  </div>
+                </div>
               }
-            `}
-          >
-            {saving ? 'Saving...' : 'Save All Preferences'}
-          </button>
-        </div>
-      </main>
-    </div>
+            />
+
+            {/* Profile Page */}
+            <Route
+              path="/profile"
+              element={
+                <ProfilePage
+                  professor={professor}
+                  courses={courses}
+                  preferenceMode={preferenceMode}
+                  selectedCourse={selectedCourse}
+                  timeBlockers={timeBlockers}
+                  onPreferenceModeChange={handlePreferenceModeChange}
+                  onCourseSelect={handleCourseSelect}
+                  onBlockersChange={setTimeBlockers}
+                />
+              }
+            />
+          </Routes>
+        </main>
+      </div>
+    </Router>
   );
 }
 

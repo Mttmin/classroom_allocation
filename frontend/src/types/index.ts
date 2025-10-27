@@ -86,6 +86,28 @@ export interface ProfessorFormData {
   unavailableSlots: TimeBlocker[];
 }
 
+// Room type detailed information
+export interface RoomTypeInfo {
+  type: RoomType;
+  name: string;
+  building: string;
+  seatRange: {
+    min: number;
+    max: number;
+  };
+  roomCount: number;
+  amenities: string[];
+  images: string[];
+}
+
+// Individual room information
+export interface Room {
+  name: string;
+  capacity: number;
+  type: RoomType;
+  building: string;
+}
+
 // API response types
 export interface ApiResponse<T> {
   success: boolean;
