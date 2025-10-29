@@ -1,0 +1,772 @@
+[
+  {
+    "name": "S101",
+    "capacity": 26,
+    "type": "SALLES_100",
+    "building": "Bâtiment Salles 100"
+  },
+  {
+    "name": "S102",
+    "capacity": 33,
+    "type": "SALLES_100",
+    "building": "Bâtiment Salles 100"
+  },
+  {
+    "name": "S103",
+    "capacity": 24,
+    "type": "SALLES_100",
+    "building": "Bâtiment Salles 100"
+  },
+  {
+    "name": "S104",
+    "capacity": 38,
+    "type": "SALLES_100",
+    "building": "Bâtiment Salles 100"
+  },
+  {
+    "name": "S105",
+    "capacity": 40,
+    "type": "SALLES_100",
+    "building": "Bâtiment Salles 100"
+  },
+  {
+    "name": "S106",
+    "capacity": 34,
+    "type": "SALLES_100",
+    "building": "Bâtiment Salles 100",
+    "unavailableSlots": [
+      {
+        "day": "FRIDAY",
+        "startTime": "11:20",
+        "endTime": "13:20"
+      }
+    ]
+  },
+  {
+    "name": "S107",
+    "capacity": 29,
+    "type": "SALLES_100",
+    "building": "Bâtiment Salles 100"
+  },
+  {
+    "name": "S108",
+    "capacity": 23,
+    "type": "SALLES_100",
+    "building": "Bâtiment Salles 100"
+  },
+  {
+    "name": "S109",
+    "capacity": 22,
+    "type": "SALLES_100",
+    "building": "Bâtiment Salles 100",
+    "unavailableSlots": [
+      {
+        "day": "FRIDAY",
+        "startTime": "15:11",
+        "endTime": "18:11"
+      }
+    ]
+  },
+  {
+    "name": "S110",
+    "capacity": 40,
+    "type": "SALLES_100",
+    "building": "Bâtiment Salles 100"
+  },
+  {
+    "name": "S111",
+    "capacity": 22,
+    "type": "SALLES_100",
+    "building": "Bâtiment Salles 100"
+  },
+  {
+    "name": "S112",
+    "capacity": 22,
+    "type": "SALLES_100",
+    "building": "Bâtiment Salles 100",
+    "unavailableSlots": [
+      {
+        "day": "THURSDAY",
+        "startTime": "14:25",
+        "endTime": "15:55"
+      }
+    ]
+  },
+  {
+    "name": "VAN01",
+    "capacity": 26,
+    "type": "COULOIR_VANNEAU",
+    "building": "Couloir cour Vanneau"
+  },
+  {
+    "name": "VAN02",
+    "capacity": 19,
+    "type": "COULOIR_VANNEAU",
+    "building": "Couloir cour Vanneau"
+  },
+  {
+    "name": "VAN03",
+    "capacity": 34,
+    "type": "COULOIR_VANNEAU",
+    "building": "Couloir cour Vanneau"
+  },
+  {
+    "name": "VAN04",
+    "capacity": 33,
+    "type": "COULOIR_VANNEAU",
+    "building": "Couloir cour Vanneau"
+  },
+  {
+    "name": "VAN05",
+    "capacity": 25,
+    "type": "COULOIR_VANNEAU",
+    "building": "Couloir cour Vanneau"
+  },
+  {
+    "name": "VAN06",
+    "capacity": 18,
+    "type": "COULOIR_VANNEAU",
+    "building": "Couloir cour Vanneau"
+  },
+  {
+    "name": "VAN07",
+    "capacity": 26,
+    "type": "COULOIR_VANNEAU",
+    "building": "Couloir cour Vanneau"
+  },
+  {
+    "name": "VAN08",
+    "capacity": 31,
+    "type": "COULOIR_VANNEAU",
+    "building": "Couloir cour Vanneau",
+    "unavailableSlots": [
+      {
+        "day": "MONDAY",
+        "startTime": "10:07",
+        "endTime": "13:07"
+      },
+      {
+        "day": "MONDAY",
+        "startTime": "13:49",
+        "endTime": "14:49"
+      }
+    ]
+  },
+  {
+    "name": "VAN09",
+    "capacity": 34,
+    "type": "COULOIR_VANNEAU",
+    "building": "Couloir cour Vanneau"
+  },
+  {
+    "name": "SCO01",
+    "capacity": 27,
+    "type": "COULOIR_SCOLARITE",
+    "building": "Couloir de la scolarité"
+  },
+  {
+    "name": "SCO02",
+    "capacity": 30,
+    "type": "COULOIR_SCOLARITE",
+    "building": "Couloir de la scolarité"
+  },
+  {
+    "name": "SCO03",
+    "capacity": 20,
+    "type": "COULOIR_SCOLARITE",
+    "building": "Couloir de la scolarité"
+  },
+  {
+    "name": "SCO04",
+    "capacity": 20,
+    "type": "COULOIR_SCOLARITE",
+    "building": "Couloir de la scolarité"
+  },
+  {
+    "name": "SCO05",
+    "capacity": 23,
+    "type": "COULOIR_SCOLARITE",
+    "building": "Couloir de la scolarité",
+    "unavailableSlots": [
+      {
+        "day": "WEDNESDAY",
+        "startTime": "10:00",
+        "endTime": "12:00"
+      },
+      {
+        "day": "WEDNESDAY",
+        "startTime": "13:33",
+        "endTime": "15:33"
+      },
+      {
+        "day": "WEDNESDAY",
+        "startTime": "17:06",
+        "endTime": "18:36"
+      }
+    ]
+  },
+  {
+    "name": "SCO06",
+    "capacity": 29,
+    "type": "COULOIR_SCOLARITE",
+    "building": "Couloir de la scolarité"
+  },
+  {
+    "name": "SCO07",
+    "capacity": 27,
+    "type": "COULOIR_SCOLARITE",
+    "building": "Couloir de la scolarité"
+  },
+  {
+    "name": "SCO08",
+    "capacity": 18,
+    "type": "COULOIR_SCOLARITE",
+    "building": "Couloir de la scolarité"
+  },
+  {
+    "name": "LAB01",
+    "capacity": 20,
+    "type": "COULOIR_LABOS",
+    "building": "Couloir des labos",
+    "unavailableSlots": [
+      {
+        "day": "THURSDAY",
+        "startTime": "08:23",
+        "endTime": "10:23"
+      },
+      {
+        "day": "THURSDAY",
+        "startTime": "12:09",
+        "endTime": "13:09"
+      },
+      {
+        "day": "THURSDAY",
+        "startTime": "17:11",
+        "endTime": "19:11"
+      }
+    ]
+  },
+  {
+    "name": "LAB02",
+    "capacity": 14,
+    "type": "COULOIR_LABOS",
+    "building": "Couloir des labos"
+  },
+  {
+    "name": "LAB03",
+    "capacity": 17,
+    "type": "COULOIR_LABOS",
+    "building": "Couloir des labos",
+    "unavailableSlots": [
+      {
+        "day": "MONDAY",
+        "startTime": "11:11",
+        "endTime": "12:41"
+      },
+      {
+        "day": "MONDAY",
+        "startTime": "16:51",
+        "endTime": "17:51"
+      }
+    ]
+  },
+  {
+    "name": "LAB04",
+    "capacity": 20,
+    "type": "COULOIR_LABOS",
+    "building": "Couloir des labos"
+  },
+  {
+    "name": "LAB05",
+    "capacity": 21,
+    "type": "COULOIR_LABOS",
+    "building": "Couloir des labos",
+    "unavailableSlots": [
+      {
+        "day": "TUESDAY",
+        "startTime": "08:35",
+        "endTime": "09:35"
+      },
+      {
+        "day": "TUESDAY",
+        "startTime": "10:27",
+        "endTime": "12:27"
+      }
+    ]
+  },
+  {
+    "name": "LAB06",
+    "capacity": 14,
+    "type": "COULOIR_LABOS",
+    "building": "Couloir des labos"
+  },
+  {
+    "name": "INF01",
+    "capacity": 31,
+    "type": "SALLES_INFO",
+    "building": "Bâtiment Informatique",
+    "unavailableSlots": [
+      {
+        "day": "THURSDAY",
+        "startTime": "08:06",
+        "endTime": "09:36"
+      },
+      {
+        "day": "THURSDAY",
+        "startTime": "14:00",
+        "endTime": "17:00"
+      },
+      {
+        "day": "WEDNESDAY",
+        "startTime": "12:10",
+        "endTime": "13:10"
+      },
+      {
+        "day": "TUESDAY",
+        "startTime": "10:46",
+        "endTime": "12:46"
+      },
+      {
+        "day": "TUESDAY",
+        "startTime": "16:40",
+        "endTime": "18:40"
+      }
+    ]
+  },
+  {
+    "name": "INF02",
+    "capacity": 37,
+    "type": "SALLES_INFO",
+    "building": "Bâtiment Informatique",
+    "unavailableSlots": [
+      {
+        "day": "FRIDAY",
+        "startTime": "11:18",
+        "endTime": "12:48"
+      },
+      {
+        "day": "FRIDAY",
+        "startTime": "14:49",
+        "endTime": "16:19"
+      }
+    ]
+  },
+  {
+    "name": "INF03",
+    "capacity": 30,
+    "type": "SALLES_INFO",
+    "building": "Bâtiment Informatique"
+  },
+  {
+    "name": "INF04",
+    "capacity": 35,
+    "type": "SALLES_INFO",
+    "building": "Bâtiment Informatique",
+    "unavailableSlots": [
+      {
+        "day": "FRIDAY",
+        "startTime": "08:38",
+        "endTime": "09:38"
+      },
+      {
+        "day": "FRIDAY",
+        "startTime": "16:18",
+        "endTime": "19:18"
+      }
+    ]
+  },
+  {
+    "name": "INF05",
+    "capacity": 21,
+    "type": "SALLES_INFO",
+    "building": "Bâtiment Informatique",
+    "unavailableSlots": [
+      {
+        "day": "WEDNESDAY",
+        "startTime": "11:51",
+        "endTime": "13:21"
+      }
+    ]
+  },
+  {
+    "name": "INF06",
+    "capacity": 30,
+    "type": "SALLES_INFO",
+    "building": "Bâtiment Informatique"
+  },
+  {
+    "name": "INF07",
+    "capacity": 35,
+    "type": "SALLES_INFO",
+    "building": "Bâtiment Informatique"
+  },
+  {
+    "name": "INF08",
+    "capacity": 24,
+    "type": "SALLES_INFO",
+    "building": "Bâtiment Informatique",
+    "unavailableSlots": [
+      {
+        "day": "MONDAY",
+        "startTime": "09:52",
+        "endTime": "10:52"
+      },
+      {
+        "day": "MONDAY",
+        "startTime": "12:23",
+        "endTime": "13:53"
+      }
+    ]
+  },
+  {
+    "name": "INF09",
+    "capacity": 24,
+    "type": "SALLES_INFO",
+    "building": "Bâtiment Informatique"
+  },
+  {
+    "name": "INF10",
+    "capacity": 32,
+    "type": "SALLES_INFO",
+    "building": "Bâtiment Informatique",
+    "unavailableSlots": [
+      {
+        "day": "FRIDAY",
+        "startTime": "09:14",
+        "endTime": "12:14"
+      },
+      {
+        "day": "FRIDAY",
+        "startTime": "12:25",
+        "endTime": "13:25"
+      },
+      {
+        "day": "TUESDAY",
+        "startTime": "13:46",
+        "endTime": "15:16"
+      }
+    ]
+  },
+  {
+    "name": "INF11",
+    "capacity": 38,
+    "type": "SALLES_INFO",
+    "building": "Bâtiment Informatique",
+    "unavailableSlots": [
+      {
+        "day": "MONDAY",
+        "startTime": "12:26",
+        "endTime": "14:26"
+      },
+      {
+        "day": "FRIDAY",
+        "startTime": "10:40",
+        "endTime": "11:40"
+      },
+      {
+        "day": "FRIDAY",
+        "startTime": "14:27",
+        "endTime": "17:27"
+      }
+    ]
+  },
+  {
+    "name": "INF12",
+    "capacity": 29,
+    "type": "SALLES_INFO",
+    "building": "Bâtiment Informatique"
+  },
+  {
+    "name": "LAN01",
+    "capacity": 15,
+    "type": "SALLES_LANGUES",
+    "building": "Bâtiment Langues"
+  },
+  {
+    "name": "LAN02",
+    "capacity": 23,
+    "type": "SALLES_LANGUES",
+    "building": "Bâtiment Langues",
+    "unavailableSlots": [
+      {
+        "day": "TUESDAY",
+        "startTime": "10:44",
+        "endTime": "13:44"
+      },
+      {
+        "day": "TUESDAY",
+        "startTime": "16:54",
+        "endTime": "18:24"
+      }
+    ]
+  },
+  {
+    "name": "LAN03",
+    "capacity": 16,
+    "type": "SALLES_LANGUES",
+    "building": "Bâtiment Langues"
+  },
+  {
+    "name": "LAN04",
+    "capacity": 23,
+    "type": "SALLES_LANGUES",
+    "building": "Bâtiment Langues",
+    "unavailableSlots": [
+      {
+        "day": "FRIDAY",
+        "startTime": "08:44",
+        "endTime": "09:44"
+      }
+    ]
+  },
+  {
+    "name": "LAN05",
+    "capacity": 20,
+    "type": "SALLES_LANGUES",
+    "building": "Bâtiment Langues"
+  },
+  {
+    "name": "LAN06",
+    "capacity": 18,
+    "type": "SALLES_LANGUES",
+    "building": "Bâtiment Langues"
+  },
+  {
+    "name": "LAN07",
+    "capacity": 22,
+    "type": "SALLES_LANGUES",
+    "building": "Bâtiment Langues",
+    "unavailableSlots": [
+      {
+        "day": "FRIDAY",
+        "startTime": "08:24",
+        "endTime": "09:54"
+      },
+      {
+        "day": "FRIDAY",
+        "startTime": "13:08",
+        "endTime": "15:08"
+      }
+    ]
+  },
+  {
+    "name": "LAN08",
+    "capacity": 24,
+    "type": "SALLES_LANGUES",
+    "building": "Bâtiment Langues",
+    "unavailableSlots": [
+      {
+        "day": "WEDNESDAY",
+        "startTime": "13:57",
+        "endTime": "16:57"
+      }
+    ]
+  },
+  {
+    "name": "NAM01",
+    "capacity": 117,
+    "type": "NOUVEAUX_AMPHIS",
+    "building": "Nouveaux amphithéâtres"
+  },
+  {
+    "name": "NAM02",
+    "capacity": 73,
+    "type": "NOUVEAUX_AMPHIS",
+    "building": "Nouveaux amphithéâtres",
+    "unavailableSlots": [
+      {
+        "day": "MONDAY",
+        "startTime": "08:39",
+        "endTime": "10:39"
+      },
+      {
+        "day": "MONDAY",
+        "startTime": "16:57",
+        "endTime": "18:57"
+      }
+    ]
+  },
+  {
+    "name": "NAM03",
+    "capacity": 68,
+    "type": "NOUVEAUX_AMPHIS",
+    "building": "Nouveaux amphithéâtres"
+  },
+  {
+    "name": "NAM04",
+    "capacity": 86,
+    "type": "NOUVEAUX_AMPHIS",
+    "building": "Nouveaux amphithéâtres"
+  },
+  {
+    "name": "NAM05",
+    "capacity": 103,
+    "type": "NOUVEAUX_AMPHIS",
+    "building": "Nouveaux amphithéâtres",
+    "unavailableSlots": [
+      {
+        "day": "TUESDAY",
+        "startTime": "11:21",
+        "endTime": "13:21"
+      }
+    ]
+  },
+  {
+    "name": "NAM06",
+    "capacity": 115,
+    "type": "NOUVEAUX_AMPHIS",
+    "building": "Nouveaux amphithéâtres"
+  },
+  {
+    "name": "NAM07",
+    "capacity": 93,
+    "type": "NOUVEAUX_AMPHIS",
+    "building": "Nouveaux amphithéâtres",
+    "unavailableSlots": [
+      {
+        "day": "THURSDAY",
+        "startTime": "11:15",
+        "endTime": "14:15"
+      },
+      {
+        "day": "THURSDAY",
+        "startTime": "16:30",
+        "endTime": "19:30"
+      }
+    ]
+  },
+  {
+    "name": "NAM08",
+    "capacity": 95,
+    "type": "NOUVEAUX_AMPHIS",
+    "building": "Nouveaux amphithéâtres"
+  },
+  {
+    "name": "BIN01",
+    "capacity": 67,
+    "type": "AMPHI_COULOIR_BINETS",
+    "building": "Amphi couloir binets"
+  },
+  {
+    "name": "BIN02",
+    "capacity": 90,
+    "type": "AMPHI_COULOIR_BINETS",
+    "building": "Amphi couloir binets"
+  },
+  {
+    "name": "BIN03",
+    "capacity": 90,
+    "type": "AMPHI_COULOIR_BINETS",
+    "building": "Amphi couloir binets"
+  },
+  {
+    "name": "BIN04",
+    "capacity": 63,
+    "type": "AMPHI_COULOIR_BINETS",
+    "building": "Amphi couloir binets",
+    "unavailableSlots": [
+      {
+        "day": "MONDAY",
+        "startTime": "16:41",
+        "endTime": "18:41"
+      }
+    ]
+  },
+  {
+    "name": "BIN05",
+    "capacity": 92,
+    "type": "AMPHI_COULOIR_BINETS",
+    "building": "Amphi couloir binets"
+  },
+  {
+    "name": "BIN06",
+    "capacity": 97,
+    "type": "AMPHI_COULOIR_BINETS",
+    "building": "Amphi couloir binets"
+  },
+  {
+    "name": "AM01",
+    "capacity": 92,
+    "type": "AMPHIS_80_100",
+    "building": "Amphithéâtres 80-100"
+  },
+  {
+    "name": "AM02",
+    "capacity": 88,
+    "type": "AMPHIS_80_100",
+    "building": "Amphithéâtres 80-100"
+  },
+  {
+    "name": "AM03",
+    "capacity": 94,
+    "type": "AMPHIS_80_100",
+    "building": "Amphithéâtres 80-100"
+  },
+  {
+    "name": "AM04",
+    "capacity": 85,
+    "type": "AMPHIS_80_100",
+    "building": "Amphithéâtres 80-100",
+    "unavailableSlots": [
+      {
+        "day": "FRIDAY",
+        "startTime": "14:30",
+        "endTime": "16:00"
+      }
+    ]
+  },
+  {
+    "name": "AM05",
+    "capacity": 86,
+    "type": "AMPHIS_80_100",
+    "building": "Amphithéâtres 80-100"
+  },
+  {
+    "name": "GAM01",
+    "capacity": 204,
+    "type": "GRANDS_AMPHIS",
+    "building": "Grands amphithéâtres",
+    "unavailableSlots": [
+      {
+        "day": "FRIDAY",
+        "startTime": "08:21",
+        "endTime": "09:51"
+      },
+      {
+        "day": "FRIDAY",
+        "startTime": "12:39",
+        "endTime": "13:39"
+      }
+    ]
+  },
+  {
+    "name": "GAM02",
+    "capacity": 364,
+    "type": "GRANDS_AMPHIS",
+    "building": "Grands amphithéâtres"
+  },
+  {
+    "name": "GAM03",
+    "capacity": 374,
+    "type": "GRANDS_AMPHIS",
+    "building": "Grands amphithéâtres"
+  },
+  {
+    "name": "GAM04",
+    "capacity": 320,
+    "type": "GRANDS_AMPHIS",
+    "building": "Grands amphithéâtres",
+    "unavailableSlots": [
+      {
+        "day": "MONDAY",
+        "startTime": "09:34",
+        "endTime": "11:04"
+      },
+      {
+        "day": "MONDAY",
+        "startTime": "16:51",
+        "endTime": "18:51"
+      }
+    ]
+  }
+]

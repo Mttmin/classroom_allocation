@@ -45,3 +45,5 @@ Thumbs.db
 *.ear
 .gradle/
 build/
+
+src/main/java/com/roomallocation/simulator/SIMULATOR_SUMMARY.md
