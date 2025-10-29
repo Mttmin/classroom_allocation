@@ -11,8 +11,8 @@ import com.roomallocation.allocation.AllocationStep;
 import com.roomallocation.allocation.TypeBasedAllocation;
 import com.roomallocation.model.Course;
 import com.roomallocation.model.Room;
-import com.roomallocation.simulator.CourseSimulator;
 import com.roomallocation.strategy.PreferenceGenerationStrategy;
+import com.simulator.CourseSimulator;
 
 
 public class StatisticsCollector {

@@ -9,12 +9,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.roomallocation.allocation.TypeBasedAllocation;
 import com.roomallocation.model.Course;
 import com.roomallocation.model.Room;
-import com.roomallocation.simulator.CourseSimulator;
 import com.roomallocation.statistics.AllocationStatistics;
 import com.roomallocation.statistics.StatisticsCollector;
 import com.roomallocation.strategy.*;
 import com.roomallocation.util.RoomDataLoader;
 // import com.roomallocation.visualization.PythonVisualizer;
+import com.simulator.CourseSimulator;
 
 public class Main {
 

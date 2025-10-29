@@ -1,0 +1,402 @@
+[
+  {
+    "id": "CHI364",
+    "name": "CHI364",
+    "cohortSize": 80,
+    "durationMinutes": 180,
+    "professorId": "PROF001",
+    "typePreferences": ["AMPHIS_80_100", "GRANDS_AMPHIS", "AMPHI_COULOIR_BINETS", "NOUVEAUX_AMPHIS"]
+  },
+  {
+    "id": "INF473",
+    "name": "INF473",
+    "cohortSize": 142,
+    "durationMinutes": 180,
+    "professorId": "PROF002",
+    "typePreferences": ["GRANDS_AMPHIS"]
+  },
+  {
+    "id": "LAN311",
+    "name": "LAN311",
+    "cohortSize": 96,
+    "durationMinutes": 120,
+    "professorId": "PROF003",
+    "typePreferences": ["AMPHIS_80_100", "GRANDS_AMPHIS", "NOUVEAUX_AMPHIS"]
+  },
+  {
+    "id": "ECO352",
+    "name": "ECO352",
+    "cohortSize": 77,
+    "durationMinutes": 60,
+    "professorId": "PROF004",
+    "typePreferences": ["AMPHI_COULOIR_BINETS", "AMPHIS_80_100", "GRANDS_AMPHIS", "NOUVEAUX_AMPHIS"]
+  },
+  {
+    "id": "MAP359",
+    "name": "MAP359",
+    "cohortSize": 106,
+    "durationMinutes": 90,
+    "professorId": "PROF005",
+    "typePreferences": ["GRANDS_AMPHIS", "NOUVEAUX_AMPHIS"]
+  },
+  {
+    "id": "ECO327",
+    "name": "ECO327",
+    "cohortSize": 68,
+    "durationMinutes": 180,
+    "professorId": "PROF006",
+    "typePreferences": ["AMPHIS_80_100", "NOUVEAUX_AMPHIS", "GRANDS_AMPHIS", "AMPHI_COULOIR_BINETS"]
+  },
+  {
+    "id": "CHI318",
+    "name": "CHI318",
+    "cohortSize": 50,
+    "durationMinutes": 120,
+    "professorId": "PROF007",
+    "typePreferences": ["AMPHI_COULOIR_BINETS", "GRANDS_AMPHIS", "NOUVEAUX_AMPHIS", "AMPHIS_80_100"]
+  },
+  {
+    "id": "MEC442",
+    "name": "MEC442",
+    "cohortSize": 61,
+    "durationMinutes": 120,
+    "professorId": "PROF008",
+    "typePreferences": ["NOUVEAUX_AMPHIS", "AMPHIS_80_100", "AMPHI_COULOIR_BINETS", "GRANDS_AMPHIS"]
+  },
+  {
+    "id": "CHI422",
+    "name": "CHI422",
+    "cohortSize": 33,
+    "durationMinutes": 180,
+    "professorId": "PROF009",
+    "typePreferences": ["SALLES_INFO", "GRANDS_AMPHIS", "NOUVEAUX_AMPHIS", "AMPHIS_80_100", "SALLES_100"]
+  },
+  {
+    "id": "HSS388",
+    "name": "HSS388",
+    "cohortSize": 39,
+    "durationMinutes": 120,
+    "professorId": "PROF010",
+    "typePreferences": ["NOUVEAUX_AMPHIS", "AMPHI_COULOIR_BINETS", "SALLES_100", "SALLES_INFO", "GRANDS_AMPHIS"]
+  },
+  {
+    "id": "CHI406",
+    "name": "CHI406",
+    "cohortSize": 45,
+    "durationMinutes": 90,
+    "professorId": "PROF011",
+    "typePreferences": ["NOUVEAUX_AMPHIS", "GRANDS_AMPHIS", "AMPHI_COULOIR_BINETS", "AMPHIS_80_100"]
+  },
+  {
+    "id": "PHY337",
+    "name": "PHY337",
+    "cohortSize": 72,
+    "durationMinutes": 180,
+    "professorId": "PROF012",
+    "typePreferences": ["AMPHI_COULOIR_BINETS", "NOUVEAUX_AMPHIS", "AMPHIS_80_100", "GRANDS_AMPHIS"]
+  },
+  {
+    "id": "ECO365",
+    "name": "ECO365",
+    "cohortSize": 57,
+    "durationMinutes": 180,
+    "professorId": "PROF013",
+    "typePreferences": ["NOUVEAUX_AMPHIS", "AMPHI_COULOIR_BINETS", "AMPHIS_80_100", "GRANDS_AMPHIS"]
+  },
+  {
+    "id": "BIO434",
+    "name": "BIO434",
+    "cohortSize": 69,
+    "durationMinutes": 60,
+    "professorId": "PROF014",
+    "typePreferences": ["NOUVEAUX_AMPHIS", "GRANDS_AMPHIS", "AMPHIS_80_100", "AMPHI_COULOIR_BINETS"]
+  },
+  {
+    "id": "MAT348",
+    "name": "MAT348",
+    "cohortSize": 92,
+    "durationMinutes": 180,
+    "professorId": "PROF015",
+    "typePreferences": ["NOUVEAUX_AMPHIS", "AMPHIS_80_100", "AMPHI_COULOIR_BINETS", "GRANDS_AMPHIS"]
+  },
+  {
+    "id": "INF487",
+    "name": "INF487",
+    "cohortSize": 103,
+    "durationMinutes": 90,
+    "professorId": "PROF016",
+    "typePreferences": ["GRANDS_AMPHIS", "NOUVEAUX_AMPHIS"]
+  },
+  {
+    "id": "INF441",
+    "name": "INF441",
+    "cohortSize": 105,
+    "durationMinutes": 120,
+    "professorId": "PROF017",
+    "typePreferences": ["NOUVEAUX_AMPHIS", "GRANDS_AMPHIS"]
+  },
+  {
+    "id": "LAN478",
+    "name": "LAN478",
+    "cohortSize": 96,
+    "durationMinutes": 120,
+    "professorId": "PROF018",
+    "typePreferences": ["NOUVEAUX_AMPHIS", "GRANDS_AMPHIS", "AMPHIS_80_100"]
+  },
+  {
+    "id": "LAN370",
+    "name": "LAN370",
+    "cohortSize": 127,
+    "durationMinutes": 120,
+    "professorId": "PROF019",
+    "typePreferences": ["GRANDS_AMPHIS"]
+  },
+  {
+    "id": "ECO406",
+    "name": "ECO406",
+    "cohortSize": 165,
+    "durationMinutes": 60,
+    "professorId": "PROF020",
+    "typePreferences": ["GRANDS_AMPHIS"]
+  },
+  {
+    "id": "HSS379",
+    "name": "HSS379",
+    "cohortSize": 47,
+    "durationMinutes": 120,
+    "professorId": "PROF001",
+    "typePreferences": ["GRANDS_AMPHIS", "NOUVEAUX_AMPHIS", "AMPHIS_80_100", "AMPHI_COULOIR_BINETS"]
+  },
+  {
+    "id": "BIO429",
+    "name": "BIO429",
+    "cohortSize": 47,
+    "durationMinutes": 200,
+    "professorId": "PROF002",
+    "typePreferences": ["AMPHIS_80_100", "NOUVEAUX_AMPHIS", "AMPHI_COULOIR_BINETS", "GRANDS_AMPHIS"]
+  },
+  {
+    "id": "HSS425",
+    "name": "HSS425",
+    "cohortSize": 46,
+    "durationMinutes": 60,
+    "professorId": "PROF003",
+    "typePreferences": ["AMPHIS_80_100", "AMPHI_COULOIR_BINETS", "NOUVEAUX_AMPHIS", "GRANDS_AMPHIS"]
+  },
+  {
+    "id": "MAP349",
+    "name": "MAP349",
+    "cohortSize": 74,
+    "durationMinutes": 90,
+    "professorId": "PROF004",
+    "typePreferences": ["AMPHIS_80_100", "AMPHI_COULOIR_BINETS", "NOUVEAUX_AMPHIS", "GRANDS_AMPHIS"]
+  },
+  {
+    "id": "INF403",
+    "name": "INF403",
+    "cohortSize": 116,
+    "durationMinutes": 90,
+    "professorId": "PROF005",
+    "typePreferences": ["NOUVEAUX_AMPHIS", "GRANDS_AMPHIS"]
+  },
+  {
+    "id": "INF394",
+    "name": "INF394",
+    "cohortSize": 167,
+    "durationMinutes": 120,
+    "professorId": "PROF006",
+    "typePreferences": ["GRANDS_AMPHIS"]
+  },
+  {
+    "id": "PHY422",
+    "name": "PHY422",
+    "cohortSize": 58,
+    "durationMinutes": 120,
+    "professorId": "PROF007",
+    "typePreferences": ["NOUVEAUX_AMPHIS", "AMPHI_COULOIR_BINETS", "GRANDS_AMPHIS", "AMPHIS_80_100"]
+  },
+  {
+    "id": "MAP428",
+    "name": "MAP428",
+    "cohortSize": 56,
+    "durationMinutes": 200,
+    "professorId": "PROF008",
+    "typePreferences": ["NOUVEAUX_AMPHIS", "AMPHIS_80_100", "GRANDS_AMPHIS", "AMPHI_COULOIR_BINETS"]
+  },
+  {
+    "id": "LAN365",
+    "name": "LAN365",
+    "cohortSize": 92,
+    "durationMinutes": 60,
+    "professorId": "PROF009",
+    "typePreferences": ["NOUVEAUX_AMPHIS", "GRANDS_AMPHIS", "AMPHIS_80_100", "AMPHI_COULOIR_BINETS"]
+  },
+  {
+    "id": "PHY322",
+    "name": "PHY322",
+    "cohortSize": 70,
+    "durationMinutes": 120,
+    "professorId": "PROF010",
+    "typePreferences": ["GRANDS_AMPHIS", "AMPHI_COULOIR_BINETS", "AMPHIS_80_100", "NOUVEAUX_AMPHIS"]
+  },
+  {
+    "id": "PHY470",
+    "name": "PHY470",
+    "cohortSize": 48,
+    "durationMinutes": 60,
+    "professorId": "PROF011",
+    "typePreferences": ["GRANDS_AMPHIS", "AMPHIS_80_100", "AMPHI_COULOIR_BINETS", "NOUVEAUX_AMPHIS"]
+  },
+  {
+    "id": "ECO308",
+    "name": "ECO308",
+    "cohortSize": 31,
+    "durationMinutes": 200,
+    "professorId": "PROF012",
+    "typePreferences": ["AMPHI_COULOIR_BINETS", "AMPHIS_80_100", "SALLES_INFO", "SALLES_100", "NOUVEAUX_AMPHIS"]
+  },
+  {
+    "id": "MAT496",
+    "name": "MAT496",
+    "cohortSize": 15,
+    "durationMinutes": 200,
+    "professorId": "PROF013",
+    "typePreferences": ["GRANDS_AMPHIS", "SALLES_100", "AMPHIS_80_100", "SALLES_INFO", "COULOIR_VANNEAU"]
+  },
+  {
+    "id": "PHY476",
+    "name": "PHY476",
+    "cohortSize": 32,
+    "durationMinutes": 60,
+    "professorId": "PROF014",
+    "typePreferences": ["NOUVEAUX_AMPHIS", "AMPHIS_80_100", "SALLES_INFO", "AMPHI_COULOIR_BINETS", "GRANDS_AMPHIS"]
+  },
+  {
+    "id": "BIO372",
+    "name": "BIO372",
+    "cohortSize": 116,
+    "durationMinutes": 200,
+    "professorId": "PROF015",
+    "typePreferences": ["GRANDS_AMPHIS", "NOUVEAUX_AMPHIS"]
+  },
+  {
+    "id": "ECO430",
+    "name": "ECO430",
+    "cohortSize": 69,
+    "durationMinutes": 90,
+    "professorId": "PROF016",
+    "typePreferences": ["NOUVEAUX_AMPHIS", "GRANDS_AMPHIS", "AMPHIS_80_100", "AMPHI_COULOIR_BINETS"]
+  },
+  {
+    "id": "BIO369",
+    "name": "BIO369",
+    "cohortSize": 28,
+    "durationMinutes": 60,
+    "professorId": "PROF017",
+    "typePreferences": ["AMPHIS_80_100", "AMPHI_COULOIR_BINETS", "GRANDS_AMPHIS", "NOUVEAUX_AMPHIS", "COULOIR_VANNEAU"]
+  },
+  {
+    "id": "MEC336",
+    "name": "MEC336",
+    "cohortSize": 90,
+    "durationMinutes": 90,
+    "professorId": "PROF018",
+    "typePreferences": ["GRANDS_AMPHIS", "NOUVEAUX_AMPHIS", "AMPHIS_80_100", "AMPHI_COULOIR_BINETS"]
+  },
+  {
+    "id": "PHY379",
+    "name": "PHY379",
+    "cohortSize": 15,
+    "durationMinutes": 200,
+    "professorId": "PROF019",
+    "typePreferences": ["NOUVEAUX_AMPHIS", "COULOIR_LABOS", "SALLES_100", "SALLES_LANGUES", "COULOIR_SCOLARITE"]
+  },
+  {
+    "id": "MEC421",
+    "name": "MEC421",
+    "cohortSize": 66,
+    "durationMinutes": 180,
+    "professorId": "PROF020",
+    "typePreferences": ["AMPHI_COULOIR_BINETS", "AMPHIS_80_100", "GRANDS_AMPHIS", "NOUVEAUX_AMPHIS"]
+  },
+  {
+    "id": "MEC335",
+    "name": "MEC335",
+    "cohortSize": 30,
+    "durationMinutes": 120,
+    "professorId": "PROF001",
+    "typePreferences": ["NOUVEAUX_AMPHIS", "SALLES_100", "AMPHIS_80_100", "GRANDS_AMPHIS", "SALLES_INFO"]
+  },
+  {
+    "id": "MAP402",
+    "name": "MAP402",
+    "cohortSize": 66,
+    "durationMinutes": 120,
+    "professorId": "PROF002",
+    "typePreferences": ["AMPHIS_80_100", "AMPHI_COULOIR_BINETS", "GRANDS_AMPHIS", "NOUVEAUX_AMPHIS"]
+  },
+  {
+    "id": "MEC493",
+    "name": "MEC493",
+    "cohortSize": 125,
+    "durationMinutes": 60,
+    "professorId": "PROF003",
+    "typePreferences": ["GRANDS_AMPHIS"]
+  },
+  {
+    "id": "CHI490",
+    "name": "CHI490",
+    "cohortSize": 78,
+    "durationMinutes": 90,
+    "professorId": "PROF004",
+    "typePreferences": ["NOUVEAUX_AMPHIS", "GRANDS_AMPHIS", "AMPHIS_80_100", "AMPHI_COULOIR_BINETS"]
+  },
+  {
+    "id": "MAP464",
+    "name": "MAP464",
+    "cohortSize": 22,
+    "durationMinutes": 90,
+    "professorId": "PROF005",
+    "typePreferences": ["SALLES_INFO", "SALLES_100", "AMPHI_COULOIR_BINETS", "COULOIR_LABOS", "NOUVEAUX_AMPHIS"]
+  },
+  {
+    "id": "ECO314",
+    "name": "ECO314",
+    "cohortSize": 80,
+    "durationMinutes": 180,
+    "professorId": "PROF006",
+    "typePreferences": ["NOUVEAUX_AMPHIS", "AMPHIS_80_100", "GRANDS_AMPHIS", "AMPHI_COULOIR_BINETS"]
+  },
+  {
+    "id": "BIO306",
+    "name": "BIO306",
+    "cohortSize": 79,
+    "durationMinutes": 60,
+    "professorId": "PROF007",
+    "typePreferences": ["AMPHI_COULOIR_BINETS", "GRANDS_AMPHIS", "AMPHIS_80_100", "NOUVEAUX_AMPHIS"]
+  },
+  {
+    "id": "BIO484",
+    "name": "BIO484",
+    "cohortSize": 60,
+    "durationMinutes": 90,
+    "professorId": "PROF008",
+    "typePreferences": ["GRANDS_AMPHIS", "NOUVEAUX_AMPHIS", "AMPHI_COULOIR_BINETS", "AMPHIS_80_100"]
+  },
+  {
+    "id": "HSS386",
+    "name": "HSS386",
+    "cohortSize": 30,
+    "durationMinutes": 60,
+    "professorId": "PROF009",
+    "typePreferences": ["GRANDS_AMPHIS", "NOUVEAUX_AMPHIS", "SALLES_100", "AMPHIS_80_100", "SALLES_INFO"]
+  },
+  {
+    "id": "BIO411",
+    "name": "BIO411",
+    "cohortSize": 36,
+    "durationMinutes": 120,
+    "professorId": "PROF010",
+    "typePreferences": ["AMPHI_COULOIR_BINETS", "AMPHIS_80_100", "SALLES_INFO", "GRANDS_AMPHIS", "SALLES_100"]
+  }
+]

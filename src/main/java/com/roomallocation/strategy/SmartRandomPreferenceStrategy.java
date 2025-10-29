@@ -11,15 +11,18 @@ import com.roomallocation.model.Room;
 import com.roomallocation.model.RoomType;
 
 public class SmartRandomPreferenceStrategy extends PreferenceGenerationStrategy {
-    private final int numPreferences;
     private final Map<RoomType, Integer> maxCapacities;
 
     public SmartRandomPreferenceStrategy(int numPreferences, List<Room> rooms) {
         super(numPreferences, "smart_random");
-        this.numPreferences = numPreferences;
         this.maxCapacities = new EnumMap<>(RoomType.class);
-        
-        // Find maximum capacity for each room type
+
+        // Initialize all room types with capacity 0
+        for (RoomType type : RoomType.values()) {
+            maxCapacities.put(type, 0);
+        }
+
+        // Find maximum capacity for each room type that exists
         for (Room room : rooms) {
             maxCapacities.merge(room.getType(), room.getCapacity(), Math::max);
         }
@@ -30,10 +33,17 @@ public class SmartRandomPreferenceStrategy extends PreferenceGenerationStrategy 
         // Filter room types that could potentially fit the course
         List<RoomType> suitableTypes = new ArrayList<>();
         for (RoomType type : availableRoomTypes) {
-            if (course.getCohortSize() <= maxCapacities.get(type)) {
+            Integer maxCapacity = maxCapacities.get(type);
+            if (maxCapacity != null && maxCapacity > 0 && course.getCohortSize() <= maxCapacity) {
                 suitableTypes.add(type);
             }
         }
+
+        // If no suitable types found, return all types as fallback
+        if (suitableTypes.isEmpty()) {
+            suitableTypes = new ArrayList<>(availableRoomTypes);
+        }
+
         // Randomly select from suitable types
         List<RoomType> shuffled = new ArrayList<>(suitableTypes);
         Collections.shuffle(shuffled, random);

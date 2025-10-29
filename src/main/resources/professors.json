@@ -1,0 +1,722 @@
+[
+  {
+    "id": "PROF001",
+    "name": "Christine Simon",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "PROF002",
+    "name": "Monique Moreau",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "PROF003",
+    "name": "Sophie Bonnet",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "PROF004",
+    "name": "Eric Andre",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "PROF005",
+    "name": "Luc Vincent",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "PROF006",
+    "name": "Laurent Martin",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "PROF007",
+    "name": "Françoise Lefebvre",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "PROF008",
+    "name": "Isabelle Mercier",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "PROF009",
+    "name": "Françoise Laurent",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "PROF010",
+    "name": "Patrick Fournier",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "PROF011",
+    "name": "Nathalie Dubois",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "PROF012",
+    "name": "François Morel",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "PROF013",
+    "name": "Julie Girard",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "PROF014",
+    "name": "Pierre Michel",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "PROF015",
+    "name": "Olivier Robert",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "PROF016",
+    "name": "Marie Robert",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "PROF017",
+    "name": "Luc Morel",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "PROF018",
+    "name": "Christine Vincent",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "PROF019",
+    "name": "Christine Bertrand",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  },
+  {
+    "id": "PROF020",
+    "name": "Luc Girard",
+    "availability": {
+      "MONDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "TUESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "WEDNESDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "THURSDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ],
+      "FRIDAY": [
+        {
+          "startTime": "08:00",
+          "endTime": "20:00"
+        }
+      ]
+    }
+  }
+]
