@@ -122,9 +122,9 @@ export const RoomTypeCard: React.FC<RoomTypeCardProps> = ({
         </div>
 
         {/* Info Panel */}
-        <div className="flex flex-col bg-white">
+        <div className="flex flex-col bg-white h-80">
           {/* Seat Range */}
-          <div className="bg-gradient-to-br from-slate-600 to-slate-700 text-white p-3 border-l border-t border-slate-500">
+          <div className="bg-gradient-to-br from-slate-600 to-slate-700 text-white p-3 border-l border-t border-slate-500 flex-shrink-0">
             <div className="text-center">
               <div className="text-xs font-semibold mb-1">Seat range:</div>
               <div className="text-lg font-bold">
@@ -134,7 +134,7 @@ export const RoomTypeCard: React.FC<RoomTypeCardProps> = ({
           </div>
 
           {/* Number of Rooms Available */}
-          <div className="bg-gradient-to-br from-slate-600 to-slate-700 text-white p-3 border-l border-t border-slate-500">
+          <div className="bg-gradient-to-br from-slate-600 to-slate-700 text-white p-3 border-l border-t border-slate-500 flex-shrink-0">
             <div className="text-center">
               <div className="text-xs font-semibold mb-1">Number of rooms</div>
               <div className="text-xs font-semibold">available</div>
@@ -142,10 +142,10 @@ export const RoomTypeCard: React.FC<RoomTypeCardProps> = ({
             </div>
           </div>
 
-          {/* Amenities - Fixed height with scroll */}
-          <div className="bg-gradient-to-br from-slate-700 to-slate-800 text-white p-3 border-l border-t border-slate-600 flex-grow overflow-hidden">
-            <div className="text-xs font-semibold mb-2">Amenities:</div>
-            <div className="overflow-y-auto max-h-32 pr-2 custom-scrollbar">
+          {/* Amenities - Scrollable section */}
+          <div className="bg-gradient-to-br from-slate-700 to-slate-800 text-white p-3 border-l border-t border-slate-600 flex-1 flex flex-col min-h-0">
+            <div className="text-xs font-semibold mb-2 flex-shrink-0">Amenities:</div>
+            <div className="overflow-y-auto pr-2 custom-scrollbar">
               <ul className="space-y-1">
                 {roomType.amenities.map((amenity, index) => (
                   <li key={index} className="text-xs">

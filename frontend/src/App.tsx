@@ -66,11 +66,15 @@ function App() {
     setPreferenceMode(mode);
     setSelectedCourse(null);
 
-    // Clear the other mode's preferences
+    // Clear preferences when switching modes
     if (mode === 'all-courses') {
       setCourseRoomPreferences(new Map());
-    } else {
+    } else if (mode === 'per-course') {
       setGlobalRoomPreferences([]);
+    } else if (mode === 'smart-random') {
+      // Clear both when switching to smart-random
+      setGlobalRoomPreferences([]);
+      setCourseRoomPreferences(new Map());
     }
   };
 
@@ -111,7 +115,7 @@ function App() {
       if (globalRoomPreferences.length < 5) {
         return 'Please select at least 5 room type preferences';
       }
-    } else {
+    } else if (preferenceMode === 'per-course') {
       // Check that all courses have at least 5 preferences
       for (const course of courses) {
         const prefs = courseRoomPreferences.get(course.id || '');
@@ -119,6 +123,9 @@ function App() {
           return `Please set at least 5 room preferences for "${course.name}"`;
         }
       }
+    } else if (preferenceMode === 'smart-random') {
+      // No validation needed for smart-random mode
+      return null;
     }
     return null;
   };
@@ -127,7 +134,7 @@ function App() {
   const isFormValid = (): boolean => {
     if (preferenceMode === 'all-courses') {
       return isPreferencesValid;
-    } else {
+    } else if (preferenceMode === 'per-course') {
       // Check that all courses have at least 5 preferences
       for (const course of courses) {
         const prefs = courseRoomPreferences.get(course.id || '');
@@ -136,7 +143,11 @@ function App() {
         }
       }
       return true;
+    } else if (preferenceMode === 'smart-random') {
+      // Always valid for smart-random mode
+      return true;
     }
+    return false;
   };
 
   // Handle form submission
@@ -167,6 +178,8 @@ function App() {
         courseRoomPreferences:
           preferenceMode === 'per-course' ? courseRoomPreferences : undefined,
         unavailableSlots: timeBlockers,
+        // For smart-random mode, both globalRoomPreferences and courseRoomPreferences are undefined
+        // The backend will handle generating random preferences
       };
 
       const response = await apiService.submitProfessorPreferences(formData);
@@ -260,46 +273,46 @@ function App() {
               path="/"
               element={
                 <div className="space-y-8">
-                  {/* Show Course List only in per-course mode */}
-                  {preferenceMode === 'per-course' && (
+                  {/* Show preference mode selector */}
+                  <section className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                    <CourseList
+                      courses={courses}
+                      preferenceMode={preferenceMode}
+                      selectedCourse={selectedCourse}
+                      onPreferenceModeChange={handlePreferenceModeChange}
+                      onCourseSelect={handleCourseSelect}
+                    />
+                  </section>
+
+                  {/* Room Type Preferences - Hide for smart-random mode */}
+                  {preferenceMode !== 'smart-random' && (
                     <section className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                      <CourseList
-                        courses={courses}
-                        preferenceMode={preferenceMode}
-                        selectedCourse={selectedCourse}
-                        onPreferenceModeChange={handlePreferenceModeChange}
-                        onCourseSelect={handleCourseSelect}
-                      />
+                      <h2 className="text-xl font-semibold text-gray-800 mb-4">
+                        {preferenceMode === 'all-courses'
+                          ? 'Room Type Preferences (All Courses)'
+                          : selectedCourse
+                            ? `Room Type Preferences - ${selectedCourse.name}`
+                            : 'Room Type Preferences'}
+                      </h2>
+
+                      {preferenceMode === 'per-course' && !selectedCourse ? (
+                        <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
+                          <p className="text-gray-600">
+                            Please select a course from the list above to set its room
+                            preferences
+                          </p>
+                        </div>
+                      ) : (
+                        <RoomTypeSelector
+                          selectedTypes={getCurrentRoomPreferences()}
+                          onSelectedTypesChange={handleRoomPreferencesChange}
+                          onValidationChange={setIsPreferencesValid}
+                          minSelection={5}
+                          recommendedSelection={10}
+                        />
+                      )}
                     </section>
                   )}
-
-                  {/* Room Type Preferences */}
-                  <section className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                      {preferenceMode === 'all-courses'
-                        ? 'Room Type Preferences (All Courses)'
-                        : selectedCourse
-                          ? `Room Type Preferences - ${selectedCourse.name}`
-                          : 'Room Type Preferences'}
-                    </h2>
-
-                    {preferenceMode === 'per-course' && !selectedCourse ? (
-                      <div className="text-center py-12 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300">
-                        <p className="text-gray-600">
-                          Please select a course from the list above to set its room
-                          preferences
-                        </p>
-                      </div>
-                    ) : (
-                      <RoomTypeSelector
-                        selectedTypes={getCurrentRoomPreferences()}
-                        onSelectedTypesChange={handleRoomPreferencesChange}
-                        onValidationChange={setIsPreferencesValid}
-                        minSelection={5}
-                        recommendedSelection={10}
-                      />
-                    )}
-                  </section>
 
                   {/* Bottom Save Button */}
                   <div className="flex justify-end">

@@ -72,7 +72,7 @@ export interface Professor {
 }
 
 // Preference ranking mode
-export type PreferenceMode = 'per-course' | 'all-courses';
+export type PreferenceMode = 'per-course' | 'all-courses' | 'smart-random';
 
 // Professor input form data
 export interface ProfessorFormData {

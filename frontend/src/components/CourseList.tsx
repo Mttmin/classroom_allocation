@@ -25,7 +25,7 @@ export const CourseList: React.FC<CourseListProps> = ({
         <label className="block text-sm font-medium text-gray-700 mb-2">
           Room Preference Mode
         </label>
-        <div className="flex gap-4">
+        <div className="flex gap-4 flex-wrap">
           <label className="flex items-center cursor-pointer">
             <input
               type="radio"
@@ -63,11 +63,37 @@ export const CourseList: React.FC<CourseListProps> = ({
               </p>
             </div>
           </label>
+
+          <label className="flex items-center cursor-pointer">
+            <input
+              type="radio"
+              name="preferenceMode"
+              value="smart-random"
+              checked={preferenceMode === 'smart-random'}
+              onChange={() => onPreferenceModeChange('smart-random')}
+              className="mr-2 w-4 h-4 text-blue-600"
+            />
+            <div>
+              <span className="text-sm font-medium text-gray-800">
+                Let the program decide
+              </span>
+              <p className="text-xs text-gray-500">
+                Smart preferences will be assigned to all your courses
+              </p>
+            </div>
+          </label>
         </div>
       </div>
 
       {/* Course List */}
-      {courses.length === 0 ? (
+      {preferenceMode === 'smart-random' ? (
+        <div className="text-center py-8 bg-green-50 rounded-lg border border-green-200">
+          <p className="text-green-800 font-medium">Smart random preferences mode enabled</p>
+          <p className="text-sm text-gray-600 mt-2">
+            The system will automatically assign balanced preferences to all room types for your courses.
+          </p>
+        </div>
+      ) : courses.length === 0 ? (
         <div className="text-center py-8 bg-gray-50 rounded-lg border border-gray-200">
           <p className="text-gray-500">No courses found</p>
         </div>
