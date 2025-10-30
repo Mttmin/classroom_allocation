@@ -271,7 +271,7 @@ export const RoomTypeSelector: React.FC<RoomTypeSelectorProps> = ({
               <div className="mt-2">
                 {selectionStatus.color === 'red' && (
                   <p className="text-sm text-red-600 font-medium">
-                    Please select at least {minSelection} classroom types (minimum required)
+                    It's better to choose at least {minSelection} classroom types
                   </p>
                 )}
                 {selectionStatus.color === 'yellow' && (

@@ -109,39 +109,34 @@ function App() {
     return [];
   };
 
-  // Validate form
-  const validateForm = (): string | null => {
+  // Check if preferences are incomplete (less than recommended)
+  const hasIncompletePreferences = (): boolean => {
     if (preferenceMode === 'all-courses') {
-      if (globalRoomPreferences.length < 5) {
-        return 'Please select at least 5 room type preferences';
-      }
+      return globalRoomPreferences.length > 0 && globalRoomPreferences.length < 10;
     } else if (preferenceMode === 'per-course') {
-      // Check that all courses have at least 5 preferences
       for (const course of courses) {
         const prefs = courseRoomPreferences.get(course.id || '');
-        if (!prefs || prefs.length < 5) {
-          return `Please set at least 5 room preferences for "${course.name}"`;
+        if (prefs && prefs.length > 0 && prefs.length < 10) {
+          return true;
         }
       }
-    } else if (preferenceMode === 'smart-random') {
-      // No validation needed for smart-random mode
-      return null;
     }
+    return false;
+  };
+
+  // Validate form (no longer enforces minimum preferences)
+  const validateForm = (): string | null => {
+    // No validation errors - backend will handle incomplete preferences
     return null;
   };
 
   // Check if form is valid for enabling/disabling save button
   const isFormValid = (): boolean => {
     if (preferenceMode === 'all-courses') {
-      return isPreferencesValid;
+      // Valid as long as user is in all-courses mode (can have 0+ preferences)
+      return true;
     } else if (preferenceMode === 'per-course') {
-      // Check that all courses have at least 5 preferences
-      for (const course of courses) {
-        const prefs = courseRoomPreferences.get(course.id || '');
-        if (!prefs || prefs.length < 5) {
-          return false;
-        }
-      }
+      // Valid as long as user is in per-course mode (can have 0+ preferences per course)
       return true;
     } else if (preferenceMode === 'smart-random') {
       // Always valid for smart-random mode
@@ -185,7 +180,14 @@ function App() {
       const response = await apiService.submitProfessorPreferences(formData);
 
       if (response.success) {
-        setSuccessMessage('Preferences saved successfully!');
+        // Show different success messages based on preference completeness
+        if (hasIncompletePreferences()) {
+          setSuccessMessage(
+            'Preferences saved successfully! The optimization system will complete your preferences with smart suggestions.'
+          );
+        } else {
+          setSuccessMessage('Preferences saved successfully!');
+        }
         // Auto-hide success message after 5 seconds
         setTimeout(() => setSuccessMessage(null), 5000);
       } else {

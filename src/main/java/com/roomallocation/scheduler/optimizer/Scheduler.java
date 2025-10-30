@@ -58,6 +58,13 @@ public abstract class Scheduler {
     public TypeBasedAllocation getAllocator() {
         return this.allocator;
     }
+    public boolean isForceReassign() {
+        return this.forcereassign;
+    }
+    public void setForceReassign(boolean forcereassign) {
+        this.forcereassign = forcereassign;
+    }
+    
     @Override
     public String toString() {
         return "Scheduler: " + this.name + ", Scoring: " + this.scoring.toString() + ", Allocator: " + this.allocator.toString();
