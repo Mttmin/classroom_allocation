@@ -88,9 +88,9 @@ export const CourseList: React.FC<CourseListProps> = ({
       {/* Course List */}
       {preferenceMode === 'smart-random' ? (
         <div className="text-center py-8 bg-green-50 rounded-lg border border-green-200">
-          <p className="text-green-800 font-medium">Smart random preferences mode enabled</p>
+          <p className="text-green-800 font-medium">Smart uniform preferences mode enabled</p>
           <p className="text-sm text-gray-600 mt-2">
-            The system will automatically assign balanced preferences to all room types for your courses.
+            The system will automatically assign balanced preferences fitted for each of your courses.
           </p>
         </div>
       ) : courses.length === 0 ? (
