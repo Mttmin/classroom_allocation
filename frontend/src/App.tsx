@@ -5,6 +5,7 @@ import { RoomTypeSelector } from './components/RoomTypeSelector';
 import { Navigation } from './components/Navigation';
 import { ProfilePage } from './components/ProfilePage';
 import { AllocationResults } from './components/AllocationResults';
+import AdminPage from './components/AdminPage';
 import {
   Course,
   PreferenceMode,
@@ -362,6 +363,12 @@ function App() {
                   professorId={professor?.id || 'PROF001'}
                 />
               }
+            />
+
+            {/* Admin Dashboard Page */}
+            <Route
+              path="/admin"
+              element={<AdminPage />}
             />
           </Routes>
         </main>

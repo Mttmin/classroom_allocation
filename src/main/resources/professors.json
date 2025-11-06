@@ -2,6 +2,7 @@
   {
     "id": "PROF001",
     "name": "Christine Simon",
+    "courses": ["CS101", "CS102"],
     "availability": {
       "MONDAY": [
         {

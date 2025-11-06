@@ -345,6 +345,207 @@ class ApiService {
   }
 
   /**
+   * Get admin statistics
+   */
+  async getAdminStatistics(): Promise<ApiResponse<any>> {
+    if (this.useMock) {
+      await this.delay(500);
+
+      return {
+        success: true,
+        data: {
+          totalProfessors: 20,
+          totalCourses: 70,
+          totalRooms: 150,
+          preferenceStatistics: {
+            professorsWithAllPreferences: 12,
+            professorsWithNoPreferences: 5,
+            professorsWithPartialPreferences: 3,
+            professorsWithNoCourses: 0,
+            totalCoursesWithPreferences: 52,
+            totalCoursesWithoutPreferences: 18,
+          },
+          roomsByType: {
+            COULOIR_VANNEAU: 15,
+            COULOIR_SCOLARITE: 20,
+            SALLES_100: 25,
+            GRANDS_AMPHIS: 8,
+            NOUVEAUX_AMPHIS: 10,
+            SALLES_INFO: 12,
+            SALLES_LANGUES: 8,
+          },
+          courseStatistics: {
+            assignedCourses: 0,
+            unassignedCourses: 70,
+            totalStudents: 5000,
+            averageCohortSize: 71,
+            minCohortSize: 10,
+            maxCohortSize: 200,
+          },
+        },
+      };
+    }
+
+    try {
+      const response = await fetch('/api/admin/statistics');
+      const data = await response.json();
+
+      return {
+        success: response.ok,
+        data: response.ok ? data : undefined,
+        error: response.ok ? undefined : 'Failed to fetch statistics',
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  /**
+   * Get professor preference completion status
+   */
+  async getPreferenceStatus(): Promise<ApiResponse<any>> {
+    if (this.useMock) {
+      await this.delay(500);
+
+      return {
+        success: true,
+        data: {
+          professorsWithAllPreferences: 12,
+          professorsWithNoPreferences: 5,
+          professorsWithPartialPreferences: 3,
+          professorDetails: [
+            {
+              professorId: 'PROF001',
+              professorName: 'Dr. Jean Dupont',
+              totalCourses: 3,
+              coursesWithPreferences: 3,
+              coursesWithoutPreferences: 0,
+            },
+            {
+              professorId: 'PROF002',
+              professorName: 'Dr. Marie Curie',
+              totalCourses: 2,
+              coursesWithPreferences: 0,
+              coursesWithoutPreferences: 2,
+            },
+          ],
+        },
+      };
+    }
+
+    try {
+      const response = await fetch('/api/admin/preferences/status');
+      const data = await response.json();
+
+      return {
+        success: response.ok,
+        data: response.ok ? data : undefined,
+        error: response.ok ? undefined : 'Failed to fetch preference status',
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  /**
+   * Run allocation algorithm with parameters
+   */
+  async runAllocation(params: {
+    strategy: string;
+    numPreferences: number;
+    useExistingCourses: boolean;
+    completePreferences: boolean;
+    numCourses?: number;
+    minSize?: number;
+    maxSize?: number;
+    changeSize?: number;
+  }): Promise<ApiResponse<any>> {
+    if (this.useMock) {
+      await this.delay(2000);
+
+      return {
+        success: true,
+        data: {
+          success: true,
+          message: 'Algorithm started',
+        },
+      };
+    }
+
+    try {
+      const response = await fetch('/api/admin/algorithm/run', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(params),
+      });
+
+      const data = await response.json();
+
+      return {
+        success: response.ok,
+        data: response.ok ? data : undefined,
+        error: response.ok ? undefined : 'Failed to start algorithm',
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  /**
+   * Get allocation algorithm status
+   */
+  async getAlgorithmStatus(): Promise<ApiResponse<any>> {
+    if (this.useMock) {
+      await this.delay(300);
+
+      return {
+        success: true,
+        data: {
+          isRunning: false,
+          lastResult: {
+            success: true,
+            totalCourses: 70,
+            assignedCourses: 68,
+            unassignedCourses: 2,
+            firstChoiceCount: 45,
+            topThreeChoiceCount: 62,
+            averageChoiceRank: 1.8,
+            allocationRate: 0.97,
+            timestamp: Date.now(),
+          },
+        },
+      };
+    }
+
+    try {
+      const response = await fetch('/api/admin/algorithm/status');
+      const data = await response.json();
+
+      return {
+        success: response.ok,
+        data: response.ok ? data : undefined,
+        error: response.ok ? undefined : 'Failed to fetch algorithm status',
+      };
+    } catch (error) {
+      return {
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  }
+
+  /**
    * Utility: simulate network delay
    */
   private delay(ms: number): Promise<void> {
