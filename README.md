@@ -1,36 +1,39 @@
 # Classroom Allocation System
 
-A sophisticated Java-based application for optimizing classroom and room allocations using market design principles and deferred acceptance algorithms. This system simulates course scheduling scenarios and employs various preference generation strategies to efficiently match courses with available rooms.
-
-**Front-end development and integrating a scheduler is currenly work-in-progress, any help appreciated.**
+A sophisticated full-stack application for optimizing classroom and room allocations using market design principles, deferred acceptance algorithms, and intelligent scheduling. The system combines a powerful Java backend with a modern React frontend to provide an intuitive interface for managing course scheduling and room assignments.
 
 ## Table of Contents
 
 - [Overview](#overview)
 - [Features](#features)
+- [Technology Stack](#technology-stack)
 - [System Requirements](#system-requirements)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Project Structure](#project-structure)
+- [API Documentation](#api-documentation)
+- [Algorithms](#algorithms)
 - [Configuration](#configuration)
-- [Algorithms &amp; Strategies](#algorithms--strategies)
-- [Visualization](#visualization)
+- [Development](#development)
 - [License](#license)
-- [Contact](#contact)
 
 ## Overview
 
-This project implements a room allocation system based on market design theory, specifically utilizing a type-based deferred acceptance algorithm. The system simulates realistic classroom allocation scenarios where courses have preferences over room types, and rooms have varying capacities and characteristics.
+This project implements a comprehensive room allocation and scheduling system based on market design theory, specifically utilizing type-based deferred acceptance algorithms. The system provides both algorithmic optimization and an interactive user interface for managing classroom allocations at educational institutions.
 
-The application can:
+### Key Capabilities
 
-- Generate realistic course cohorts with variable sizes
-- Simulate multiple allocation scenarios with different preference strategies
+- Generate and manage realistic course cohorts with variable sizes
+- Run multiple allocation scenarios with different preference strategies
 - Optimize room assignments based on capacity fit and preferences
-- Collect and analyze allocation statistics
-- Visualize results through interactive Python-generated charts and maps
+- Handle scheduling constraints including professor availability and room conflicts
+- Visualize results through interactive dashboards
+- Export allocation data and statistics in JSON format
+- RESTful API for integration with other systems
 
 ## Features
+
+### Backend Features
 
 - **Type-Based Allocation Algorithm**: Implements a deferred acceptance mechanism for stable matching between courses and rooms
 - **Multiple Preference Strategies**:
@@ -39,179 +42,155 @@ The application can:
   - Smart random preference strategy
   - Fixed preference strategy
   - Random preference strategy
-- **Course Simulation**: Generate realistic course distributions with configurable parameters
+- **Constraint Management**: Handles professor availability, room capacity, and correlation constraints
 - **Statistical Analysis**: Comprehensive statistics collection across multiple simulation runs
-- **Data Visualization**: Interactive charts and campus maps showing allocation results
-- **JSON Export**: Export allocation results and statistics for further analysis
-- **Capacity Optimization**: Intelligent fitting algorithms to minimize wasted space1.
+- **RESTful API**: Full API for room types, courses, professors, and allocation management
+- **Data Import/Export**: CSV import for rooms/courses and JSON export for results
 
-## Usage
+### Frontend Features
 
-### Running the Application
+- **Interactive Dashboard**: Modern React-based user interface
+- **Drag-and-Drop Interface**: Intuitive course and room management using @dnd-kit
+- **Real-time Visualization**: View allocation results and statistics
+- **Admin Controls**: Manage courses, rooms, professors, and preferences
+- **Algorithm Selection**: Choose and configure different allocation strategies
+- **Responsive Design**: Built with TailwindCSS for mobile-friendly experience
 
-1. **Execute the main program**:
+## Technology Stack
 
-   ```bash
-   mvn exec:java -Dexec.mainClass="com.roomallocation.Main"
-   ```
+### Backend
 
-   Or compile and run the JAR:
+- **Java 24**: Core application logic
+- **Maven**: Build and dependency management
+- **Jackson**: JSON serialization/deserialization
+- **JUnit 5**: Testing framework
+- **HttpServer**: Lightweight API server
 
-   ```bash
-   mvn clean package
-   java -jar target/room-allocation-1.0-SNAPSHOT.jar
-   ```
-2. **Configure simulation parameters** in `Main.java`:
+### Frontend
 
-   ```java
-   int numSimulations = 100;  // Number of simulation runs
-   int numCourses = 70;       // Number of courses to allocate
-   int minSize = 10;          // Minimum cohort size
-   int maxSize = 200;         // Maximum cohort size
-   int changeSize = 35;       // Size variation parameter
-   ```
-3. **View results**:
+- **React 19**: UI framework
+- **TypeScript**: Type-safe development
+- **Vite**: Fast build tool and development server
+- **TailwindCSS**: Utility-first CSS framework
+- **React Router**: Client-side routing
+- **@dnd-kit**: Drag-and-drop functionality
 
-   - Allocation results are saved to `src/main/resources/allocation_results.json`
-   - Visualization charts are automatically generated via Python scripts
+## System Requirements
 
-### Input Data
-
-- **Room Data**: Define available rooms in `src/main/resources/rooms.csv`
-  - Format: `Room Name, Capacity, Room Type`
-  - Example: `Amphi A, 150, AMPHITHEATER`
-
-### Output
-
-- **JSON Results**: Detailed allocation data including:
-
-  - Simulation parameters
-  - Statistical summaries for each strategy
-  - Final room assignments
-  - Unallocated courses
-- **Visualizations**:
-
-  - Allocation performance charts
-  - Campus maps with room assignments
-  - Comparative strategy analysis
+- **Java Development Kit (JDK)**: Version 24 or higher
+- **Maven**: Version 3.6 or higher
+- **Node.js**: Version 18 or higher
+- **npm**: Version 9 or higher
+- **Python** (optional): For data visualization scripts
 
 ## Project Structure
 
 ```
-room-allocation/
-├── src/
-│   └── main/
-│       ├── java/com/roomallocation/
-│       │   ├── Main.java                          # Application entry point
-│       │   ├── allocation/
-│       │   │   ├── AllocationStep.java           # Step recording for allocation process
-│       │   │   └── TypeBasedAllocation.java      # Core allocation algorithm
-│       │   ├── fitmethods/
-│       │   │   └── capaFit.java                  # Capacity fitting methods
-│       │   ├── model/
-│       │   │   ├── Course.java                   # Course entity
-│       │   │   ├── Room.java                     # Room entity
-│       │   │   └── RoomType.java                 # Room type enumeration
-│       │   ├── simulator/
-│       │   │   └── CourseSimulator.java          # Course generation simulator
-│       │   ├── statistics/
-│       │   │   ├── AllocationStatistics.java     # Statistics data model
-│       │   │   └── StatisticsCollector.java      # Statistics aggregation
-│       │   ├── strategy/
-│       │   │   ├── PreferenceGenerationStrategy.java  # Strategy interface
-│       │   │   ├── SatisfactionBasedStrategy.java     # Satisfaction strategy
-│       │   │   ├── SizedBasedPreferenceStrategy.java  # Size-based strategy
-│       │   │   ├── SmartRandomPreferenceStrategy.java # Smart random strategy
-│       │   │   ├── RandomPreferenceStrategy.java      # Random strategy
-│       │   │   └── FixedPreference.java               # Fixed strategy
-│       │   ├── util/
-│       │   │   └── RoomDataLoader.java           # CSV data loader
-│       │   └── visualization/
-│       │       └── PythonVisualizer.java         # Python integration
-│       └── resources/
-│           ├── rooms.csv                          # Room data
-│           ├── allocation_results.json            # Output results
-│           ├── visualize.py                       # Visualization script
-│           └── visualize_map.py                   # Map visualization script
-├── pom.xml                                        # Maven configuration
-└── target/                                        # Compiled classes and JAR
+classroom_allocation/
+├── frontend/                           # React frontend application
+│   ├── src/
+│   │   ├── components/                 # React components
+│   │   ├── pages/                      # Page components
+│   │   ├── App.tsx                     # Main app component
+│   │   └── main.tsx                    # Entry point
+│   ├── public/                         # Static assets
+│   ├── package.json                    # Node dependencies
+│   └── vite.config.ts                  # Vite configuration
+│
+├── src/main/
+│   ├── java/com/roomallocation/
+│   │   ├── server/
+│   │   │   └── ApiServer.java          # Main API server
+│   │   ├── controller/
+│   │   │   ├── AdminController.java    # Admin endpoints
+│   │   │   ├── AlgorithmController.java # Algorithm endpoints
+│   │   │   └── RoomTypeController.java # Room type endpoints
+│   │   ├── service/
+│   │   │   ├── AdminService.java       # Business logic
+│   │   │   └── RoomTypeService.java    # Room type service
+│   │   ├── model/
+│   │   │   ├── Course.java             # Course entity
+│   │   │   ├── Room.java               # Room entity
+│   │   │   ├── Professor.java          # Professor entity
+│   │   │   ├── Schedule.java           # Schedule entity
+│   │   │   └── RoomType.java           # Room type enum
+│   │   ├── allocation/
+│   │   │   ├── TypeBasedAllocation.java # Core allocation algorithm
+│   │   │   └── AllocationStep.java     # Allocation step tracking
+│   │   ├── scheduler/
+│   │   │   ├── optimizer/
+│   │   │   │   ├── Scheduler.java      # Scheduler interface
+│   │   │   │   └── NaiveScheduler.java # Basic scheduler
+│   │   │   └── scoring/
+│   │   │       └── Scoring.java        # Scoring logic
+│   │   ├── strategy/
+│   │   │   ├── PreferenceGenerationStrategy.java
+│   │   │   ├── SatisfactionBasedStrategy.java
+│   │   │   ├── SizedBasedPreferenceStrategy.java
+│   │   │   ├── SmartRandomPreferenceStrategy.java
+│   │   │   ├── RandomPreferenceStrategy.java
+│   │   │   └── FixedPreference.java
+│   │   ├── constraint/
+│   │   │   ├── ConstraintValidator.java
+│   │   │   ├── ProfessorConstraint.java
+│   │   │   ├── RoomConstraint.java
+│   │   │   └── CorrelationConstraint.java
+│   │   ├── statistics/
+│   │   │   ├── StatisticsCollector.java
+│   │   │   └── AllocationStatistics.java
+│   │   ├── util/
+│   │   │   ├── RoomDataLoader.java
+│   │   │   ├── CourseDataLoader.java
+│   │   │   └── ProfessorDataLoader.java
+│   │   └── Main.java                   # CLI entry point
+│   └── resources/
+│       ├── rooms.csv                    # Room data
+│       ├── allocation_results.json      # Output results
+│       └── static/                      # Frontend build output
+│
+├── pom.xml                              # Maven configuration
+└── LICENSE                              # License file
 ```
 
-## Configuration
-
-### Room Types
-
-The system supports various room types defined in `RoomType.java`:
-
-- `AMPHITHEATER`: Large lecture halls
-- `CLASSROOM`: Standard classrooms
-- `COMPUTER_LAB`: Computer labs
-- `SEMINAR_ROOM`: Small seminar rooms
-- (Add other types as defined in your enum)
-
-### Preference Strategies
-
-Different strategies can be tested by adding them to the `StatisticsCollector`:
-
-```java
-collector.addStrategy(new SatisfactionBasedStrategy(numPreferences, rooms));
-collector.addStrategy(new SmartRandomPreferenceStrategy(numPreferences, rooms));
-collector.addStrategy(new SizedBasedPreferenceStrategy(numPreferences, rooms));
-```
-
-## Algorithms & Strategies
+## Algorithms
 
 ### Type-Based Deferred Acceptance
 
 The core allocation algorithm implements a type-based deferred acceptance mechanism:
 
-1. Courses propose to their preferred room types in order of preference
-2. Rooms tentatively accept the best-fitting course
-3. Rejected courses propose to their next preference
-4. Process continues until all courses are assigned or exhaust their preferences
+1. **Proposal Phase**: Courses propose to their preferred room types in order of preference
+2. **Tentative Acceptance**: Rooms tentatively accept the best-fitting course based on capacity
+3. **Rejection**: Rejected courses propose to their next preference
+4. **Iteration**: Process continues until all courses are assigned or exhaust preferences
+5. **Stability**: The final matching is stable with no blocking pairs
 
 ### Capacity Fitting
 
-The `capaFit` method evaluates how well a course fits in a room, optimizing for:
+The `capaFit` method evaluates how well a course fits in a room:
 
-- Minimizing wasted capacity
-- Ensuring sufficient space for all students
-- Balancing utilization across room types
+- Minimizes wasted capacity
+- Ensures sufficient space for all students
+- Balances utilization across room types
+- Considers buffer space for flexibility
 
-## Visualization
+### Preference Strategies
 
-The system includes Python-based visualization tools:
+Different strategies generate course preferences:
 
-- **Performance Charts**: Compare allocation success rates across strategies
-- **Campus Maps**: Visual representation of room assignments
-- **Statistical Plots**: Analyze allocation efficiency and satisfaction metrics
-
-Visualizations are automatically generated after running simulations.
+- **Satisfaction-Based**: Prioritizes room types that maximize user satisfaction
+- **Size-Based**: Matches courses to rooms based on size compatibility
+- **Smart Random**: Uses randomization with intelligent constraints
+- **Fixed**: Uses predetermined preferences
+- **Random**: Pure random preference generation
 
 ## License
 
-**Copyright © 2025. All Rights Reserved.**
+Copyright (c) 2025. All Rights Reserved.
 
-### Usage Restrictions
+This software is proprietary and confidential. Unauthorized copying, distribution, or use of this software is strictly prohibited. See the [LICENSE](LICENSE) file for details.
 
-This software and associated documentation files (the "Software") are proprietary.
-
-**IMPORTANT NOTICE:**
-
-1. **Prior Authorization Required**: Any use, reproduction, modification, distribution, or any other exploitation of this Software requires explicit written permission from the copyright holder.
-2. **Commercial Use Prohibited**: Commercial use of this Software is strictly forbidden without a separate commercial license agreement.
-3. **No Warranty**: The Software is provided "AS IS", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and noninfringement.
-4. **Contact Requirement**: Before using this Software in any capacity, you must contact the author for authorization.
-
-### Contact for Licensing
-
-For permission requests, licensing inquiries, academic use or any questions regarding the use of this Software, please contact:
-
-**Email**: mam2684@columbia.edu
-**Subject**: Classroom Allocation System - License Request
-
-Unauthorized use of this Software may result in legal action.
+For licensing inquiries, please contact: mam2684@columbia.edu
 
 ---
 
-*This project was developed as part of advanced coursework in Market Design, focusing on practical applications of matching theory and algorithmic game theory.*
+Developed as part of advanced coursework in Market Design and Algorithmic Game Theory at Ecole Polytechnique.
