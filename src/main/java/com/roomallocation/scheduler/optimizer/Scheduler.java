@@ -30,8 +30,26 @@ public abstract class Scheduler {
         this.courses = courses;
         this.rooms = rooms;
         this.allocator = allocator;
-        this.schedule = new Schedule(courses, professors, correlationMatrix);
         this.forcereassign = forcereassign;
+        this.professors = new java.util.HashMap<>();
+        this.correlationMatrix = null;
+        // Schedule will be initialized by subclasses with proper professors and correlationMatrix
+    }
+
+    public void setProfessors(Map<String, Professor> professors) {
+        this.professors = professors;
+    }
+
+    public void setCorrelationMatrix(double[][] correlationMatrix) {
+        this.correlationMatrix = correlationMatrix;
+    }
+
+    public Map<String, Professor> getProfessors() {
+        return this.professors;
+    }
+
+    public double[][] getCorrelationMatrix() {
+        return this.correlationMatrix;
     }
 
     public abstract void runSchedule();

@@ -58,6 +58,7 @@ public class AlgorithmController {
                     int numPreferences = (int) params.getOrDefault("numPreferences", 10);
                     boolean useExistingCourses = (boolean) params.getOrDefault("useExistingCourses", true);
                     boolean completePreferences = (boolean) params.getOrDefault("completePreferences", true);
+                    boolean enableTimeScheduling = (boolean) params.getOrDefault("enableTimeScheduling", true);
 
                     // Simulation parameters (if generating new courses)
                     int numCourses = (int) params.getOrDefault("numCourses", 70);
@@ -77,7 +78,8 @@ public class AlgorithmController {
                         try {
                             runAllocation(
                                 strategyType, numPreferences, useExistingCourses,
-                                completePreferences, numCourses, minSize, maxSize, changeSize
+                                completePreferences, enableTimeScheduling,
+                                numCourses, minSize, maxSize, changeSize
                             );
                         } finally {
                             isRunning = false;
@@ -138,6 +140,7 @@ public class AlgorithmController {
             int numPreferences,
             boolean useExistingCourses,
             boolean completePreferences,
+            boolean enableTimeScheduling,
             int numCourses,
             int minSize,
             int maxSize,
@@ -149,6 +152,7 @@ public class AlgorithmController {
             System.out.println("Number of preferences: " + numPreferences);
             System.out.println("Use existing courses: " + useExistingCourses);
             System.out.println("Complete preferences: " + completePreferences);
+            System.out.println("Time scheduling enabled: " + enableTimeScheduling);
 
             // Load rooms
             List<Room> rooms = RoomDataLoader.loadRooms();
@@ -175,13 +179,75 @@ public class AlgorithmController {
                 System.out.println("Preferences completed");
             }
 
-            // Run allocation
-            System.out.println("Running allocation algorithm...");
-            TypeBasedAllocation allocator = new TypeBasedAllocation(courses, rooms);
-            Map<String, String> assignments = allocator.allocate();
+            Map<String, String> assignments;
 
-            System.out.println("Allocation complete!");
-            System.out.println("Assigned " + assignments.size() + " courses");
+            // Run allocation with or without time scheduling
+            if (enableTimeScheduling) {
+                // Load professors
+                System.out.println("Loading professors...");
+                List<com.roomallocation.model.Professor> professorList = com.roomallocation.util.ProfessorDataLoader.loadProfessors();
+                Map<String, com.roomallocation.model.Professor> professors = new HashMap<>();
+                for (com.roomallocation.model.Professor p : professorList) {
+                    professors.put(p.getId(), p);
+                }
+
+                // Load or generate correlation matrix
+                System.out.println("Loading student correlation matrix...");
+                double[][] correlationMatrix = com.roomallocation.util.CorrelationMatrixLoader.loadOrGenerateMatrix(courses);
+                com.roomallocation.util.CorrelationMatrixGenerator.printStatistics(correlationMatrix, courses);
+
+                // Create scoring system
+                com.roomallocation.scheduler.scoring.Scoring scoring = new com.roomallocation.scheduler.scoring.Scoring();
+
+                // Create constraint validator
+                com.roomallocation.constraint.ConstraintValidator validator =
+                    new com.roomallocation.constraint.ConstraintValidator(0.5);
+
+                // Create allocator (will be called by scheduler)
+                TypeBasedAllocation allocator = new TypeBasedAllocation(courses, rooms);
+
+                // Create and run scheduler
+                System.out.println("Creating time scheduler...");
+                com.roomallocation.scheduler.optimizer.NaiveScheduler scheduler =
+                    new com.roomallocation.scheduler.optimizer.NaiveScheduler(
+                        "NaiveGreedyScheduler",
+                        scoring,
+                        validator,
+                        courses,
+                        rooms,
+                        allocator,
+                        false, // forcereassign
+                        professors,
+                        correlationMatrix
+                    );
+
+                scheduler.runSchedule();
+
+                // Get schedule results
+                com.roomallocation.model.Schedule schedule = scheduler.getSchedule();
+
+                // Extract assignments
+                assignments = new HashMap<>();
+                for (com.roomallocation.model.ScheduledCourse sc : schedule.getScheduledCourses()) {
+                    if (sc.getAssignedRoomId() != null) {
+                        assignments.put(sc.getCourse().getName(), sc.getAssignedRoomId());
+                    }
+                }
+
+                System.out.println("\n===== Time Scheduling Results =====");
+                System.out.println("Scheduled courses: " + schedule.getAssignedCourses().size());
+                System.out.println("Assigned rooms: " + assignments.size());
+                System.out.println("Schedule score: " + String.format("%.2f", schedule.getScore()));
+
+            } else {
+                // Run traditional allocation without time scheduling
+                System.out.println("Running allocation algorithm (without time scheduling)...");
+                TypeBasedAllocation allocator = new TypeBasedAllocation(courses, rooms);
+                assignments = allocator.allocate();
+
+                System.out.println("Allocation complete!");
+                System.out.println("Assigned " + assignments.size() + " courses");
+            }
 
             // Prepare result
             Map<String, Object> result = new HashMap<>();
