@@ -6,6 +6,7 @@ import com.roomallocation.scheduler.scoring.Scoring;
 import com.roomallocation.allocation.TypeBasedAllocation;
 import com.roomallocation.constraint.ConstraintValidator;
 import com.roomallocation.model.Schedule;
+import com.roomallocation.statistics.SchedulerStatistics;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ public abstract class Scheduler {
     private boolean forcereassign = false;
     private Map<String, Professor> professors;
     private double[][] correlationMatrix;
+    protected long executionTimeMs = 0;
 
     public Scheduler(String name, Scoring scoring, ConstraintValidator constraints, List<Course> courses, List<Room> rooms, TypeBasedAllocation allocator, boolean forcereassign) {
         this.name = name;
@@ -82,7 +84,27 @@ public abstract class Scheduler {
     public void setForceReassign(boolean forcereassign) {
         this.forcereassign = forcereassign;
     }
-    
+
+    public long getExecutionTimeMs() {
+        return executionTimeMs;
+    }
+
+    public void setExecutionTimeMs(long timeMs) {
+        this.executionTimeMs = timeMs;
+    }
+
+    /**
+     * Get statistics for this scheduler's execution
+     */
+    public SchedulerStatistics getStatistics() {
+        if (schedule == null) {
+            throw new IllegalStateException("Schedule has not been run yet");
+        }
+        SchedulerStatistics stats = new SchedulerStatistics(schedule, scoring);
+        stats.setExecutionTimeMs(executionTimeMs);
+        return stats;
+    }
+
     @Override
     public String toString() {
         return "Scheduler: " + this.name + ", Scoring: " + this.scoring.toString() + ", Allocator: " + this.allocator.toString();

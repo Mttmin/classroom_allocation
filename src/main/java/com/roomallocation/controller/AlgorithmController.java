@@ -180,6 +180,7 @@ public class AlgorithmController {
             }
 
             Map<String, String> assignments;
+            TypeBasedAllocation allocator;
 
             // Run allocation with or without time scheduling
             if (enableTimeScheduling) {
@@ -204,7 +205,7 @@ public class AlgorithmController {
                     new com.roomallocation.constraint.ConstraintValidator(0.5);
 
                 // Create allocator (will be called by scheduler)
-                TypeBasedAllocation allocator = new TypeBasedAllocation(courses, rooms);
+                allocator = new TypeBasedAllocation(courses, rooms);
 
                 // Create and run scheduler
                 System.out.println("Creating time scheduler...");
@@ -242,7 +243,7 @@ public class AlgorithmController {
             } else {
                 // Run traditional allocation without time scheduling
                 System.out.println("Running allocation algorithm (without time scheduling)...");
-                TypeBasedAllocation allocator = new TypeBasedAllocation(courses, rooms);
+                allocator = new TypeBasedAllocation(courses, rooms);
                 assignments = allocator.allocate();
 
                 System.out.println("Allocation complete!");

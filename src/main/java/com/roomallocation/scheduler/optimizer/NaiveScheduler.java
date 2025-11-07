@@ -2,6 +2,7 @@ package com.roomallocation.scheduler.optimizer;
 
 import com.roomallocation.scheduler.scoring.Scoring;
 import com.roomallocation.scheduler.util.TimeSlotGenerator;
+import com.roomallocation.allocation.TypeBasedAllocation;
 import com.roomallocation.constraint.ConstraintValidator;
 import com.roomallocation.model.*;
 import java.util.*;
@@ -42,6 +43,7 @@ public class NaiveScheduler extends Scheduler {
 
     @Override
     public void runSchedule() {
+        long startTime = System.currentTimeMillis();
         System.out.println("Running Naive Greedy Time Scheduler...");
 
         // Initialize schedule
@@ -74,9 +76,13 @@ public class NaiveScheduler extends Scheduler {
         double score = getScoring().calculateScore(schedule);
         schedule.setScore(score);
 
+        long endTime = System.currentTimeMillis();
+        this.executionTimeMs = endTime - startTime;
+
         System.out.println(String.format("\nTime Scheduling Complete: %d/%d courses scheduled",
             scheduledCount, totalCourses));
         System.out.println("Schedule Score: " + String.format("%.2f", score));
+        System.out.println("Execution Time: " + executionTimeMs + " ms");
 
         // Print score breakdown
         Map<String, Double> breakdown = getScoring().getScoreBreakdown(schedule);
@@ -364,7 +370,7 @@ public class NaiveScheduler extends Scheduler {
         }
 
         // Run the type-based allocation algorithm
-        Map<String, String> assignments = getAllocator().allocate(courses, getRooms());
+        Map<String, String> assignments = getAllocator().allocate();
 
         // Update scheduled courses with room assignments
         for (ScheduledCourse sc : schedule.getScheduledCourses()) {

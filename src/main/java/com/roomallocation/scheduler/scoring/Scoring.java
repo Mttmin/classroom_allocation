@@ -14,12 +14,12 @@ public class Scoring {
     // Penalty weights (higher weight = more important)
     private double correlationPenaltyWeight = 1000.0;  // Very high - critical for student options
     private double professorGapPenaltyWeight = 10.0;
-    private double timePreferencePenaltyWeight = 5.0;
-    private double earlyClassPenaltyWeight = 20.0;
+    private double timePreferencePenaltyWeight = 20.0;
+    private double earlyClassPenaltyWeight = 10.0;
 
     // Thresholds
-    private double correlationSoftThreshold = 0.5;  // Start penalizing above this correlation
-    private int professorGapThresholdMinutes = 60;  // Gaps longer than this are penalized
+    private double correlationSoftThreshold = 0.3;  // Start penalizing above this correlation
+    private int professorGapThresholdMinutes = 90;  // Gaps longer than this are penalized
 
     public Scoring() {
     }

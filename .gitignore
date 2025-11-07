@@ -9,6 +9,7 @@
 /target
 /frontend/dist
 /frontend/build
+/output
 
 # Dependencies
 /node_modules

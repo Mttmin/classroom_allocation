@@ -106,11 +106,16 @@ public class AllocationStatistics {
 
     // Getters for the metrics
     public double getSatisfactionRate() { return allocationRate; }
-    public double getFirstChoiceRate() { return firstChoiceRate; }
+    public double getAllocationRate() { return allocationRate / 100.0; } // Return as decimal (0-1)
+    public double getFirstChoiceRate() { return firstChoiceRate / 100.0; } // Return as decimal (0-1)
     public double getHighRankRate() { return highRankRate; }
     public double getUnallocatedRate() { return unallocatedRate; }
     public double getAverageChoice() { return averageChoice; }
+    public double getAverageChoiceNumber() { return averageChoice; } // Alias
     public int getNumAllocationSteps() { return numAllocationSteps; }
+    public int getNumberOfSteps() { return numAllocationSteps; } // Alias
+    public int getTotalCourses() { return totalCourses; }
+    public int getAllocatedCourses() { return allocatedCourses; }
     public Map<Integer, Integer> getChoiceDistribution() { return choiceDistribution; }
 }
 
