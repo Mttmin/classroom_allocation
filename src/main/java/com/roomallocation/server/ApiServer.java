@@ -2,6 +2,7 @@ package com.roomallocation.server;
 
 import com.roomallocation.controller.AdminController;
 import com.roomallocation.controller.AlgorithmController;
+import com.roomallocation.controller.ProfessorController;
 import com.roomallocation.controller.RoomTypeController;
 import com.sun.net.httpserver.HttpServer;
 
@@ -19,6 +20,7 @@ public class ApiServer {
     private final int port;
     private final AdminController adminController;
     private final AlgorithmController algorithmController;
+    private final ProfessorController professorController;
     private final RoomTypeController roomTypeController;
 
     public ApiServer(int port) throws IOException {
@@ -28,6 +30,7 @@ public class ApiServer {
         // Initialize controllers
         this.adminController = new AdminController();
         this.algorithmController = new AlgorithmController();
+        this.professorController = new ProfessorController();
         this.roomTypeController = new RoomTypeController();
 
         // Register routes
@@ -47,6 +50,25 @@ public class ApiServer {
         server.createContext("/api/admin/algorithm/run", algorithmController.runAlgorithmHandler());
         server.createContext("/api/admin/algorithm/status", algorithmController.getStatusHandler());
 
+        // Professor endpoints
+        ProfessorController profCtrl = professorController;
+        server.createContext("/api/professors/preferences", profCtrl.submitPreferencesHandler());
+        // Note: More specific routes must be registered before less specific ones
+        server.createContext("/api/professors/", exchange -> {
+            String path = exchange.getRequestURI().getPath();
+            if (path.matches("/api/professors/[^/]+/courses")) {
+                profCtrl.getCoursesByProfessorHandler().handle(exchange);
+            } else if (path.matches("/api/professors/[^/]+/allocation")) {
+                profCtrl.getAllocationResultsHandler().handle(exchange);
+            } else if (path.matches("/api/professors/[^/]+/availability")) {
+                profCtrl.updateAvailabilityHandler().handle(exchange);
+            } else if (path.matches("/api/professors/[^/]+")) {
+                profCtrl.getProfessorByIdHandler().handle(exchange);
+            } else {
+                exchange.sendResponseHeaders(404, -1);
+            }
+        });
+
         // Room type endpoints
         server.createContext("/api/rooms/types", roomTypeController.getAllRoomTypesHandler());
         server.createContext("/api/rooms/type/", roomTypeController.getRoomTypeHandler());
@@ -57,6 +79,11 @@ public class ApiServer {
         System.out.println("  - GET  /api/admin/professors/incomplete");
         System.out.println("  - POST /api/admin/algorithm/run");
         System.out.println("  - GET  /api/admin/algorithm/status");
+        System.out.println("  - GET  /api/professors/{id}");
+        System.out.println("  - GET  /api/professors/{id}/courses");
+        System.out.println("  - GET  /api/professors/{id}/allocation");
+        System.out.println("  - PUT  /api/professors/{id}/availability");
+        System.out.println("  - POST /api/professors/preferences");
         System.out.println("  - GET  /api/rooms/types");
         System.out.println("  - GET  /api/rooms/type/{roomType}");
     }

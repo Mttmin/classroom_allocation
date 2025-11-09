@@ -31,7 +31,6 @@ function App() {
   const [timeBlockers, setTimeBlockers] = useState<TimeBlocker[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [isPreferencesValid, setIsPreferencesValid] = useState(false);
 
   // Load professor data on mount
   useEffect(() => {
@@ -309,7 +308,6 @@ function App() {
                         <RoomTypeSelector
                           selectedTypes={getCurrentRoomPreferences()}
                           onSelectedTypesChange={handleRoomPreferencesChange}
-                          onValidationChange={setIsPreferencesValid}
                           minSelection={5}
                           recommendedSelection={10}
                         />
