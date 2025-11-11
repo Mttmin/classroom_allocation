@@ -164,7 +164,7 @@ const mockAllocationResult = USE_PENDING_STATE
 
 // Mock API service
 class ApiService {
-  private useMock = true; // Set to false when backend is ready
+  private useMock = false; // Set to false when backend is ready
 
   /**
    * Fetch professor data by ID
@@ -182,6 +182,16 @@ class ApiService {
 
     try {
       const response = await fetch(`/api/professors/${professorId}`);
+
+      // Check if response is JSON
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        return {
+          success: false,
+          error: 'Server returned non-JSON response. Is the backend running?',
+        };
+      }
+
       const data = await response.json();
 
       return {
@@ -212,6 +222,16 @@ class ApiService {
 
     try {
       const response = await fetch(`/api/professors/${professorId}/courses`);
+
+      // Check if response is JSON
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        return {
+          success: false,
+          error: 'Server returned non-JSON response. Is the backend running?',
+        };
+      }
+
       const data = await response.json();
 
       return {
@@ -329,6 +349,16 @@ class ApiService {
 
     try {
       const response = await fetch(`/api/professors/${professorId}/allocation`);
+
+      // Check if response is JSON
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        return {
+          success: false,
+          error: 'Server returned non-JSON response. Is the backend running?',
+        };
+      }
+
       const data = await response.json();
 
       return {
@@ -388,6 +418,16 @@ class ApiService {
 
     try {
       const response = await fetch('/api/admin/statistics');
+
+      // Check if response is JSON
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        return {
+          success: false,
+          error: 'Server returned non-JSON response. Is the backend running?',
+        };
+      }
+
       const data = await response.json();
 
       return {
@@ -487,6 +527,15 @@ class ApiService {
         body: JSON.stringify(params),
       });
 
+      // Check if response is JSON
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        return {
+          success: false,
+          error: 'Server returned non-JSON response. Is the backend running?',
+        };
+      }
+
       const data = await response.json();
 
       return {
@@ -530,6 +579,16 @@ class ApiService {
 
     try {
       const response = await fetch('/api/admin/algorithm/status');
+
+      // Check if response is JSON
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        return {
+          success: false,
+          error: 'Server returned non-JSON response. Is the backend running?',
+        };
+      }
+
       const data = await response.json();
 
       return {

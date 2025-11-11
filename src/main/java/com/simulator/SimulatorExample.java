@@ -4,7 +4,6 @@ import com.roomallocation.strategy.PreferenceGenerationStrategy;
 import com.roomallocation.strategy.RandomPreferenceStrategy;
 import com.roomallocation.strategy.SmartRandomPreferenceStrategy;
 import com.simulator.ClassroomSimulator.DistributionMode;
-import com.simulator.ClassroomSimulator.RoomTypeConfig;
 import com.simulator.CourseSimulator.CorrelationMode;
 import com.simulator.ProfessorSimulator.AvailabilityMode;
 import com.simulator.SimulationRunner.SimulationResult;
@@ -12,7 +11,6 @@ import com.roomallocation.model.RoomType;
 import com.roomallocation.model.Room;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +27,9 @@ public class SimulatorExample {
         // Run different simulation scenarios
         runUniversitySimulation();
         runSmartRandomSimulation();
+
+        // NEW: Run comparison simulator to compare different algorithms
+        runComparisonDemo();
     }
 
     /**
@@ -258,5 +259,36 @@ public class SimulatorExample {
         System.out.println("  - Preferences are based on actual room capacities");
         System.out.println("  - Courses only prefer room types that can accommodate their size");
         System.out.println("  - Reduces infeasible allocations and improves scheduling efficiency");
+    }
+
+    /**
+     * NEW: Demonstrate the comparison simulator with statistics and visualizations
+     */
+    private static void runComparisonDemo() {
+        System.out.println("\n\n");
+        System.out.println("═══════════════════════════════════════════════════════════");
+        System.out.println("  COMPARISON DEMO: Algorithm Performance Analysis");
+        System.out.println("═══════════════════════════════════════════════════════════\n");
+
+        // Create configuration for comparison
+        SimulatorConfig config = SimulatorConfig.createDefaultConfig();
+
+        // Initialize the comparison simulator
+        ComparisonSimulator comparisonSim = new ComparisonSimulator(config);
+        comparisonSim.initialize();
+
+        System.out.println("\n--- Running Quick Comparison (Random vs SmartRandom) ---\n");
+        comparisonSim.runQuickComparison();
+
+        System.out.println("\n\n--- Running Comprehensive Comparison (All Strategies) ---\n");
+        comparisonSim.runComprehensiveComparison();
+
+        System.out.println("\n");
+        System.out.println("═══════════════════════════════════════════════════════════");
+        System.out.println("  Comparisons complete!");
+        System.out.println("  Check the following files for interactive visualizations:");
+        System.out.println("  - output/visualizations/quick_comparison.html");
+        System.out.println("  - output/visualizations/comprehensive_comparison.html");
+        System.out.println("═══════════════════════════════════════════════════════════");
     }
 }

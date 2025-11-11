@@ -125,7 +125,13 @@ const AdminPage: React.FC = () => {
     setLogs((prev) => [...prev, `[${new Date().toLocaleTimeString()}] ${message}`]);
   };
 
-  const runAlgorithm = async () => {
+  const runAlgorithm = async (e?: React.MouseEvent<HTMLButtonElement>) => {
+    // Prevent any default behavior
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
     try {
       setIsRunning(true);
       setLogs([]);
@@ -187,7 +193,7 @@ const AdminPage: React.FC = () => {
 
   const preferenceCompletionRate = stats
     ? ((stats.preferenceStatistics.professorsWithAllPreferences /
-        (stats.totalProfessors - stats.preferenceStatistics.professorsWithNoCourses)) *
+        stats.totalProfessors) *
         100).toFixed(1)
     : 0;
 
@@ -416,6 +422,7 @@ const AdminPage: React.FC = () => {
 
           {/* Run Button */}
           <button
+            type="button"
             onClick={runAlgorithm}
             disabled={isRunning}
             className={`w-full px-6 py-3 rounded-md text-white font-medium ${

@@ -1,8 +1,7 @@
 [
   {
     "id": "PROF001",
-    "name": "Christine Simon",
-    "courses": ["CS101", "CS102"],
+    "name": "Nicolas Leroy",
     "availability": {
       "MONDAY": [
         {
@@ -38,7 +37,7 @@
   },
   {
     "id": "PROF002",
-    "name": "Monique Moreau",
+    "name": "Olivier Martin",
     "availability": {
       "MONDAY": [
         {
@@ -74,7 +73,7 @@
   },
   {
     "id": "PROF003",
-    "name": "Sophie Bonnet",
+    "name": "Monique Martin",
     "availability": {
       "MONDAY": [
         {
@@ -110,7 +109,7 @@
   },
   {
     "id": "PROF004",
-    "name": "Eric Andre",
+    "name": "Marie Moreau",
     "availability": {
       "MONDAY": [
         {
@@ -146,7 +145,7 @@
   },
   {
     "id": "PROF005",
-    "name": "Luc Vincent",
+    "name": "Jean Bertrand",
     "availability": {
       "MONDAY": [
         {
@@ -182,7 +181,7 @@
   },
   {
     "id": "PROF006",
-    "name": "Laurent Martin",
+    "name": "François Lefebvre",
     "availability": {
       "MONDAY": [
         {
@@ -218,7 +217,7 @@
   },
   {
     "id": "PROF007",
-    "name": "Françoise Lefebvre",
+    "name": "Eric Moreau",
     "availability": {
       "MONDAY": [
         {
@@ -254,7 +253,7 @@
   },
   {
     "id": "PROF008",
-    "name": "Isabelle Mercier",
+    "name": "Patrick Richard",
     "availability": {
       "MONDAY": [
         {
@@ -290,7 +289,7 @@
   },
   {
     "id": "PROF009",
-    "name": "Françoise Laurent",
+    "name": "Martine Lefebvre",
     "availability": {
       "MONDAY": [
         {
@@ -326,7 +325,7 @@
   },
   {
     "id": "PROF010",
-    "name": "Patrick Fournier",
+    "name": "Eric Lambert",
     "availability": {
       "MONDAY": [
         {
@@ -362,7 +361,7 @@
   },
   {
     "id": "PROF011",
-    "name": "Nathalie Dubois",
+    "name": "Pierre Thomas",
     "availability": {
       "MONDAY": [
         {
@@ -398,7 +397,7 @@
   },
   {
     "id": "PROF012",
-    "name": "François Morel",
+    "name": "Alain Dupont",
     "availability": {
       "MONDAY": [
         {
@@ -434,7 +433,7 @@
   },
   {
     "id": "PROF013",
-    "name": "Julie Girard",
+    "name": "Patrick Mercier",
     "availability": {
       "MONDAY": [
         {
@@ -470,7 +469,7 @@
   },
   {
     "id": "PROF014",
-    "name": "Pierre Michel",
+    "name": "Bernard Thomas",
     "availability": {
       "MONDAY": [
         {
@@ -506,7 +505,7 @@
   },
   {
     "id": "PROF015",
-    "name": "Olivier Robert",
+    "name": "Pierre Morel",
     "availability": {
       "MONDAY": [
         {
@@ -542,7 +541,7 @@
   },
   {
     "id": "PROF016",
-    "name": "Marie Robert",
+    "name": "Nathalie Garcia",
     "availability": {
       "MONDAY": [
         {
@@ -578,7 +577,7 @@
   },
   {
     "id": "PROF017",
-    "name": "Luc Morel",
+    "name": "Claire François",
     "availability": {
       "MONDAY": [
         {
@@ -614,7 +613,7 @@
   },
   {
     "id": "PROF018",
-    "name": "Christine Vincent",
+    "name": "Jean Simon",
     "availability": {
       "MONDAY": [
         {
@@ -650,7 +649,7 @@
   },
   {
     "id": "PROF019",
-    "name": "Christine Bertrand",
+    "name": "Christine François",
     "availability": {
       "MONDAY": [
         {
@@ -686,7 +685,7 @@
   },
   {
     "id": "PROF020",
-    "name": "Luc Girard",
+    "name": "Jean Michel",
     "availability": {
       "MONDAY": [
         {
