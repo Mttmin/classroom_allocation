@@ -51,3 +51,4 @@ build/
 
 src/main/java/com/roomallocation/simulator/SIMULATOR_SUMMARY.md
 src/main/java/com/roomallocation/util/PREFERENCE_COMPLETION_INTEGRATION.md
+run.bat

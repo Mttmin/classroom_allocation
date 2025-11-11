@@ -5,22 +5,23 @@ import { RoomTypeSelector } from './components/RoomTypeSelector';
 import { Navigation } from './components/Navigation';
 import { ProfilePage } from './components/ProfilePage';
 import { AllocationResults } from './components/AllocationResults';
-import AdminPage from './components/AdminPage';
+import { Login } from './components/Login';
+import { useUser } from './contexts/UserContext';
 import {
   Course,
   PreferenceMode,
   RoomType,
   TimeBlocker,
-  Professor,
   ProfessorFormData,
 } from './types';
 import { apiService } from './services/api';
 
 function App() {
+  // Get professor from UserContext
+  const { professor, isAuthenticated } = useUser();
+
   // State
-  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [professor, setProfessor] = useState<Professor | null>(null);
   const [courses, setCourses] = useState<Course[]>([]);
   const [preferenceMode, setPreferenceMode] = useState<PreferenceMode>('all-courses');
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
@@ -32,34 +33,12 @@ function App() {
   const [error, setError] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  // Load professor data on mount
+  // Load courses when professor changes
   useEffect(() => {
-    loadProfessorData();
-  }, []);
-
-  const loadProfessorData = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      // In production, this would come from authentication/session
-      const professorId = 'PROF001';
-
-      const response = await apiService.getProfessorById(professorId);
-
-      if (response.success && response.data) {
-        setProfessor(response.data);
-        setCourses(response.data.courses || []);
-      } else {
-        setError(response.error || 'Failed to load professor data');
-      }
-    } catch (err) {
-      setError('An unexpected error occurred');
-      console.error(err);
-    } finally {
-      setLoading(false);
+    if (professor) {
+      setCourses(professor.courses || []);
     }
-  };
+  }, [professor]);
 
   // Handle preference mode change
   const handlePreferenceModeChange = (mode: PreferenceMode) => {
@@ -201,15 +180,9 @@ function App() {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
-        </div>
-      </div>
-    );
+  // Show login screen if not authenticated
+  if (!isAuthenticated) {
+    return <Login />;
   }
 
   return (
@@ -358,15 +331,9 @@ function App() {
               path="/allocation"
               element={
                 <AllocationResults
-                  professorId={professor?.id || 'PROF001'}
+                  professorId={professor?.id || ''}
                 />
               }
-            />
-
-            {/* Admin Dashboard Page */}
-            <Route
-              path="/admin"
-              element={<AdminPage />}
             />
           </Routes>
         </main>
