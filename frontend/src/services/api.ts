@@ -495,6 +495,7 @@ class ApiService {
 
   /**
    * Run allocation algorithm with parameters
+   * Note: useExistingCourses is disabled and always set to false
    */
   async runAllocation(params: {
     strategy: string;

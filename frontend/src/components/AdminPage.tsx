@@ -48,7 +48,8 @@ const AdminPage: React.FC = () => {
   // Algorithm parameters
   const [strategy, setStrategy] = useState('SmartRandom');
   const [numPreferences, setNumPreferences] = useState(10);
-  const [useExistingCourses, setUseExistingCourses] = useState(true);
+  // DISABLED: Always use simulated courses
+  const useExistingCourses = false; // const [useExistingCourses, setUseExistingCourses] = useState(true);
   const [completePreferences, setCompletePreferences] = useState(true);
   const [numCourses, setNumCourses] = useState(70);
   const [minSize, setMinSize] = useState(10);
@@ -138,7 +139,6 @@ const AdminPage: React.FC = () => {
       addLog('Starting allocation algorithm...');
       addLog(`Strategy: ${strategy}`);
       addLog(`Number of preferences: ${numPreferences}`);
-      addLog(`Use existing courses: ${useExistingCourses ? 'Yes' : 'No'}`);
       addLog(`Complete preferences: ${completePreferences ? 'Yes' : 'No'}`);
 
       const params = {
@@ -340,17 +340,6 @@ const AdminPage: React.FC = () => {
             <label className="flex items-center">
               <input
                 type="checkbox"
-                checked={useExistingCourses}
-                onChange={(e) => setUseExistingCourses(e.target.checked)}
-                disabled={isRunning}
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-              />
-              <span className="ml-2 text-sm text-gray-700">Use existing courses from database</span>
-            </label>
-
-            <label className="flex items-center">
-              <input
-                type="checkbox"
                 checked={completePreferences}
                 onChange={(e) => setCompletePreferences(e.target.checked)}
                 disabled={isRunning}
@@ -362,9 +351,8 @@ const AdminPage: React.FC = () => {
             </label>
           </div>
 
-          {/* Simulation Parameters (only shown if not using existing courses) */}
-          {!useExistingCourses && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
+          {/* Simulation Parameters */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 p-4 bg-gray-50 rounded-lg">
               <div>
                 <label className="block text-xs font-medium text-gray-700 mb-1">
                   Num Courses
@@ -418,7 +406,6 @@ const AdminPage: React.FC = () => {
                 />
               </div>
             </div>
-          )}
 
           {/* Run Button */}
           <button

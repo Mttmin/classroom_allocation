@@ -56,7 +56,8 @@ public class AlgorithmController {
                     // Extract parameters
                     String strategyType = (String) params.getOrDefault("strategy", "SmartRandom");
                     int numPreferences = (int) params.getOrDefault("numPreferences", 10);
-                    boolean useExistingCourses = (boolean) params.getOrDefault("useExistingCourses", true);
+                    // DISABLED: Always use simulated courses instead of existing courses
+                    boolean useExistingCourses = false; // (boolean) params.getOrDefault("useExistingCourses", true);
                     boolean completePreferences = (boolean) params.getOrDefault("completePreferences", true);
                     boolean enableTimeScheduling = (boolean) params.getOrDefault("enableTimeScheduling", true);
 
