@@ -47,6 +47,7 @@ const AdminPage: React.FC = () => {
 
   // Algorithm parameters
   const [strategy, setStrategy] = useState('SmartRandom');
+  const [optimizer, setOptimizer] = useState('SimulatedAnnealing'); // New: optimizer selection
   const [numPreferences, setNumPreferences] = useState(10);
   // DISABLED: Always use simulated courses
   const useExistingCourses = false; // const [useExistingCourses, setUseExistingCourses] = useState(true);
@@ -137,12 +138,14 @@ const AdminPage: React.FC = () => {
       setIsRunning(true);
       setLogs([]);
       addLog('Starting allocation algorithm...');
+      addLog(`Optimizer: ${optimizer}`);
       addLog(`Strategy: ${strategy}`);
       addLog(`Number of preferences: ${numPreferences}`);
       addLog(`Complete preferences: ${completePreferences ? 'Yes' : 'No'}`);
 
       const params = {
         strategy,
+        optimizer,
         numPreferences,
         useExistingCourses,
         completePreferences,
@@ -290,7 +293,27 @@ const AdminPage: React.FC = () => {
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4">Allocation Algorithm</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            {/* Optimizer Selection */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Scheduler Optimizer
+              </label>
+              <select
+                value={optimizer}
+                onChange={(e) => setOptimizer(e.target.value)}
+                disabled={isRunning}
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
+              >
+                <option value="OneAtATime">One At A Time (Greedy)</option>
+                <option value="SimulatedAnnealing">Simulated Annealing</option>
+              </select>
+              <p className="mt-1 text-xs text-gray-500">
+                {optimizer === 'OneAtATime' && 'Fast greedy scheduler (~5s)'}
+                {optimizer === 'SimulatedAnnealing' && 'Optimized scheduler (~30-60s)'}
+              </p>
+            </div>
+
             {/* Strategy Selection */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">

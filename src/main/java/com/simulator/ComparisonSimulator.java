@@ -5,7 +5,7 @@ import com.roomallocation.constraint.ConstraintValidator;
 import com.roomallocation.model.Course;
 import com.roomallocation.model.Professor;
 import com.roomallocation.model.Room;
-import com.roomallocation.scheduler.optimizer.NaiveScheduler;
+import com.roomallocation.scheduler.optimizer.SimulatedAnnealingScheduler;
 import com.roomallocation.scheduler.optimizer.Scheduler;
 import com.roomallocation.scheduler.scoring.Scoring;
 import com.roomallocation.statistics.AllocationStatistics;
@@ -86,8 +86,8 @@ public class ComparisonSimulator {
         Scoring scoring = new Scoring();
         ConstraintValidator constraints = new ConstraintValidator(2.0);
 
-        Scheduler scheduler = new NaiveScheduler(
-            "NaiveScheduler",
+        Scheduler scheduler = new SimulatedAnnealingScheduler(
+            "SimulatedAnnealingScheduler",
             scoring,
             constraints,
             courses,
@@ -133,7 +133,7 @@ public class ComparisonSimulator {
         MetricsComparator comparator = new MetricsComparator();
 
         for (PreferenceGenerationStrategy strategy : strategies) {
-            String algorithmName = "NaiveScheduler + " + strategy.getStrategyIdentifier();
+            String algorithmName = "SimulatedAnnealingScheduler + " + strategy.getStrategyIdentifier();
 
             // Run and collect results
             MetricsComparator.AlgorithmResult result = runScheduler(algorithmName, strategy);

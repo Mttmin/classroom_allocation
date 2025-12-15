@@ -55,6 +55,7 @@ public class AlgorithmController {
 
                     // Extract parameters
                     String strategyType = (String) params.getOrDefault("strategy", "SmartRandom");
+                    String optimizerType = (String) params.getOrDefault("optimizer", "SimulatedAnnealing");
                     int numPreferences = (int) params.getOrDefault("numPreferences", 10);
                     // DISABLED: Always use simulated courses instead of existing courses
                     boolean useExistingCourses = false; // (boolean) params.getOrDefault("useExistingCourses", true);
@@ -78,7 +79,7 @@ public class AlgorithmController {
                     executorService.submit(() -> {
                         try {
                             runAllocation(
-                                strategyType, numPreferences, useExistingCourses,
+                                strategyType, optimizerType, numPreferences, useExistingCourses,
                                 completePreferences, enableTimeScheduling,
                                 numCourses, minSize, maxSize, changeSize
                             );
@@ -138,6 +139,7 @@ public class AlgorithmController {
      */
     private void runAllocation(
             String strategyType,
+            String optimizerType,
             int numPreferences,
             boolean useExistingCourses,
             boolean completePreferences,
@@ -149,6 +151,7 @@ public class AlgorithmController {
 
         try {
             System.out.println("===== Starting Allocation Algorithm =====");
+            System.out.println("Optimizer: " + optimizerType);
             System.out.println("Strategy: " + strategyType);
             System.out.println("Number of preferences: " + numPreferences);
             System.out.println("Use existing courses: " + useExistingCourses);
@@ -208,10 +211,12 @@ public class AlgorithmController {
                 // Create allocator (will be called by scheduler)
                 allocator = new TypeBasedAllocation(courses, rooms);
 
-                // Create and run scheduler
-                System.out.println("Creating time scheduler...");
-                com.roomallocation.scheduler.optimizer.NaiveScheduler scheduler =
-                    new com.roomallocation.scheduler.optimizer.NaiveScheduler(
+                // Create and run scheduler based on optimizer type
+                com.roomallocation.scheduler.optimizer.Scheduler scheduler;
+
+                if ("OneAtATime".equalsIgnoreCase(optimizerType)) {
+                    System.out.println("Creating time scheduler (One At A Time - Greedy)...");
+                    scheduler = new com.roomallocation.scheduler.optimizer.NaiveScheduler(
                         "NaiveGreedyScheduler",
                         scoring,
                         validator,
@@ -222,6 +227,21 @@ public class AlgorithmController {
                         professors,
                         correlationMatrix
                     );
+                } else {
+                    // Default to Simulated Annealing
+                    System.out.println("Creating time scheduler (Simulated Annealing)...");
+                    scheduler = new com.roomallocation.scheduler.optimizer.SimulatedAnnealingScheduler(
+                        "SimulatedAnnealingScheduler",
+                        scoring,
+                        validator,
+                        courses,
+                        rooms,
+                        allocator,
+                        false, // forcereassign
+                        professors,
+                        correlationMatrix
+                    );
+                }
 
                 scheduler.runSchedule();
 
