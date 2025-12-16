@@ -206,7 +206,7 @@ public class ComparisonSimulator {
         for (Course c : original) {
             Course copy = new Course(c.getName(), c.getCohortSize());
             copy.setDurationMinutes(c.getDurationMinutes());
-            copy.setProfessorId(c.getProfessorId());
+            copy.setProfessorIds(c.getProfessorIds());
             // Preferences will be regenerated
             cloned.add(copy);
         }

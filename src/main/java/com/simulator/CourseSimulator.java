@@ -112,13 +112,13 @@ public class CourseSimulator {
             // Random assignment
             for (Course course : courses) {
                 String profId = professorIds.get(random.nextInt(professorIds.size()));
-                course.setProfessorId(profId);
+                course.setProfessorIds(List.of(profId));
             }
         } else {
             // Round-robin assignment
             for (int i = 0; i < courses.size(); i++) {
                 String profId = professorIds.get(i % professorIds.size());
-                courses.get(i).setProfessorId(profId);
+                courses.get(i).setProfessorIds(List.of(profId));
             }
         }
     }

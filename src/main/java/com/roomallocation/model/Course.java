@@ -14,7 +14,7 @@ public class Course {
     private String assignedRoom;
     private int choicenumber; // Added choice number for the room allocation
     private int durationMinutes; // Duration of the course in minutes
-    private String professorId; // Reference to the professor teaching this course
+    private List<String> professorIds; // Reference to the professors teaching this course
 
     public Course(String name, int cohortSize) {
         this.name = name;
@@ -23,10 +23,14 @@ public class Course {
         this.assignedRoom = null;
         this.choicenumber = 0;
         this.durationMinutes = 60; // Default 60 minutes
-        this.professorId = null;
+        this.professorIds = new ArrayList<>();
     }
 
     public Course(String name, int cohortSize, int durationMinutes, String professorId) {
+        this(name, cohortSize, durationMinutes, professorId != null ? List.of(professorId) : new ArrayList<>());
+    }
+
+    public Course(String name, int cohortSize, int durationMinutes, List<String> professorIds) {
         this.name = name;
         this.cohortSize = cohortSize;
         this.typePreferences = new ArrayList<>();
@@ -39,7 +43,7 @@ public class Course {
             System.out.println("Invalid duration specified for course " + name + ". Setting to closest 30 minutes.");
             this.durationMinutes = durationMinutes / 30 * 30;
         }
-        this.professorId = professorId;
+        this.professorIds = professorIds != null ? new ArrayList<>(professorIds) : new ArrayList<>();
     }
 
     public void setTypePreferences(List<RoomType> preferences) {
@@ -62,12 +66,18 @@ public class Course {
             this.durationMinutes = durationMinutes / 30 * 30;
         }
     }
-    public String getProfessorId() { return professorId; }
-    public void setProfessorId(String professorId) { this.professorId = professorId; }
+    public List<String> getProfessorIds() { return professorIds; }
+    public void setProfessorIds(List<String> professorIds) { this.professorIds = professorIds != null ? new ArrayList<>(professorIds) : new ArrayList<>(); }
+    public void addProfessorId(String professorId) {
+        if (this.professorIds == null) {
+            this.professorIds = new ArrayList<>();
+        }
+        this.professorIds.add(professorId);
+    }
 
     @Override
     public String toString() {
-        return name + " by " + professorId + " (Size: " + cohortSize + ")";
+        return name + " by " + professorIds + " (Size: " + cohortSize + ")";
     }
 
         @Override
@@ -80,6 +90,6 @@ public class Course {
     
     @Override
     public int hashCode() {
-        return Objects.hash(getName()) + Objects.hash(getCohortSize()) + Objects.hash(getProfessorId());
+        return Objects.hash(getName()) + Objects.hash(getCohortSize()) + Objects.hash(getProfessorIds());
     }
 }

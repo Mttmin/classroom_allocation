@@ -224,9 +224,11 @@ public class NaiveScheduler extends Scheduler {
         Course course = scheduledCourse.getCourse();
 
         // 1. Check professor availability
-        Professor professor = professors.get(course.getProfessorId());
-        if (professor != null && !pattern.fitsAvailability(professor)) {
-            return false;
+        for (String profId : course.getProfessorIds()) {
+            Professor professor = professors.get(profId);
+            if (professor != null && !pattern.fitsAvailability(professor)) {
+                return false;
+            }
         }
 
         // 2. Check for conflicts with already scheduled courses
@@ -246,8 +248,7 @@ public class NaiveScheduler extends Scheduler {
             }
 
             // Check professor conflicts
-            if (course.getProfessorId() != null &&
-                course.getProfessorId().equals(other.getCourse().getProfessorId())) {
+            if (!Collections.disjoint(course.getProfessorIds(), other.getCourse().getProfessorIds())) {
                 if (pattern.hasOverlapWith(other.getSessionPattern())) {
                     return false; // Professor cannot teach two courses at once
                 }
@@ -280,9 +281,11 @@ public class NaiveScheduler extends Scheduler {
         }
 
         // 2. Professor gap penalty (if professor has other courses)
-        Professor professor = professors.get(course.getProfessorId());
-        if (professor != null) {
-            score += calculateProfessorGapForPattern(professor, pattern);
+        for (String profId : course.getProfessorIds()) {
+            Professor professor = professors.get(profId);
+            if (professor != null) {
+                score += calculateProfessorGapForPattern(professor, pattern);
+            }
         }
 
         // 3. Time preference penalty

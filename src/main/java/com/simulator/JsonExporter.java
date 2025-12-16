@@ -42,7 +42,7 @@ public class JsonExporter {
             json.append("    \"name\": \"").append(c.getName()).append("\",\n");
             json.append("    \"cohortSize\": ").append(c.getCohortSize()).append(",\n");
             json.append("    \"durationMinutes\": ").append(c.getDurationMinutes()).append(",\n");
-            json.append("    \"professorId\": \"").append(c.getProfessorId()).append("\",\n");
+            json.append("    \"professorIds\": ").append(formatStringList(c.getProfessorIds())).append(",\n");
             json.append("    \"typePreferences\": ").append(formatRoomTypeList(c.getTypePreferences()));
 
             if (c.getAssignedRoom() != null) {
@@ -291,5 +291,23 @@ public class JsonExporter {
             writer.write(content);
         }
         System.out.println("Exported to: " + filepath);
+    }
+
+    /**
+     * Format string list as JSON array
+     */
+    private static String formatStringList(List<String> list) {
+        if (list == null || list.isEmpty()) {
+            return "[]";
+        }
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < list.size(); i++) {
+            sb.append("\"").append(list.get(i)).append("\"");
+            if (i < list.size() - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
     }
 }

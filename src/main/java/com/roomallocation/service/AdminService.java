@@ -51,9 +51,9 @@ public class AdminService {
         // Group courses by professor
         Map<String, List<Course>> coursesByProfessor = new HashMap<>();
         for (Course course : courses) {
-            if (course.getProfessorId() != null) {
+            for (String profId : course.getProfessorIds()) {
                 coursesByProfessor
-                    .computeIfAbsent(course.getProfessorId(), k -> new ArrayList<>())
+                    .computeIfAbsent(profId, k -> new ArrayList<>())
                     .add(course);
             }
         }
@@ -174,9 +174,9 @@ public class AdminService {
 
         Map<String, List<Course>> coursesByProfessor = new HashMap<>();
         for (Course course : courses) {
-            if (course.getProfessorId() != null) {
+            for (String profId : course.getProfessorIds()) {
                 coursesByProfessor
-                    .computeIfAbsent(course.getProfessorId(), k -> new ArrayList<>())
+                    .computeIfAbsent(profId, k -> new ArrayList<>())
                     .add(course);
             }
         }

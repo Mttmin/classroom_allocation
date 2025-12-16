@@ -161,9 +161,10 @@ public class SchedulerStatistics {
         // Group time slots by professor
         for (ScheduledCourse sc : scheduled) {
             if (sc.getSessionPattern() != null) {
-                String professorId = sc.getCourse().getProfessorId();
-                professorSchedules.computeIfAbsent(professorId, k -> new ArrayList<>())
-                    .addAll(sc.getSessionPattern().getSessions());
+                for (String professorId : sc.getCourse().getProfessorIds()) {
+                    professorSchedules.computeIfAbsent(professorId, k -> new ArrayList<>())
+                        .addAll(sc.getSessionPattern().getSessions());
+                }
             }
         }
 

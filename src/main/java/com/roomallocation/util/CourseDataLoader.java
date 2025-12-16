@@ -40,11 +40,17 @@ public class CourseDataLoader {
                     int durationMinutes = courseNode.has("durationMinutes")
                         ? courseNode.get("durationMinutes").asInt()
                         : 60;
-                    String professorId = courseNode.has("professorId")
-                        ? courseNode.get("professorId").asText()
-                        : null;
+                    
+                    List<String> professorIds = new ArrayList<>();
+                    if (courseNode.has("professorIds")) {
+                        for (JsonNode idNode : courseNode.get("professorIds")) {
+                            professorIds.add(idNode.asText());
+                        }
+                    } else if (courseNode.has("professorId")) {
+                        professorIds.add(courseNode.get("professorId").asText());
+                    }
 
-                    Course course = new Course(name, cohortSize, durationMinutes, professorId);
+                    Course course = new Course(name, cohortSize, durationMinutes, professorIds);
 
                     // Load type preferences if present
                     if (courseNode.has("typePreferences")) {
@@ -94,7 +100,7 @@ public class CourseDataLoader {
             json.append("    \"name\": \"").append(c.getName()).append("\",\n");
             json.append("    \"cohortSize\": ").append(c.getCohortSize()).append(",\n");
             json.append("    \"durationMinutes\": ").append(c.getDurationMinutes()).append(",\n");
-            json.append("    \"professorId\": \"").append(c.getProfessorId()).append("\",\n");
+            json.append("    \"professorIds\": ").append(formatStringList(c.getProfessorIds())).append(",\n");
             json.append("    \"typePreferences\": ").append(formatRoomTypeList(c.getTypePreferences()));
 
             if (c.getAssignedRoom() != null) {
@@ -115,6 +121,24 @@ public class CourseDataLoader {
             writer.write(json.toString());
         }
         System.out.println("Saved courses to: " + filepath);
+    }
+
+    /**
+     * Format string list as JSON array
+     */
+    private static String formatStringList(List<String> list) {
+        if (list == null || list.isEmpty()) {
+            return "[]";
+        }
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < list.size(); i++) {
+            sb.append("\"").append(list.get(i)).append("\"");
+            if (i < list.size() - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]");
+        return sb.toString();
     }
 
     /**

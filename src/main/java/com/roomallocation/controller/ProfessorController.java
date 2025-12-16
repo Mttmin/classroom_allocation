@@ -52,7 +52,7 @@ public class ProfessorController {
                     if (professor != null) {
                         // Add courses to professor object
                         List<Course> professorCourses = courses.stream()
-                            .filter(c -> professorId.equals(c.getProfessorId()))
+                            .filter(c -> c.getProfessorIds().contains(professorId))
                             .collect(Collectors.toList());
 
                         Map<String, Object> response = new HashMap<>();
@@ -91,7 +91,7 @@ public class ProfessorController {
                     String professorId = pathWithoutCourses.substring(pathWithoutCourses.lastIndexOf('/') + 1);
 
                     List<Course> professorCourses = courses.stream()
-                        .filter(c -> professorId.equals(c.getProfessorId()))
+                        .filter(c -> c.getProfessorIds().contains(professorId))
                         .collect(Collectors.toList());
 
                     String jsonResponse = objectMapper.writeValueAsString(professorCourses);

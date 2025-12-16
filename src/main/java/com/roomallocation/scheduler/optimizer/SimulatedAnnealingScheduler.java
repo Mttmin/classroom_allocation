@@ -416,9 +416,11 @@ public class SimulatedAnnealingScheduler extends Scheduler {
         Course course = scheduledCourse.getCourse();
 
         // Check professor availability
-        Professor professor = professors.get(course.getProfessorId());
-        if (professor != null && !pattern.fitsAvailability(professor)) {
-            return false;
+        for (String profId : course.getProfessorIds()) {
+            Professor professor = professors.get(profId);
+            if (professor != null && !pattern.fitsAvailability(professor)) {
+                return false;
+            }
         }
 
         // Check for conflicts with other scheduled courses
@@ -436,8 +438,7 @@ public class SimulatedAnnealingScheduler extends Scheduler {
             }
 
             // Check professor conflicts
-            if (course.getProfessorId() != null &&
-                course.getProfessorId().equals(other.getCourse().getProfessorId())) {
+            if (!Collections.disjoint(course.getProfessorIds(), other.getCourse().getProfessorIds())) {
                 if (pattern.hasOverlapWith(other.getSessionPattern())) {
                     return false;
                 }
@@ -476,9 +477,11 @@ public class SimulatedAnnealingScheduler extends Scheduler {
         }
 
         // Professor gap penalty
-        Professor professor = professors.get(course.getProfessorId());
-        if (professor != null) {
-            score += calculateProfessorGapForPattern(professor, pattern);
+        for (String profId : course.getProfessorIds()) {
+            Professor professor = professors.get(profId);
+            if (professor != null) {
+                score += calculateProfessorGapForPattern(professor, pattern);
+            }
         }
 
         // Time preference penalty

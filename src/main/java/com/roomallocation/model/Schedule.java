@@ -74,13 +74,17 @@ public class Schedule {
     }
 
     /**
-     * Get professor for a course
+     * Get professors for a course
      */
-    public Professor getProfessorForCourse(Course course) {
-        if (course.getProfessorId() == null) {
-            return null;
+    public List<Professor> getProfessorsForCourse(Course course) {
+        List<Professor> courseProfessors = new ArrayList<>();
+        for (String profId : course.getProfessorIds()) {
+            Professor p = professors.get(profId);
+            if (p != null) {
+                courseProfessors.add(p);
+            }
         }
-        return professors.get(course.getProfessorId());
+        return courseProfessors;
     }
 
     /**
@@ -88,7 +92,7 @@ public class Schedule {
      */
     public List<ScheduledCourse> getCoursesByProfessor(String professorId) {
         return scheduledCourses.stream()
-                              .filter(sc -> professorId.equals(sc.getCourse().getProfessorId()))
+                              .filter(sc -> sc.getCourse().getProfessorIds().contains(professorId))
                               .collect(Collectors.toList());
     }
 

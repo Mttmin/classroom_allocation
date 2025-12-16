@@ -8,6 +8,7 @@ import com.roomallocation.model.TimeSlot;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,18 +45,15 @@ public class ProfessorConstraint {
                 continue;
             }
 
-            Professor professor = schedule.getProfessorForCourse(scheduledCourse.getCourse());
-            if (professor == null) {
-                continue; // No professor assigned
-            }
-
-            if (!scheduledCourse.isProfessorAvailable(professor)) {
-                violations.add(String.format(
-                    "AVAILABILITY VIOLATION: Professor %s is not available for %s at %s",
-                    professor.getName(),
-                    scheduledCourse.getCourse().getName(),
-                    scheduledCourse.getSessionPattern()
-                ));
+            for (Professor professor : schedule.getProfessorsForCourse(scheduledCourse.getCourse())) {
+                if (!scheduledCourse.isProfessorAvailable(professor)) {
+                    violations.add(String.format(
+                        "AVAILABILITY VIOLATION: Professor %s is not available for %s at %s",
+                        professor.getName(),
+                        scheduledCourse.getCourse().getName(),
+                        scheduledCourse.getSessionPattern()
+                    ));
+                }
             }
         }
 
@@ -76,8 +74,7 @@ public class ProfessorConstraint {
                 continue;
             }
 
-            String professorId = sc.getCourse().getProfessorId();
-            if (professorId != null) {
+            for (String professorId : sc.getCourse().getProfessorIds()) {
                 coursesByProfessor.computeIfAbsent(professorId, k -> new ArrayList<>()).add(sc);
             }
         }
@@ -123,8 +120,7 @@ public class ProfessorConstraint {
                 continue;
             }
 
-            String professorId = sc.getCourse().getProfessorId();
-            if (professorId != null) {
+            for (String professorId : sc.getCourse().getProfessorIds()) {
                 coursesByProfessor.computeIfAbsent(professorId, k -> new ArrayList<>()).add(sc);
             }
         }
@@ -190,28 +186,26 @@ public class ProfessorConstraint {
      * Check if assigning a session pattern would violate professor constraints
      */
     public boolean wouldViolateConstraints(ScheduledCourse course, SessionPattern pattern, Schedule schedule) {
-        Professor professor = schedule.getProfessorForCourse(course.getCourse());
-        if (professor == null) {
-            return false; // No professor assigned
-        }
-
-        // Check availability
-        if (!pattern.fitsAvailability(professor)) {
-            return true;
-        }
-
-        // Check for double-booking with other courses
-        List<ScheduledCourse> professorCourses = schedule.getCoursesByProfessor(professor.getId());
-        for (ScheduledCourse otherCourse : professorCourses) {
-            if (otherCourse.equals(course) || !otherCourse.isScheduled()) {
-                continue;
-            }
-
-            if (pattern.hasOverlapWith(otherCourse.getSessionPattern())) {
+        for (Professor professor : schedule.getProfessorsForCourse(course.getCourse())) {
+            // Check availability
+            if (!pattern.fitsAvailability(professor)) {
                 return true;
             }
         }
-
+        
+        // Check for overlaps with other courses taught by the same professors
+        for (ScheduledCourse other : schedule.getScheduledCourses()) {
+            if (other.equals(course) || !other.isScheduled()) {
+                continue;
+            }
+            
+            if (!Collections.disjoint(course.getCourse().getProfessorIds(), other.getCourse().getProfessorIds())) {
+                if (pattern.hasOverlapWith(other.getSessionPattern())) {
+                    return true;
+                }
+            }
+        }
+        
         return false;
     }
 }
